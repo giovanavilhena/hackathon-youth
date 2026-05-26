@@ -598,26 +598,32 @@
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="main-nav">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">
-        <span class="logo-icon">🦫</span>
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+  <header class="app-header outset-border">
+    <div class="header-container">
+      <a href="index.html" class="logo-link">
+        <span class="logo-icon" aria-hidden="true">🦫</span>
         <span class="logo-text">CapiSafe</span>
       </a>
-      <button class="nav-toggle" aria-label="Menu" onclick="this.closest('nav').querySelector('.nav-links').classList.toggle('open')">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav-links">
-        <li><a href="hub.html">Hub</a></li>
-        <li><a href="pesquisa.html">Pesquisa</a></li>
-        <li><a href="historico.html">Histórico</a></li>
-        <li><a href="letramento.html" class="active" id="nav-letramento">Academia</a></li>
-        <li><a href="jogo.html">🎮 Jogo</a></li>
-        <li><a href="sobre.html">Sobre</a></li>
-      </ul>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
+        <nav class="app-nav" aria-label="Navegação Principal">
+          <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+          <a href="letramento.html" class="nav-link outset-border active" id="nav-letramento">Academia</a>
+          <a href="jogo.html" class="nav-link outset-border" id="nav-jogo">🎮 Jogo</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+        </nav>
+      </div>
     </div>
-  </nav>
+  </header>
+
+  <main class="main-content boot-hidden" id="main-content">
 
   <!-- Hero -->
   <section class="academia-hero fade-up">
@@ -1027,25 +1033,17 @@
   </section>
 
   <!-- Footer -->
-  <footer class="main-footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="logo-icon">🦫</span>
-        <span class="logo-text">CapiSafe</span>
-      </div>
-      <p class="footer-tagline">Proteção digital para todos os brasileiros.</p>
-      <div class="footer-links">
-        <a href="index.html">Início</a>
-        <a href="hub.html">Hub</a>
-        <a href="pesquisa.html">Pesquisa</a>
-        <a href="sobre.html">Sobre</a>
-        <a href="https://nic.br" target="_blank" rel="noopener">NIC.br</a>
-        <a href="https://cert.br" target="_blank" rel="noopener">CERT.br</a>
-      </div>
-      <p class="footer-copy">© 2024 CapiSafe — Projeto de extensão digital. Dados e fontes: NIC.br, CERT.br, CGI.br, CETIC.br, Serasa Experian, FEBRABAN.</p>
+  </main>
+
+  <footer class="app-footer outset-border">
+    <div class="footer-container">
+      <div>🦫 CapiSafe</div>
+      <div>Dados: NIC.br · CERT.br · CGI.br · CETIC.br · Serasa · FEBRABAN</div>
     </div>
   </footer>
 
+  <script src="js/components.js"></script>
+  <script src="js/api.js"></script>
   <script>
     // ── Fade-up animations ──
     const obs = new IntersectionObserver((entries) => {
@@ -1117,6 +1115,9 @@
       }
     ];
 
+    // Embaralha perguntas a cada sessão para replayability
+    quizData.sort(() => Math.random() - 0.5);
+
     let currentQ = 0, score = 0, answered = false;
 
     function renderQuestion() {
@@ -1170,7 +1171,7 @@
       document.getElementById('quiz-final-score').textContent = `${score}/${quizData.length}`;
       const pct = (score / quizData.length) * 100;
       let msg = '';
-      if (pct === 100) msg = '🏆 Perfeito! Você é um Guardião Capi de elite. Compartilhe esse conhecimento com sua família!';
+      if (pct === 100) msg = '🏆 Perfeito! Você é um Agente Capi de elite. Compartilhe esse conhecimento com sua família!';
       else if (pct >= 66) msg = '✅ Muito bem! Você tem bom conhecimento sobre golpes digitais. Revise os erros para ficar ainda mais protegido.';
       else if (pct >= 33) msg = '⚠️ Atenção! Você identificou alguns golpes, mas há vulnerabilidades. Releia o Guia de Prevenção acima.';
       else msg = '🚨 Risco alto! Seu conhecimento sobre golpes precisa de reforço urgente. Leia todo o conteúdo desta página antes de continuar.';
