@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guardião da Rede - Histórico Comunitário de Suspeitas de Golpes com comentários anônimos.">
+  <title>Histórico de Relatos — Guardião da Rede</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header outset-border">
+    <div class="header-container">
+      <a href="index.html" class="logo-link">
+        <span class="logo-icon" aria-hidden="true">🛡️</span>
+        <span class="logo-text">Guardião da Rede</span>
+      </a>
+      <nav class="app-nav" aria-label="Navegação Principal">
+        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+        <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+        <a href="historico.html" class="nav-link outset-border active" id="nav-historico">Histórico Público</a>
+        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MARQUEE TICKER -->
+  <div class="marquee-bar inset-border" aria-hidden="true">
+    <marquee scrollamount="4">🚨 CROWDREPORT: Vigilância coletiva ativa. Cada relato anônimo ajuda a blindar a comunidade contra o crime virtual! • Comente e ajude as vítimas.</marquee>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <!-- CAPI MASCOTE WIDGET -->
+    <div class="capi-widget" role="note" aria-label="Mensagem de Capi">
+      <div class="capi-img-container outset-border">
+        <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
+      </div>
+      <div class="capi-bubble">
+        <div class="capi-bubble-title">Capi diz:</div>
+        <p style="margin-bottom: 0; color: #000;">
+          "Aqui estão as denúncias que a nossa comunidade relatou. Você pode ler a descrição de cada caso, ver o nosso diagnóstico de risco e deixar comentários anônimos para ajudar ou alertar outras pessoas!"
+        </p>
+      </div>
+    </div>
+
+    <!-- PAINEL DO HISTÓRICO -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>📂 CROWDREPORT_HISTORICO_DB.EXE</span>
+        </div>
+      </div>
+
+      <div class="window-body">
+        <h2 style="font-size: 16px; margin-bottom: 5px;">Banco de Relatos Comunitários</h2>
+        <p style="margin-bottom: 12px;">Consulte relatos anonimizados reais e compartilhe observações com outros usuários:</p>
+
+        <!-- FILTROS E BUSCA -->
+        <div class="search-filter-bar inset-border">
+          <input type="text" id="search-history" class="search-input inset-border" 
+                 placeholder="Busque por termos (ex: vaga, Pix, banco, Correios, WhatsApp, selfie)...">
+          
+          <div style="font-size: 11px; color: var(--color-text-muted);">
+            * Digite termos chave para filtrar os dossiês comunitários em tempo real.
+          </div>
+        </div>
+
+        <!-- LISTAGEM DE DOSSIÊS -->
+        <div id="history-container" style="display: flex; flex-direction: column; gap: 15px;">
+          <!-- Inserido dinamicamente via JS -->
+        </div>
+
+      </div>
+      
+      <div class="window-statusbar">
+        <span id="status-left">Conectado ao Banco Local</span>
+        <span id="status-right">0 Relatos Encontrados</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
+  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="window outset-border modal-card">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>⚙️ CONFIGURACOES_IA.EXE</span>
+        </div>
+        <div class="titlebar-controls">
+          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <p style="margin-bottom: 10px;">
+          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
+        </p>
+        <div class="form-group">
+          <label for="gemini-key-input" class="form-label">API Key:</label>
+          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
+          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
+          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="app-footer outset-border">
+    <div class="footer-container">
+      <div>🛡️ Guardião da Rede - Cidadão na Rede FIB16</div>
+      <div>Sistema: Online [Port 8080]</div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script>
+    // Banco de dados inicial de relatos contendo 8 dossiês detalhados
+    const GOLPES_REPOSITORIO_MOCK = [
+      {
+        id: "report-1",
+        data: "2026-05-25",
+        titulo: "WhatsApp falso de familiar pedindo Pix urgente",
+        descricao: "Um número de celular estranho me mandou mensagem com a foto do meu filho. Disse que o celular antigo dele tinha quebrado, que ele estava usando esse número temporário e precisava de R$ 2.450 para pagar um conserto imediato via Pix.",
+        triagem: { idade: "60+", regiao: "Norte", familiaridade: "Baixo", canal: "WhatsApp", exposicaoDados: "Nenhum" },
+        analise: {
+          risco: 100,
+          nivel: "ALTO",
+          areaProvavel: "Fraudes em WhatsApp e Aplicativos de Mensagens",
+          explicacao: "Este é o golpe clássico do Falso Familiar / Novo Número. Os criminosos usam fotos obtidas em redes sociais para fingir urgência familiar financeira."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-25 18:20", texto: "Isso aconteceu com a minha tia! Eles são muito rápidos. Sempre liguem para conferir antes de fazer o Pix!" }
+        ]
+      },
+      {
+        id: "report-2",
+        data: "2026-05-24",
+        titulo: "Falsa central telefônica de banco pedindo transferência",
+        descricao: "Recebi a ligação de um número parecido com o 0800 do meu banco. Um robô avisou sobre uma transferência suspeita de R$ 3.800 nas Lojas Americanas e me transferiu para uma atendente. Ela me disse para fazer um Pix com o meu saldo para uma conta de segurança temporária para anular a transação.",
+        triagem: { idade: "60+", regiao: "Sudeste", familiaridade: "Baixo", canal: "Ligação / SMS", exposicaoDados: "Nenhum" },
+        analise: {
+          risco: 95,
+          nivel: "ALTO",
+          areaProvavel: "Engenharia Social Bancária / Reconhecimento Facial",
+          explicacao: "Golpe da Falsa Central Bancária. Golpistas usam técnicas de falsa autoridade e urgência para induzir a vítima a transferir valores voluntariamente."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-24 21:12", texto: "Quase caí nesse ontem. Desliguei e liguei no número do cartão. A central verdadeira me informou que era golpe." }
+        ]
+      },
+      {
+        id: "report-3",
+        data: "2026-05-24",
+        titulo: "Falsa Vaga de Emprego Remoto - Curtir Vídeos no TikTok",
+        descricao: "Recebi mensagem no WhatsApp oferecendo vaga de meio período para curtir vídeos no TikTok e ganhar de R$ 100 a R$ 800 por dia. Me mandaram para um grupo no Telegram. No começo pagaram R$ 10 pelas primeiras tarefas, mas depois exigiram que eu fizesse depósitos Pix de garantia (chamados de tarefas de investimento) para liberar comissões maiores. Perdi R$ 1.500.",
+        triagem: { idade: "16-29", regiao: "Sudeste", familiaridade: "Alto", canal: "WhatsApp", exposicaoDados: "Nenhum" },
+        analise: {
+          risco: 100,
+          nivel: "ALTO",
+          areaProvavel: "Vagas Online Falsas / Relacionamento e Investimento",
+          explicacao: "Golpe clássico de Tarefa Online ou Click Farm. Criminosos pagam pequenos valores no início para ganhar confiança e depois exigem depósitos crescentes de garantia."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-24 22:15", texto: "Eles pagam R$ 10 ou R$ 15 nas primeiras tarefas de verdade só para induzir a gente a depositar quantias altas depois! Fujam disso!" }
+        ]
+      },
+      {
+        id: "report-4",
+        data: "2026-05-23",
+        titulo: "Taxa de reenvio de presente cobrada por motoboy",
+        descricao: "Um motoboy veio na minha casa entregar um presente surpresa de aniversário (um perfume). Disse que eu só precisava pagar R$ 5,90 de taxa de entrega na maquininha dele. O visor estava todo borrado. Quando passei o cartão de crédito, chegou a notificação no celular de que a cobrança foi de R$ 5.900,00.",
+        triagem: { idade: "30-59", regiao: "Sul", familiaridade: "Médio", canal: "Outro", exposicaoDados: "Nenhum" },
+        analise: {
+          risco: 90,
+          nivel: "ALTO",
+          areaProvavel: "Comércio Eletrônico Fraudulento (Falsas Vendas)",
+          explicacao: "Golpe da Maquininha Adulterada ou do Presente Falso. Criminosos inventam uma entrega gratuita e forçam a cobrança de um valor altíssimo cobrindo o visor."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-23 23:45", texto: "Nunca passe cartão em maquininhas com visor quebrado. Se for presente surpresa, recuse!" }
+        ]
+      },
+      {
+        id: "report-5",
+        data: "2026-05-22",
+        titulo: "Ligação do banco exigindo selfie facial de segurança",
+        descricao: "Ligaram para o celular do meu avô dizendo ser do suporte técnico da Caixa. Falaram que a conta dele seria bloqueada por suspeita de fraude e pediram para ele abrir um link enviado por SMS que ativava a câmera do celular para validação facial. Ele tirou a selfie e, horas depois, vimos que contrataram um empréstimo consignado de R$ 12.000 em nome dele.",
+        triagem: { idade: "60+", regiao: "Norte", familiaridade: "Baixo", canal: "Ligação / SMS", exposicaoDados: "Nenhum" },
+        analise: {
+          risco: 95,
+          nivel: "ALTO",
+          areaProvavel: "Engenharia Social Bancária / Reconhecimento Facial",
+          explicacao: "Fraude do Empréstimo por Validação Facial (Selfie da Selfie). Criminosos guiam a vítima idosa a fazer o reconhecimento facial em um link falso, coletando a biometria necessária para autorizar empréstimos bancários e saques em canais digitais."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-22 19:10", texto: "Bancos reais não ligam solicitando selfies. Protejam os idosos da família!" }
+        ]
+      },
+      {
+        id: "report-6",
+        data: "2026-05-21",
+        titulo: "E-mail com falso laudo de câncer e pedido de tratamento",
+        descricao: "Recebi um e-mail com a logomarca de um laboratório famoso de exames clínicos dizendo que o resultado do meu laudo de biópsia estava pronto e indicava tumor maligno grave. Dizia para eu clicar no link com urgência para agendar consulta oncológica ou comprar o medicamento preventivo imediato por R$ 350 no Pix.",
+        triagem: { idade: "30-59", regiao: "Centro-Oeste", familiaridade: "Alto", canal: "E-mail", exposicaoDados: "Nenhum" },
+        analise: {
+          risco: 85,
+          nivel: "ALTO",
+          areaProvavel: "Phishing e Captura de Dados Pessoais",
+          explicacao: "Phishing de Resultados de Exames Clínicos com Pressão Psicológica. Golpistas utilizam diagnósticos graves falsos para induzir desespero e forçar o pagamento rápido de tratamentos inexistentes."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-21 15:40", texto: "Terrível usar a saúde das pessoas para roubar dinheiro. Sempre chequem no site oficial do laboratório." }
+        ]
+      },
+      {
+        id: "report-7",
+        data: "2026-05-20",
+        titulo: "Falsas custas de processo de penhora de bens por WhatsApp",
+        descricao: "Uma pessoa me mandou mensagem no WhatsApp com foto de terno, dizendo ser Oficial de Justiça e anexou um documento que parecia do Tribunal de Justiça do Pará, dizendo que minha empresa MEI tinha um processo de penhora de bens por dívida de R$ 900. Disse que se eu pagasse R$ 350 via Pix como conciliação imediata, ele cancelava o mandado judicial.",
+        triagem: { idade: "30-59", regiao: "Norte", familiaridade: "Médio", canal: "WhatsApp", exposicaoDados: "MEI" },
+        analise: {
+          risco: 100,
+          nivel: "ALTO",
+          areaProvavel: "Phishing e Captura de Dados Pessoais",
+          explicacao: "Golpe do Falso Oficial de Justiça com foco em Microempresas (MEI). Golpistas utilizam a exposição do CNPJ e telefone público de MEIs e Sócios para forçar o medo de processos e exigir pagamentos falsos de conciliação."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-20 14:12", texto: "Como MEI, nosso número fica em cadastros de CNPJ públicos. Golpistas ligam direto inventando custas. Cuidado!" }
+        ]
+      },
+      {
+        id: "report-8",
+        data: "2026-05-19",
+        titulo: "Taxa de importação dos Correios via SMS falso",
+        descricao: "Recebi um SMS dizendo que minha encomenda internacional da Shopee estava parada na fiscalização e exigia pagamento de R$ 64,50 de taxa postal. Tinha um link que parecia com o site oficial dos Correios, mas a chave Pix de destino era em nome de uma empresa de pagamentos desconhecida.",
+        triagem: { idade: "16-29", regiao: "Sudeste", familiaridade: "Alto", canal: "Ligação / SMS", exposicaoDados: "Nenhum" },
+        analise: {
+          risco: 90,
+          nivel: "ALTO",
+          areaProvavel: "Phishing e Captura de Dados Pessoais",
+          explicacao: "Phishing de compras do Correio. O link leva a um site clonado onde as taxas fictícias beneficiam diretamente contas correntes de golpistas."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-19 18:22", texto: "Os Correios nunca mandam Pix via SMS! Apenas rastreiem no portal oficial Minhas Importações." }
+        ]
+      }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      let db = localStorage.getItem("guardiao_reports_database");
+      if (!db) {
+        localStorage.setItem("guardiao_reports_database", JSON.stringify(GOLPES_REPOSITORIO_MOCK));
+        db = JSON.stringify(GOLPES_REPOSITORIO_MOCK);
+      }
+      
+      const reports = JSON.parse(db);
+      const container = document.getElementById("history-container");
+      const searchBar = document.getElementById("search-history");
+      const statusRight = document.getElementById("status-right");
+
+      renderHistory();
+
+      searchBar.addEventListener("input", renderHistory);
+
+      function renderHistory() {
+        const query = searchBar.value.trim().toLowerCase();
+        container.innerHTML = "";
+
+        const filtered = reports.filter(r => {
+          return !query || 
+            r.titulo.toLowerCase().includes(query) || 
+            r.descricao.toLowerCase().includes(query) ||
+            (r.analise && r.analise.areaProvavel.toLowerCase().includes(query));
+        });
+
+        statusRight.textContent = `${filtered.length} Relatos Encontrados`;
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div class="card-flat" style="text-align: center; color: var(--color-text-muted);">
+              Nenhum relato encontrado correspondente à pesquisa.
+            </div>
+          `;
+          return;
+        }
+
+        filtered.forEach(r => {
+          const win = document.createElement("article");
+          win.className = "window outset-border";
+
+          let colorBadge = "var(--risk-low)";
+          if (r.analise.nivel === "MÉDIO") colorBadge = "var(--risk-medium)";
+          if (r.analise.nivel === "ALTO") colorBadge = "var(--risk-high)";
+
+          win.innerHTML = `
+            <div class="window-titlebar" style="background: #1E293B;">
+              <div class="titlebar-text">
+                <span>📁 DOSSIE_CASO_${r.id.toUpperCase()}.TXT</span>
+              </div>
+              <span style="font-size: 10px; background: ${colorBadge}; color: #FFF; padding: 2px 6px; font-weight: bold; border-radius: 20px;">
+                ${r.analise.nivel} RISCO
+              </span>
+            </div>
+            
+            <div class="window-body">
+              <h3 style="margin-bottom: 5px; color: var(--accent-teal); font-family: var(--font-mono);">${r.titulo}</h3>
+              <div style="font-size: 11px; color: var(--color-text-muted); margin-bottom: 8px;">
+                <strong>Data:</strong> ${r.data} | 
+                <strong>Canal:</strong> ${r.triagem.canal} | 
+                <strong>Perfil:</strong> ${r.triagem.idade} (${r.triagem.regiao}) |
+                <strong>Exposição:</strong> ${r.triagem.exposicaoDados || "Nenhuma"}
+              </div>
+              
+              <div class="card-flat" style="padding: 12px; font-size: 13px; margin-bottom: 10px; box-shadow: none;">
+                <strong>Relato do Caso:</strong><br>
+                ${r.descricao}
+              </div>
+
+              <!-- Diagnóstico do Laudo -->
+              <div style="background: var(--bg-desktop); padding: 10px; border: 1.5px solid var(--color-border); border-radius: 6px; margin-bottom: 10px; font-size: 12px;">
+                <strong style="color: var(--risk-high);">⚠️ Diagnóstico do Guardião:</strong> ${r.analise.explicacao}
+              </div>
+
+              ${r.imagem ? `
+                <div style="margin-bottom: 10px; background: #FFF; padding: 6px; border: 1.5px solid var(--color-border); max-width: 250px; border-radius: 6px;">
+                  <span style="font-size: 10px; font-weight: bold; display: block; color: var(--accent-teal);">Evidência:</span>
+                  <a href="${r.imagem}" target="_blank">
+                    <img src="${r.imagem}" alt="Evidência" style="max-width: 100%; max-height: 100px; display: block; margin: 4px 0; border-radius: 4px;">
+                  </a>
+                </div>
+              ` : ''}
+
+              <!-- SEÇÃO DE COMENTÁRIOS -->
+              <div class="comments-section">
+                <strong style="font-size: 11px; display: block; margin-bottom: 6px; color: var(--accent-teal);">💬 Discussão Comunitária (Anônima):</strong>
+                
+                <ul class="comments-list" id="comments-list-${r.id}">
+                  ${r.comentarios && r.comentarios.length > 0 
+                    ? r.comentarios.map(c => `
+                        <li class="comment-item">
+                          <span class="comment-meta">[${c.autor} - ${c.data}]:</span>
+                          <span>${c.texto}</span>
+                        </li>
+                      `).join('')
+                    : `<li class="comment-item" style="color: var(--color-text-muted); text-align: center; border: none;">Nenhum comentário. Alerte a comunidade!</li>`
+                  }
+                </ul>
+
+                <!-- Envio de Comentário -->
+                <div style="display: flex; gap: 6px; margin-top: 6px;">
+                  <input type="text" id="comment-input-${r.id}" class="form-input" style="font-size: 12px; padding: 6px;" placeholder="Adicione observações ou alertas sobre este golpe de forma anônima...">
+                  <button class="btn btn-primary btn-send-comment" data-id="${r.id}" style="padding: 6px 14px; font-size: 12px; border-radius: 6px;">Enviar</button>
+                </div>
+              </div>
+
+            </div>
+          `;
+          container.appendChild(win);
+        });
+
+        // Evento nos botões de comentários
+        const sendButtons = document.querySelectorAll(".btn-send-comment");
+        sendButtons.forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            const input = document.getElementById(`comment-input-${id}`);
+            const commentText = input.value.trim();
+
+            if (!commentText) {
+              alert("Por favor, digite seu comentário.");
+              return;
+            }
+
+            const reportIdx = reports.findIndex(rep => rep.id === id);
+            if (reportIdx !== -1) {
+              const now = new Date();
+              const dateStr = now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0].substring(0, 5);
+              
+              const newComment = {
+                autor: "Anônimo",
+                data: dateStr,
+                texto: commentText
+              };
+
+              if (!reports[reportIdx].comentarios) {
+                reports[reportIdx].comentarios = [];
+              }
+              reports[reportIdx].comentarios.push(newComment);
+
+              localStorage.setItem("guardiao_reports_database", JSON.stringify(reports));
+              input.value = "";
+
+              const commentsList = document.getElementById(`comments-list-${id}`);
+              commentsList.innerHTML = reports[reportIdx].comentarios.map(c => `
+                <li class="comment-item">
+                  <span class="comment-meta">[${c.autor} - ${c.data}]:</span>
+                  <span>${c.texto}</span>
+                </li>
+              `).join('');
+            }
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>

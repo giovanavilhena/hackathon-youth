@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guardião da Rede - Veja o resultado da análise de risco de golpe virtual e orientações recomendadas.">
+  <title>Resultado da Análise — Guardião da Rede</title>
+  <link rel="stylesheet" href="css/estilo.css">
+  <style>
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      .app-header, .app-footer, .review-actions-section, .btn, #btn-settings-toggle, .marquee-bar, .capi-widget {
+        display: none !important;
+      }
+      .main-content {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .window {
+        border: none !important;
+        background: white !important;
+        box-shadow: none !important;
+      }
+      .window-titlebar {
+        display: none !important;
+      }
+      .window-body {
+        padding: 0 !important;
+      }
+      .result-layout {
+        grid-template-columns: 1fr !important;
+      }
+      h1, h2, h3 {
+        color: black !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header outset-border">
+    <div class="header-container">
+      <a href="index.html" class="logo-link">
+        <span class="logo-icon" aria-hidden="true">🛡️</span>
+        <span class="logo-text">Guardião da Rede</span>
+      </a>
+      <nav class="app-nav" aria-label="Navegação Principal">
+        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+        <a href="relato.html" class="nav-link outset-border active" id="nav-relato">Relatar Suspeita</a>
+        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MARQUEE RETRO -->
+  <div class="marquee-bar inset-border" aria-hidden="true">
+    <marquee scrollamount="4">📋 LAUDO EMITIDO: Sua análise foi computada com sucesso. Você pode salvar ou imprimir este laudo técnico para consulta.</marquee>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <!-- CAPI WIDGET INVESTIGATIVO -->
+    <div class="capi-widget" role="note" aria-label="Opinião de Capi">
+      <div class="capi-img-container outset-border">
+        <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
+      </div>
+      <div class="capi-bubble">
+        <div class="capi-bubble-title">Capi diz:</div>
+        <p style="margin-bottom: 0; color: #000;" id="capi-result-opinion">
+          "Terminei minha investigação! Analisei as palavras que você usou no relato e os dados do seu perfil. Veja abaixo o laudo oficial com o nível de risco estimado e o diagnóstico."
+        </p>
+      </div>
+    </div>
+
+    <!-- JANELA DE RESULTADOS -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>🔍 LAUDO_INVESTIGACAO_RESULTADO.TXT</span>
+        </div>
+      </div>
+      
+      <div class="window-body">
+        
+        <div class="result-layout">
+          <!-- ESQUERDA: GAUGE E RESUMO -->
+          <div class="risk-summary-card" style="background: var(--bg-desktop); padding: 16px; border: 1.5px solid var(--color-border); border-radius: 8px;">
+            <h3 style="font-family: var(--font-mono); font-size: 12px; color: var(--accent-teal); margin-bottom: 4px;">ESTIMATIVA DE RISCO</h3>
+            
+            <!-- Gauge de Risco -->
+            <div class="gauge-wrapper" aria-hidden="true">
+              <svg class="gauge-svg" viewBox="0 0 200 200">
+                <circle class="gauge-bg" cx="100" cy="100" r="70" />
+                <circle class="gauge-fill" id="gauge-fill-circle" cx="100" cy="100" r="70" />
+              </svg>
+              <div class="gauge-text">
+                <span class="gauge-percentage" id="risk-percentage">0%</span>
+              </div>
+            </div>
+
+            <span class="risk-badge" id="risk-badge-label">Processando...</span>
+
+            <!-- Confirmação do Histórico -->
+            <div class="card-flat" style="background: #FFFBEB; padding: 10px; font-size: 11px; margin: 12px 0; text-align: left; box-shadow: none;">
+              <strong>✓ Salvo no Histórico Público!</strong>
+              <p style="margin-bottom: 0; margin-top: 2px; color: var(--color-text-muted);">Seu caso foi arquivado de forma 100% anônima. Você e outros usuários podem deixar comentários de alerta no histórico.</p>
+            </div>
+
+            <!-- Resumo do caso -->
+            <div class="report-summary-box inset-border">
+              <h4 id="summary-title" style="font-family: var(--font-mono); font-size: 11px; margin-bottom: 3px;">Carregando...</h4>
+              <p class="report-summary-text" id="summary-desc" style="font-size: 11.5px;">Carregando dados...</p>
+              
+              <!-- Preview anexo -->
+              <div id="attached-preview-section" style="display: none; margin-top: 5px;">
+                <strong style="font-size: 10.5px; color: var(--accent-teal); display: block;">Evidência:</strong>
+                <img src="" id="attached-img" alt="Print anexado" style="max-width: 100%; max-height: 80px; display: block; border: 1.5px solid var(--color-border); border-radius: 4px; margin-top: 2px;">
+              </div>
+            </div>
+
+            <button class="btn btn-secondary outset-border" id="btn-imprimir" style="width: 100%; margin-top: 12px; border-radius: 6px;">
+              🖨️ Imprimir Laudo
+            </button>
+          </div>
+
+          <!-- DIREITA: ANÁLISE DETALHADA -->
+          <div class="analysis-details-card">
+            <!-- Diagnóstico -->
+            <section aria-labelledby="title-diagnostico">
+              <h3 class="analysis-section-title" id="title-diagnostico">🔍 Laudo Técnico</h3>
+              <p class="analysis-explanation-text" id="explanation-text">
+                Processando informações...
+              </p>
+            </section>
+
+            <!-- Táticas de Golpe -->
+            <section aria-labelledby="title-taticas">
+              <h3 class="analysis-section-title" id="title-taticas">⚠️ Táticas Suspeitas Detectadas</h3>
+              <ul class="analysis-indicators-list" id="indicators-list">
+                <!-- Preenchido via JS -->
+              </ul>
+            </section>
+
+            <!-- Recomendações -->
+            <section aria-labelledby="title-recomendacoes">
+              <h3 class="analysis-section-title" id="title-recomendacoes">🛡️ Recomendações de Proteção</h3>
+              <div class="recommendations-list" id="recommendations-container">
+                <!-- Preenchido via JS -->
+              </div>
+            </section>
+
+            <!-- Revisão humana -->
+            <section class="review-actions-section outset-border card-flat" id="review-section" style="padding: 14px; display: flex; align-items: center; justify-content: space-between; box-shadow: none; border-radius: 6px;">
+              <div>
+                <h3 style="font-size: 12px; margin-bottom: 2px;">A análise errou o diagnóstico?</h3>
+                <p style="font-size: 11px; margin-bottom: 0; color: var(--color-text-muted);">Você pode pedir para nosso comitê de segurança do NIC.br revisar o caso.</p>
+              </div>
+              <button class="btn btn-secondary outset-border" id="btn-request-review" style="font-size: 11.5px; border-radius: 6px;">Pedir Revisão</button>
+            </section>
+
+            <!-- Formulário de ticket oculto -->
+            <section class="card-flat" id="review-form-card" style="display: none; background: var(--bg-desktop); padding: 12px; box-shadow: none;">
+              <h3 style="font-size: 12px; margin-bottom: 5px;">Abertura de Ticket de Correção</h3>
+              <div class="form-group">
+                <label for="review-email" class="form-label">E-mail para retorno (opcional):</label>
+                <input type="email" id="review-email" class="form-input inset-border" style="font-size: 12px; padding: 6px;">
+              </div>
+              <div class="form-group">
+                <label for="review-notes" class="form-label">O que está incorreto na análise?:</label>
+                <textarea id="review-notes" class="form-textarea inset-border" style="min-height: 50px; font-size: 12px; padding: 6px;"></textarea>
+              </div>
+              <div style="display: flex; gap: 4px; justify-content: flex-end;">
+                <button class="btn btn-secondary outset-border" id="btn-cancel-review" style="font-size: 11px; border-radius: 6px;">Cancelar</button>
+                <button class="btn btn-primary outset-border" id="btn-submit-review" style="font-size: 11px; border-radius: 6px;">Enviar Ticket</button>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="window-statusbar">
+        <span>Laudo Técnico Oficial</span>
+        <span id="case-risk-status">Análise concluída</span>
+      </div>
+    </section>
+
+    <!-- BOTÕES DE ROTA -->
+    <div style="display: flex; gap: 8px; justify-content: center; margin-top: 24px;">
+      <a href="relato.html" class="btn btn-secondary outset-border">⚡ Novo Relato</a>
+      <a href="historico.html" class="btn btn-primary outset-border">📁 Ir para o Histórico Público</a>
+    </div>
+
+  </main>
+
+  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
+  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="window outset-border modal-card">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>⚙️ CONFIGURACOES_IA.EXE</span>
+        </div>
+        <div class="titlebar-controls">
+          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <p style="margin-bottom: 10px;">
+          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
+        </p>
+        <div class="form-group">
+          <label for="gemini-key-input" class="form-label">API Key:</label>
+          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
+          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
+          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="app-footer outset-border">
+    <div class="footer-container">
+      <div>🛡️ Guardião da Rede - Cidadão na Rede FIB16</div>
+      <div>Sistema: Online [Port 8080]</div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const relatoTitulo = localStorage.getItem("guardiao_relato_titulo") || "Sem Título";
+      const relatoDescricao = localStorage.getItem("guardiao_relato_descricao") || "Sem Descrição";
+      const relatoImagem = localStorage.getItem("guardiao_relato_imagem") || "";
+      const analiseRaw = localStorage.getItem("guardiao_resultado_analise");
+
+      if (!analiseRaw) {
+        alert("Nenhum laudo de análise encontrado. Faça um novo relato.");
+        window.location.href = "relato.html";
+        return;
+      }
+
+      const analise = JSON.parse(analiseRaw);
+
+      // Preenche Resumo
+      document.getElementById("summary-title").textContent = relatoTitulo;
+      document.getElementById("summary-desc").textContent = relatoDescricao;
+
+      if (relatoImagem) {
+        document.getElementById("attached-preview-section").style.display = "block";
+        document.getElementById("attached-img").src = relatoImagem;
+      }
+
+      // Renderiza Gauge
+      const risco = analise.risco || 0;
+      const nivel = analise.nivel || "BAIXO";
+      
+      const percentEl = document.getElementById("risk-percentage");
+      const fillCircle = document.getElementById("gauge-fill-circle");
+      const badgeEl = document.getElementById("risk-badge-label");
+
+      let currentVal = 0;
+      const interval = setInterval(() => {
+        if (currentVal >= risco) {
+          clearInterval(interval);
+          percentEl.textContent = `${risco}%`;
+        } else {
+          currentVal++;
+          percentEl.textContent = `${currentVal}%`;
+        }
+      }, 15);
+
+      const circunferencia = 439.82;
+      const offset = circunferencia - (circunferencia * risco) / 100;
+      
+      let riskColor = "var(--risk-low)";
+      let riskBgClass = "risk-badge-low";
+
+      if (nivel === "MÉDIO") {
+        riskColor = "var(--risk-medium)";
+        riskBgClass = "risk-badge-medium";
+      } else if (nivel === "ALTO") {
+        riskColor = "var(--risk-high)";
+        riskBgClass = "risk-badge-high";
+      }
+
+      fillCircle.style.stroke = riskColor;
+      fillCircle.style.strokeDashoffset = offset;
+      
+      badgeEl.textContent = `${nivel} RISCO`;
+      badgeEl.className = `risk-badge ${riskBgClass}`;
+
+      document.getElementById("case-risk-status").textContent = `Risco: ${nivel}`;
+
+      // Opinião da Capi
+      const capiOpinion = document.getElementById("capi-result-opinion");
+      if (nivel === "ALTO") {
+        capiOpinion.innerHTML = `<strong>Capi alerta:</strong> "Alerta Vermelho! Este caso possui <strong>fortes indícios</strong> de golpe cibernético (${risco}% de similaridade). Por favor, leia as recomendações ao lado antes de fazer qualquer Pix ou passar dados!"`;
+      } else if (nivel === "MÉDIO") {
+        capiOpinion.innerHTML = `<strong>Capi diz:</strong> "Alerta Amarelo! Há indícios suspeitos na mensagem (${risco}% de similaridade). Convém ter cautela e fazer uma confirmação manual por outros canais antes de prosseguir."`;
+      } else {
+        capiOpinion.innerHTML = `<strong>Capi diz:</strong> "Minha busca não encontrou semelhanças óbvias com golpes conhecidos (${risco}%). Mesmo assim, mantenha-se em alerta e siga os guias básicos!"`;
+      }
+
+      // Diagnóstico detalhado
+      let explicacaoFormatada = analise.explicacao || "";
+      explicacaoFormatada = explicacaoFormatada.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+      explicacaoFormatada = explicacaoFormatada.replace(/\n/g, "<br>");
+      document.getElementById("explanation-text").innerHTML = explicacaoFormatada;
+
+      // Sinais Suspeitos
+      const indicatorsList = document.getElementById("indicators-list");
+      indicatorsList.innerHTML = "";
+
+      const caracs = analise.caracteristicas || [];
+      if (caracs.length === 0) {
+        indicatorsList.innerHTML = `
+          <li class="analysis-indicator-item outset-border" style="background:#FFF;">
+            <strong>✓ Nenhum sinal suspeito clássico detectado</strong>
+          </li>
+        `;
+      } else {
+        caracs.forEach(c => {
+          const li = document.createElement("li");
+          li.className = "analysis-indicator-item outset-border";
+          li.style.background = "#FFF";
+          li.innerHTML = `
+            <strong>• ${c.nome}:</strong> ${c.descricao}
+          `;
+          indicatorsList.appendChild(li);
+        });
+      }
+
+      // Recomendações
+      const recommendationsContainer = document.getElementById("recommendations-container");
+      recommendationsContainer.innerHTML = "";
+
+      const recs = analise.recomendacoes || [];
+      recs.forEach((r, idx) => {
+        const div = document.createElement("div");
+        const isPriority = idx === 0 && nivel === "ALTO";
+        div.className = `recommendation-card outset-border ${isPriority ? 'priority-high' : ''}`;
+        
+        div.innerHTML = `
+          <strong>${isPriority ? '🚨 URGENTE: ' : ''}${r.split(':')[0]}</strong>
+          <p style="font-size: 11px; margin-bottom:0; color:#505050;">${r.split(':').slice(1).join(':') || r}</p>
+        `;
+        recommendationsContainer.appendChild(div);
+      });
+
+      // Impressão
+      document.getElementById("btn-imprimir").addEventListener("click", () => {
+        window.print();
+      });
+
+      // Ticket
+      const btnRequestReview = document.getElementById("btn-request-review");
+      const reviewSection = document.getElementById("review-section");
+      const reviewFormCard = document.getElementById("review-form-card");
+      const btnCancelReview = document.getElementById("btn-cancel-review");
+      const btnSubmitReview = document.getElementById("btn-submit-review");
+
+      btnRequestReview.addEventListener("click", () => {
+        reviewSection.style.display = "none";
+        reviewFormCard.style.display = "block";
+      });
+
+      btnCancelReview.addEventListener("click", () => {
+        reviewFormCard.style.display = "none";
+        reviewSection.style.display = "flex";
+      });
+
+      btnSubmitReview.addEventListener("click", () => {
+        alert("Obrigado! Ticket de revisão enviado com sucesso ao comitê técnico do NIC.br/Cidadão na Rede.");
+        reviewFormCard.style.display = "none";
+        reviewSection.innerHTML = `<strong style="color: var(--risk-low); text-align:center; width:100%; display:block;">✓ Ticket Enviado para Revisores do NIC.br</strong>`;
+        reviewSection.style.display = "flex";
+      });
+    });
+  </script>
+  <script src="js/api.js"></script>
+</body>
+</html>

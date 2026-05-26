@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guardião da Rede - Letramento Digital, Cidadania e o Decálogo de Princípios da Internet no Brasil.">
+  <title>Letramento & Cidadania — Guardião da Rede</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header outset-border">
+    <div class="header-container">
+      <a href="index.html" class="logo-link">
+        <span class="logo-icon" aria-hidden="true">🛡️</span>
+        <span class="logo-text">Guardião da Rede</span>
+      </a>
+      <nav class="app-nav" aria-label="Navegação Principal">
+        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+        <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+        <a href="letramento.html" class="nav-link outset-border active" id="nav-letramento">Letramento</a>
+        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MARQUEE RETRO -->
+  <div class="marquee-bar inset-border" aria-hidden="true">
+    <marquee scrollamount="4">ℹ️ DICA DA CAPI: Ative a verificação em duas etapas no seu WhatsApp para evitar clonagem de conta! • Desconfie de links recebidos por SMS de supostas taxas aduaneiras.</marquee>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <!-- CAPI WIDGET -->
+    <div class="capi-widget" role="note" aria-label="Mensagem de Capi">
+      <div class="capi-img-container outset-border">
+        <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
+      </div>
+      <div class="capi-bubble">
+        <div class="capi-bubble-title">Capi diz:</div>
+        <p style="margin-bottom: 0; color: #000;">
+          "Olá! O NIC.br e o CGI.br defendem que a internet brasileira deve ser livre, segura e inclusiva. Nesta seção, você aprende a reconhecer armadilhas e entende como o nosso projeto apoia os princípios fundamentais da nossa rede!"
+        </p>
+      </div>
+    </div>
+
+    <!-- JANELA DE GUIA DE SEGURANÇA -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>📂 GUIA_PREVENCAO_E_LETRAMENTO.EXE</span>
+        </div>
+      </div>
+      <div class="window-body">
+        <h2>Guia de Prevenção a Golpes Virtuais</h2>
+        <p>Estude os métodos mais perigosos aplicados contra cidadãos na internet e aprenda a se proteger:</p>
+        
+        <div class="decalogo-grid" style="grid-template-columns: 1fr; gap: 15px;">
+          <!-- CARD VAGAS ONLINE -->
+          <article class="card-flat" style="padding: 18px;">
+            <h3 style="color: var(--accent-teal); margin-bottom: 6px;">💼 Falsas Vagas de Emprego Online</h3>
+            <p style="font-size: 13px; margin-bottom: 8px;">
+              <strong>Como funciona:</strong> Golpistas enviam mensagens oferecendo salários altos por tarefas de meio período em casa (ex: curtir vídeos no YouTube ou avaliar lojas). No início pagam pequenas comissões, mas depois exigem que você faça transferências Pix como depósito de garantia para liberar novos trabalhos.
+            </p>
+            <strong style="color: var(--risk-high); font-size: 11.5px; font-family: var(--font-mono); display: block;">✓ COMO SABER SE É FAKE:</strong>
+            <ul style="font-size: 12px; margin-left: 15px; margin-top: 4px; color: var(--color-text-muted);">
+              <li>Nenhuma empresa legítima exige depósitos ou pagamentos de taxas para liberar salários.</li>
+              <li>Desconfie de processos seletivos feitos inteiramente por bots do Telegram ou mensagens de WhatsApp de números estrangeiros.</li>
+              <li>A promessa de dinheiro rápido em troca de tarefas extremamente simples é o principal indício de fraude.</li>
+            </ul>
+          </article>
+          
+          <!-- CARD ENCOMENDAS -->
+          <article class="card-flat" style="padding: 18px;">
+            <h3 style="color: var(--accent-teal); margin-bottom: 6px;">📦 Encomendas, Entregas e Taxas do Correio</h3>
+            <p style="font-size: 13px; margin-bottom: 8px;">
+              <strong>Como funciona:</strong> Você recebe um SMS ou e-mail com um link idêntico ao site oficial dos Correios, dizendo que sua compra internacional está retida por pendências alfandegárias. Também ocorrem golpes com falsos motoboys de delivery cobrando taxas de reenvio de brindes sob pretexto de maquininha danificada.
+            </p>
+            <strong style="color: var(--risk-high); font-size: 11.5px; font-family: var(--font-mono); display: block;">✓ COMO SE PROTEGER:</strong>
+            <ul style="font-size: 12px; margin-left: 15px; margin-top: 4px; color: var(--color-text-muted);">
+              <li>Não clique em links de SMS de taxas de rastreio. Acesse manualmente o portal oficial 'Minhas Importações' dos Correios.</li>
+              <li>Ao receber entregas presenciais de presentes surpresa que exijam pagamento de taxas, confira o visor da maquininha. Nunca digite senha se a tela estiver apagada, quebrada ou obstruída.</li>
+            </ul>
+          </article>
+          
+          <!-- CARD IDOSOS / FACIAL -->
+          <article class="card-flat" style="padding: 18px;">
+            <h3 style="color: var(--accent-teal); margin-bottom: 6px;">👵 Engenharia contra Idosos & Fraude de Reconhecimento Facial</h3>
+            <p style="font-size: 13px; margin-bottom: 8px;">
+              <strong>Como funciona:</strong> Falsos gerentes ligam afirmando que a conta bancária do idoso está sob ataque cibernético e que, para cancelar transações suspeitas, ele deve olhar para a câmera do celular em um link enviado via chat. Esse link captura a biometria para autorizar empréstimos ou Pix falsos (o golpe da 'selfie da selfie').
+            </p>
+            <strong style="color: var(--risk-high); font-size: 11.5px; font-family: var(--font-mono); display: block;">✓ RECOMENDAÇÃO CRÍTICA:</strong>
+            <ul style="font-size: 12px; margin-left: 15px; margin-top: 4px; color: var(--color-text-muted);">
+              <li>Bancos de verdade nunca ligam solicitando que você tire selfies para cancelar transações de segurança.</li>
+              <li>Se um suposto funcionário te guiar por telefone a acessar a câmera fora do aplicativo oficial do banco, desligue imediatamente.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- JANELA DE PRINCÍPIOS DO CGI.br / NIC.br -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>🛡️ DECALOGO_PRINCIPIOS_CGIBR.TXT</span>
+        </div>
+      </div>
+      <div class="window-body">
+        <h2>Como o Guardião apoia os Princípios da Internet (CGI.br)</h2>
+        <p style="margin-bottom: 15px;">
+          O Decálogo de Princípios do CGI.br estabelece as diretrizes fundamentais para o desenvolvimento e uso da internet no Brasil:
+        </p>
+
+        <div class="decalogo-grid">
+          <!-- PRINCIPIO 7 -->
+          <div class="decalogo-card">
+            <span class="decalogo-num">Princípio 7</span>
+            <h3 style="font-size: 12.5px; margin: 4px 0;">Inviolabilidade e Segurança</h3>
+            <p style="font-size: 11.5px; color: var(--color-text-muted); margin-bottom: 0;">
+              <strong>Nossa Ação:</strong> Fortalecemos a proteção dos cidadãos contra a engenharia social, fornecendo diagnóstico imediato baseado em IA para mitigar o roubo de dados e fraudes cibernéticas.
+            </p>
+          </div>
+
+          <!-- PRINCIPIO 9 -->
+          <div class="decalogo-card">
+            <span class="decalogo-num">Princípio 9</span>
+            <h3 style="font-size: 12.5px; margin: 4px 0;">Padronização e Interoperabilidade</h3>
+            <p style="font-size: 11.5px; color: var(--color-text-muted); margin-bottom: 0;">
+              <strong>Nossa Ação:</strong> Desenvolvemos em HTML, CSS e JS puros. A plataforma rejeita sistemas proprietários fechados, operando sob padrões globais e abertos.
+            </p>
+          </div>
+
+          <!-- PRINCIPIO 1 -->
+          <div class="decalogo-card">
+            <span class="decalogo-num">Princípio 1</span>
+            <h3 style="font-size: 12.5px; margin: 4px 0;">Direitos e Privacidade</h3>
+            <p style="font-size: 11.5px; color: var(--color-text-muted); margin-bottom: 0;">
+              <strong>Nossa Ação:</strong> O direito ao relato e discussão comunitária é 100% anônimo. Não exigimos rastreamento cadastral, defendendo a privacidade das vítimas.
+            </p>
+          </div>
+
+          <!-- PRINCIPIO 3 -->
+          <div class="decalogo-card">
+            <span class="decalogo-num">Princípio 3</span>
+            <h3 style="font-size: 12.5px; margin: 4px 0;">Universalidade e Inclusão</h3>
+            <p style="font-size: 11.5px; color: var(--color-text-muted); margin-bottom: 0;">
+              <strong>Nossa Ação:</strong> A interface neo-retrô limpa resgata layouts estruturados de fácil navegação, aliando design responsivo, alto contraste e leveza para redes instáveis.
+            </p>
+          </div>
+        </div>
+
+        <div class="card-flat" style="background: var(--bg-desktop); padding: 12px; margin-top: 15px; border-left: 5px solid var(--accent-teal); box-shadow: none;">
+          <strong style="color: var(--accent-teal); font-size: 12px; font-family: var(--font-mono);">🔒 Filosofia de Software Livre & Criptografia:</strong>
+          <p style="font-size: 12px; margin-bottom: 0; margin-top: 4px; color: var(--color-text-muted);">
+            Nosso MVP é construído para ser auditável. Nossa visão futura de arquitetura aberta engloba:
+            <br>1. <strong>Criptografia Local (Web Crypto API):</strong> Hashing dos relatos de forma ponta a ponta, de modo que somente auditores credenciados descriptografem os textos.
+            <br>2. <strong>Bancos Descentralizados (IPFS/OrbitDB):</strong> Salvamento do histórico comunitário em redes P2P redundantes e imunes à censura corporativa centralizada de provedores de nuvem.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
+  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="window outset-border modal-card">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>⚙️ CONFIGURACOES_IA.EXE</span>
+        </div>
+        <div class="titlebar-controls">
+          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <p style="margin-bottom: 10px;">
+          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
+        </p>
+        <div class="form-group">
+          <label for="gemini-key-input" class="form-label">API Key:</label>
+          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
+          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
+          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="app-footer outset-border">
+    <div class="footer-container">
+      <div>🛡️ Guardião da Rede - Cidadão na Rede FIB16</div>
+      <div>Sistema: Online [Port 8080]</div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+</body>
+</html>

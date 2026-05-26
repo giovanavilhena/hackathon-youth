@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guardião da Rede - Pesquisa de campo e entrevistas sobre golpes virtuais realizadas no FIB16 em Belém/PA.">
+  <title>Pesquisa de Campo — Guardião da Rede</title>
+  <link rel="stylesheet" href="css/estilo.css">
+  <style>
+    /* Estilos específicos para a pesquisa de campo */
+    .interceptor-guide {
+      background: #F0FDFA;
+      border: 1.5px solid #0D9488;
+      border-left: 5px solid #0D9488;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .question-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--color-border);
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-flat-sm);
+    }
+    
+    .question-title {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 13.5px;
+      color: var(--accent-teal);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px;
+    }
+    
+    .option-btn {
+      background: var(--bg-card);
+      color: var(--color-text);
+      border: 1.5px solid var(--color-border);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: var(--transition-normal);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .option-btn:hover {
+      background: var(--accent-light);
+      border-color: var(--accent-teal);
+    }
+    
+    .option-btn.selected {
+      background: var(--accent-teal);
+      color: white;
+      border-color: var(--color-border);
+      box-shadow: inset 2px 2px 0px rgba(0,0,0,0.2);
+    }
+    
+    .option-btn input {
+      display: none;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--color-border);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: var(--shadow-flat-sm);
+    }
+
+    .metric-value {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent-teal);
+      margin: 8px 0;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .progress-bar-container {
+      background: #E2E8F0;
+      border: 1px solid var(--color-border);
+      height: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 4px;
+      margin-bottom: 12px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent-teal);
+      transition: width 0.3s ease;
+    }
+
+    .feeling-tag {
+      display: inline-block;
+      background: var(--bg-desktop);
+      border: 1.5px solid var(--color-border);
+      border-radius: 4px;
+      padding: 3px 8px;
+      margin: 3px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .actions-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      border: 1.5px solid var(--color-border);
+      border-radius: 6px;
+      margin-top: 16px;
+      background: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1.5px solid var(--color-border);
+    }
+
+    th {
+      background: var(--bg-desktop);
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .btn-danger-sm {
+      background: var(--risk-high-bg);
+      color: var(--risk-high);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 10px;
+      padding: 2px 6px;
+      font-weight: bold;
+    }
+
+    .btn-danger-sm:hover {
+      background: var(--risk-high);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header outset-border">
+    <div class="header-container">
+      <a href="index.html" class="logo-link">
+        <span class="logo-icon" aria-hidden="true">🛡️</span>
+        <span class="logo-text">Guardião da Rede</span>
+      </a>
+      <nav class="app-nav" aria-label="Navegação Principal">
+        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+        <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+        <a href="pesquisa.html" class="nav-link outset-border active" id="nav-pesquisa">Pesquisa de Campo</a>
+        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MARQUEE RETRO -->
+  <div class="marquee-bar inset-border" aria-hidden="true">
+    <marquee scrollamount="4">🎤 PESQUISA DE CAMPO: Coletando dados no FIB16 em Belém/PA • Entreviste os participantes e compile as estatísticas de segurança para a apresentação do Hackathon!</marquee>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <!-- CAPI WIDGET -->
+    <div class="capi-widget" role="note" aria-label="Guia da Capi para a pesquisa">
+      <div class="capi-img-container outset-border">
+        <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
+      </div>
+      <div class="capi-bubble">
+        <div class="capi-bubble-title">Capi diz:</div>
+        <p style="margin-bottom: 0; color: #000;">
+          "Esta página foi criada especialmente para você coletar respostas das pessoas no evento! Ela armazena tudo no seu navegador e calcula gráficos imediatos para o seu pitch. Você pode até baixar a planilha no final!"
+        </p>
+      </div>
+    </div>
+
+    <!-- GUIA DE ENTREVISTAS (CHEAT SHEET) -->
+    <section class="interceptor-guide">
+      <h3 style="color: #0F766E; margin-bottom: 6px;">💡 Pitch Rápido e Contexto para a Entrevista</h3>
+      <p style="font-size: 13px; color: #115E59; margin-bottom: 8px; line-height: 1.4;">
+        <strong>Como abordar as pessoas no FIB16:</strong><br>
+        <em>"Olá, tudo bem? Somos do projeto <strong>Guardião da Rede</strong> do Hackathon. Estamos fazendo uma pesquisa rápida (menos de 2 min) para mapear a exposição a golpes digitais da comunidade do evento. O Guardião é um assistente comunitário anônimo que analisa relatos de suspeita de golpes no WhatsApp, emprego falso ou links e diz o risco real. Você poderia nos ajudar respondendo 10 perguntas rápidas?"</em>
+      </p>
+      <div style="font-size: 11.5px; color: #134E4A;">
+        <strong>Pilares do Projeto Guardião:</strong> 1. Crowdreport anônimo de ameaças • 2. Triagem sociodemográfica inteligente • 3. Classificador híbrido local + IA (Gemini) • 4. Devolutiva educativa adaptada à vítima.
+      </div>
+    </section>
+
+    <!-- FORMULÁRIO DE ENTREVISTA -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>📝 ENTRADA_DADOS_ENTREVISTA.EXE</span>
+        </div>
+      </div>
+      <div class="window-body">
+        <h2>Registrar Nova Entrevista</h2>
+        <p>Preencha as respostas do entrevistado abaixo. As seleções foram projetadas com botões grandes para digitação rápida em celulares.</p>
+        
+        <form id="interview-form">
+          
+          <!-- Q1: Faixa Etária -->
+          <div class="question-card">
+            <label class="question-title">1. Qual a faixa etária do entrevistado?</label>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-q="q1" data-val="Menos de 18">👶 Menos de 18</button>
+              <button type="button" class="option-btn" data-q="q1" data-val="18 a 29">🧑 18 a 29 anos</button>
+              <button type="button" class="option-btn" data-q="q1" data-val="30 a 59">🧔 30 a 59 anos</button>
+              <button type="button" class="option-btn" data-q="q1" data-val="60+ (Idoso)">👵 60+ (Idoso)</button>
+            </div>
+            <input type="hidden" name="q1" id="q1" required>
+          </div>
+
+          <!-- Q2: Letramento Digital -->
+          <div class="question-card">
+            <label class="question-title">2. Nível de familiaridade com tecnologia/internet:</label>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-q="q2" data-val="Baixo">📱 Baixo (básico/mensagens)</button>
+              <button type="button" class="option-btn" data-q="q2" data-val="Médio">💻 Médio (navego/compras)</button>
+              <button type="button" class="option-btn" data-q="q2" data-val="Alto">🛡️ Alto (tecnologia/cibersegurança)</button>
+            </div>
+            <input type="hidden" name="q2" id="q2" required>
+          </div>
+
+          <!-- Q3: Experiência com Golpes -->
+          <div class="question-card">
+            <label class="question-title">3. Já passou por alguma situação de golpe ou suspeita de golpe?</label>
+            <div class="options-grid" style="grid-template-columns: 1fr;">
+              <button type="button" class="option-btn" data-q="q3" data-val="Sim, caí e tive prejuízo">🚨 Sim, eu já caí em um golpe e tive prejuízo financeiro</button>
+              <button type="button" class="option-btn" data-q="q3" data-val="Sim, tentaram mas percebi">⚠️ Sim, tentaram aplicar mas eu percebi a tempo</button>
+              <button type="button" class="option-btn" data-q="q3" data-val="Familiar/amigo caiu">👥 Não comigo, mas um familiar ou amigo próximo caiu</button>
+              <button type="button" class="option-btn" data-q="q3" data-val="Não, nunca passei">✅ Não, nunca passei por isso nem conheço quem passou</button>
+            </div>
+            <input type="hidden" name="q3" id="q3" required>
+          </div>
+
+          <!-- Q4: Canal do Golpe -->
+          <div class="question-card" id="card-q4">
+            <label class="question-title">4. Qual foi o canal principal usado na tentativa ou golpe?</label>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-q="q4" data-val="WhatsApp / Telegram">💬 WhatsApp / Telegram</button>
+              <button type="button" class="option-btn" data-q="q4" data-val="Redes Sociais">📸 Redes Sociais (Insta/TikTok/FB)</button>
+              <button type="button" class="option-btn" data-q="q4" data-val="E-mail ou SMS">✉️ E-mail ou SMS</button>
+              <button type="button" class="option-btn" data-q="q4" data-val="Ligação telefônica">📞 Ligação (falso funcionário)</button>
+              <button type="button" class="option-btn" data-q="q4" data-val="Sites de compras">🛒 Loja Falsa / Anúncio</button>
+              <button type="button" class="option-btn" data-q="q4" data-val="Outro / Não aplicável">❓ Outro / Não aplicável</button>
+            </div>
+            <input type="hidden" name="q4" id="q4">
+          </div>
+
+          <!-- Q5: Tipo de Golpe -->
+          <div class="question-card" id="card-q5">
+            <label class="question-title">5. Qual era o tipo do golpe/suspeita?</label>
+            <div class="options-grid" style="grid-template-columns: 1fr;">
+              <button type="button" class="option-btn" data-q="q5" data-val="Falso parente (Pix)">👶 Falso Parente no WhatsApp pedindo Pix urgente</button>
+              <button type="button" class="option-btn" data-q="q5" data-val="Falsa vaga de emprego">💼 Emprego Falso (pedindo depósitos/investimentos)</button>
+              <button type="button" class="option-btn" data-q="q5" data-val="Falsa venda/Compra fake">🛒 Compra/venda falsa (preço irreal, site copiado)</button>
+              <button type="button" class="option-btn" data-q="q5" data-val="Falsa central de banco">🏦 Falsa central bancária (ligação de segurança do banco)</button>
+              <button type="button" class="option-btn" data-q="q5" data-val="Links falsos (Correios/etc)">🔗 Link falso / Roubo de dados (Phishing de SMS/Correios)</button>
+              <button type="button" class="option-btn" data-q="q5" data-val="Outro / Não aplicável">❓ Outro / Não aplicável</button>
+            </div>
+            <input type="hidden" name="q5" id="q5">
+          </div>
+
+          <!-- Q6: Fator de Convencimento -->
+          <div class="question-card" id="card-q6">
+            <label class="question-title">6. Qual foi o principal fator que gerou dúvida ou fez cair?</label>
+            <div class="options-grid" style="grid-template-columns: 1fr;">
+              <button type="button" class="option-btn" data-q="q6" data-val="Urgência/Ameaça">⏱️ Senso de urgência ou ameaça (ex: "conta será bloqueada")</button>
+              <button type="button" class="option-btn" data-q="q6" data-val="Ganho financeiro fácil">💰 Proposta vantajosa demais (dinheiro rápido, prêmio)</button>
+              <button type="button" class="option-btn" data-q="q6" data-val="Apelo emocional">❤️ Apelo emocional (filho/amigo em apuros)</button>
+              <button type="button" class="option-btn" data-q="q6" data-val="Semelhança com canais oficiais">🏢 Imitação perfeita de canais oficiais (logo, tom do banco)</button>
+              <button type="button" class="option-btn" data-q="q6" data-val="Não se aplica">❓ Não se aplica</button>
+            </div>
+            <input type="hidden" name="q6" id="q6">
+          </div>
+
+          <!-- Q7: Prejuízo Financeiro -->
+          <div class="question-card" id="card-q7">
+            <label class="question-title">7. Qual foi a faixa de valor perdido na situação?</label>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-q="q7" data-val="Sem prejuízo">💵 Sem prejuízo financeiro</button>
+              <button type="button" class="option-btn" data-q="q7" data-val="Até R$ 100">💸 Até R$ 100</button>
+              <button type="button" class="option-btn" data-q="q7" data-val="De R$ 100 a R$ 1.000">💳 De R$ 100 a R$ 1.000</button>
+              <button type="button" class="option-btn" data-q="q7" data-val="De R$ 1.000 a R$ 5.000">🏦 De R$ 1.000 a R$ 5.000</button>
+              <button type="button" class="option-btn" data-q="q7" data-val="Acima de R$ 5.000">💎 Acima de R$ 5.000</button>
+            </div>
+            <input type="hidden" name="q7" id="q7">
+          </div>
+
+          <!-- Q8: Ações Tomadas -->
+          <div class="question-card">
+            <label class="question-title">8. Qual foi a principal atitude tomada após a tentativa/golpe?</label>
+            <div class="options-grid" style="grid-template-columns: 1fr;">
+              <button type="button" class="option-btn" data-q="q8" data-val="Não fiz nada / Vergonha">🤐 Não fiz nada (por vergonha ou achar que não adiantaria)</button>
+              <button type="button" class="option-btn" data-q="q8" data-val="Registrei boletim de ocorrência / Banco">📞 Denunciei oficialmente (boletim de ocorrência ou contatei o banco)</button>
+              <button type="button" class="option-btn" data-q="q8" data-val="Alertei amigos e família">🗣️ Alertei amigos, família ou vizinhos sobre o ocorrido</button>
+              <button type="button" class="option-btn" data-q="q8" data-val="Procurei informações na web">🔍 Busquei na internet o que fazer ou se era golpe</button>
+            </div>
+            <input type="hidden" name="q8" id="q8" required>
+          </div>
+
+          <!-- Q9: Facilidade de Informação -->
+          <div class="question-card">
+            <label class="question-title">9. Acha fácil achar orientações claras sobre como se proteger?</label>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-q="q9" data-val="Muito difícil">❌ Muito difícil (confuso/genérico)</button>
+              <button type="button" class="option-btn" data-q="q9" data-val="Médio">⚠️ Médio (tem alertas, mas difícil aplicar)</button>
+              <button type="button" class="option-btn" data-q="q9" data-val="Fácil">✅ Fácil (sei onde achar e agir)</button>
+            </div>
+            <input type="hidden" name="q9" id="q9" required>
+          </div>
+
+          <!-- Q10: Sentimento Gerado -->
+          <div class="question-card">
+            <label class="question-title">10. Qual sentimento principal um golpe gera na vítima? (Uma palavra)</label>
+            <div class="form-group" style="margin-bottom: 0;">
+              <input type="text" id="q10" name="q10" class="form-input inset-border" required placeholder="Ex: Impotência, Medo, Vergonha, Raiva, Frustração, Insegurança">
+            </div>
+          </div>
+
+          <div style="text-align: right; margin-top: 20px;">
+            <button type="submit" class="btn btn-primary outset-border" style="padding: 12px 24px; font-size: 14px;">
+              💾 Salvar Entrevista
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="window-statusbar">
+        <span>FIB16 Belém — Guardião da Rede</span>
+        <span>Pesquisa de Opinião e Estatísticas</span>
+      </div>
+    </section>
+
+    <!-- DASHBOARD DE RESULTADOS (COM METRICAS E GRÁFICOS) -->
+    <section class="window outset-border" id="dashboard-section">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>📊 MONITOR_PESQUISA_ESTATISTICAS.EXE</span>
+        </div>
+      </div>
+      <div class="window-body">
+        <h2>Dashboard de Resultados em Tempo Real</h2>
+        <p>Estes dados são gerados dinamicamente baseados nas entrevistas salvas. Perfeito para capturar prints para os slides da apresentação final.</p>
+        
+        <!-- BARRA DE AÇÕES DOS DADOS -->
+        <div class="actions-bar">
+          <button class="btn btn-primary" id="btn-export-csv">📥 Baixar Planilha (CSV)</button>
+          <button class="btn btn-secondary" id="btn-seed-data">⚡ Carregar Dados Simulados (12 Entrevistas)</button>
+          <button class="btn btn-danger-sm" id="btn-clear-db" style="padding: 8px 12px; font-size: 12px;">🗑️ Limpar Banco de Dados</button>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- CARD 1: Total Entrevistados -->
+          <div class="metric-card">
+            <span class="metric-label">TOTAL DE ENTREVISTAS</span>
+            <div class="metric-value" id="stat-total">0</div>
+            <span class="metric-label" style="font-family: var(--font-mono); font-size: 11px;">FIB16 / Belém-PA</span>
+          </div>
+
+          <!-- CARD 2: % Afetados -->
+          <div class="metric-card">
+            <span class="metric-label">% EXPOSTAS A GOLPES (Uso ou Rede)</span>
+            <div class="metric-value" id="stat-scam-ratio">0%</div>
+            <span class="metric-label" style="font-size: 10px;">Caíram ou sofreram tentativa direta/familiar</span>
+          </div>
+
+          <!-- CARD 3: Taxa de B.O. ou Denúncia -->
+          <div class="metric-card">
+            <span class="metric-label">TAXA DE DENÚNCIA / AÇÃO OFICIAL</span>
+            <div class="metric-value" id="stat-report-ratio">0%</div>
+            <span class="metric-label" style="font-size: 10px;">Vítimas que registraram B.O. ou contataram o banco</span>
+          </div>
+
+          <!-- CARD 4: Letramento Digital Baixo -->
+          <div class="metric-card">
+            <span class="metric-label">LETRAMENTO DIGITAL BAIXO/MÉDIO</span>
+            <div class="metric-value" id="stat-digital-literacy">0%</div>
+            <span class="metric-label" style="font-size: 10px;">Precisam de suporte simplificado e visual</span>
+          </div>
+        </div>
+
+        <!-- GRÁFICOS DE CANAIS E FATORES -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 24px;">
+          
+          <!-- Canais do Golpe -->
+          <div class="card-flat" style="box-shadow: none;">
+            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 4px; margin-bottom: 12px;">
+              📢 Principais Canais dos Golpes (%)
+            </h3>
+            <div id="chart-channels">
+              <!-- Renderizado dinamicamente -->
+            </div>
+          </div>
+
+          <!-- Tipos de Golpe -->
+          <div class="card-flat" style="box-shadow: none;">
+            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 4px; margin-bottom: 12px;">
+              👾 Tipos de Golpes Mais Relatados
+            </h3>
+            <div id="chart-types">
+              <!-- Renderizado dinamicamente -->
+            </div>
+          </div>
+          
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 20px;">
+          
+          <!-- Fatores de Convencimento -->
+          <div class="card-flat" style="box-shadow: none;">
+            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 4px; margin-bottom: 12px;">
+              🧠 Gatilhos Emocionais / Convencimento
+            </h3>
+            <div id="chart-triggers">
+              <!-- Renderizado dinamicamente -->
+            </div>
+          </div>
+
+          <!-- Prejuízo Financeiro -->
+          <div class="card-flat" style="box-shadow: none;">
+            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 4px; margin-bottom: 12px;">
+              💸 Faixas de Prejuízo Financeiro
+            </h3>
+            <div id="chart-losses">
+              <!-- Renderizado dinamicamente -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SENTIMENTOS (NUVEM DE PALAVRAS / LISTA) -->
+        <div class="card-flat" style="margin-top: 20px; box-shadow: none;">
+          <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 4px; margin-bottom: 12px;">
+            🎭 Sentimentos Gerados pelas Fraudes (Nuvem de Palavras)
+          </h3>
+          <div id="word-cloud-container" style="text-align: center; padding: 15px; background: var(--bg-desktop); border: 1.5px dashed var(--color-border); border-radius: 6px;">
+            <!-- Renderizado dinamicamente -->
+          </div>
+        </div>
+
+        <!-- TABELA DE RESPOSTAS DETALHADAS -->
+        <div style="margin-top: 24px;">
+          <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px;">📋 Lista de Respostas Detalhadas</h3>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Idade</th>
+                  <th>Letramento</th>
+                  <th>Situação</th>
+                  <th>Canal</th>
+                  <th>Tipo</th>
+                  <th>Prejuízo</th>
+                  <th>Ação</th>
+                  <th>Sentimento</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <!-- Renderizado dinamicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="window-statusbar">
+        <span>Banco de Dados Local (localStorage)</span>
+        <span id="stat-db-status">Online e Atualizado</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
+  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="window outset-border modal-card">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>⚙️ CONFIGURACOES_IA.EXE</span>
+        </div>
+        <div class="titlebar-controls">
+          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <p style="margin-bottom: 10px;">
+          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
+        </p>
+        <div class="form-group">
+          <label for="gemini-key-input" class="form-label">API Key:</label>
+          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
+          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
+          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="app-footer outset-border">
+    <div class="footer-container">
+      <div>🛡️ Guardião da Rede - Cidadão na Rede FIB16</div>
+      <div>Sistema: Online [Port 8080]</div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script>
+    // Mock inicial realista com dados de campo
+    const DADOS_SIMULADOS_MOCK = [
+      { id: 1, q1: "60+ (Idoso)", q2: "Baixo", q3: "Sim, caí e tive prejuízo", q4: "WhatsApp / Telegram", q5: "Falso parente (Pix)", q6: "Apelo emocional", q7: "De R$ 1.000 a R$ 5.000", q8: "Alertei amigos e família", q9: "Muito difícil", q10: "Impotência" },
+      { id: 2, q1: "18 a 29", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "Redes Sociais", q5: "Falsa vaga de emprego", q6: "Ganho financeiro fácil", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Médio", q10: "Raiva" },
+      { id: 3, q1: "30 a 59", q2: "Médio", q3: "Sim, caí e tive prejuízo", q4: "WhatsApp / Telegram", q5: "Falsa vaga de emprego", q6: "Ganho financeiro fácil", q7: "De R$ 100 a R$ 1.000", q8: "Registrei boletim de ocorrência / Banco", q9: "Muito difícil", q10: "Vergonha" },
+      { id: 4, q1: "60+ (Idoso)", q2: "Baixo", q3: "Familiar/amigo caiu", q4: "Ligação telefônica", q5: "Falsa central de banco", q6: "Semelhança com canais oficiais", q7: "Acima de R$ 5.000", q8: "Registrei boletim de ocorrência / Banco", q9: "Muito difícil", q10: "Insegurança" },
+      { id: 5, q1: "18 a 29", q2: "Médio", q3: "Sim, caí e tive prejuízo", q4: "Sites de compras", q5: "Falsa venda/Compra fake", q6: "Ganho financeiro fácil", q7: "De R$ 100 a R$ 1.000", q8: "Não fiz nada / Vergonha", q9: "Médio", q10: "Frustração" },
+      { id: 6, q1: "30 a 59", q2: "Médio", q3: "Sim, tentaram mas percebi", q4: "E-mail ou SMS", q5: "Links falsos (Correios/etc)", q6: "Urgência/Ameaça", q7: "Sem prejuízo", q8: "Procurei informações na web", q9: "Médio", q10: "Desconfiança" },
+      { id: 7, q1: "18 a 29", q2: "Alto", q3: "Não, nunca passei", q4: "Outro / Não aplicável", q5: "Outro / Não aplicável", q6: "Não se aplica", q7: "Sem prejuízo", q8: "Procurei informações na web", q9: "Fácil", q10: "Alívio" },
+      { id: 8, q1: "60+ (Idoso)", q2: "Médio", q3: "Sim, caí e tive prejuízo", q4: "WhatsApp / Telegram", q5: "Falso parente (Pix)", q6: "Apelo emocional", q7: "De R$ 100 a R$ 1.000", q8: "Alertei amigos e família", q9: "Muito difícil", q10: "Tristeza" },
+      { id: 9, q1: "30 a 59", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "Ligação telefônica", q5: "Falsa central de banco", q6: "Semelhança com canais oficiais", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Médio", q10: "Alerta" },
+      { id: 10, q1: "30 a 59", q2: "Baixo", q3: "Sim, caí e tive prejuízo", q4: "Redes Sociais", q5: "Falsa venda/Compra fake", q6: "Ganho financeiro fácil", q7: "De R$ 100 a R$ 1.000", q8: "Não fiz nada / Vergonha", q9: "Muito difícil", q10: "Humilhação" },
+      { id: 11, q1: "18 a 29", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "E-mail ou SMS", q5: "Links falsos (Correios/etc)", q6: "Urgência/Ameaça", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Fácil", q10: "Preocupação" },
+      { id: 12, q1: "60+ (Idoso)", q2: "Baixo", q3: "Sim, caí e tive prejuízo", q4: "Ligação telefônica", q5: "Falsa central de banco", q6: "Semelhança com canais oficiais", q7: "De R$ 1.000 a R$ 5.000", q8: "Registrei boletim de ocorrência / Banco", q9: "Muito difícil", q10: "Violabilidade" }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Gerenciar seleção dos botões de opções do formulário
+      const optionButtons = document.querySelectorAll(".option-btn");
+      optionButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const qId = btn.getAttribute("data-q");
+          const val = btn.getAttribute("data-val");
+          
+          // Desmarcar outros do mesmo grupo
+          document.querySelectorAll(`.option-btn[data-q="${qId}"]`).forEach(b => {
+            b.classList.remove("selected");
+          });
+          
+          // Marcar o atual
+          btn.classList.add("selected");
+          
+          // Preencher o input hidden correspondente
+          document.getElementById(qId).value = val;
+          
+          // Lógica condicional: Se Q3 for "Não, nunca passei", desativar ou omitir canais/fatores/valores
+          if (qId === "q3") {
+            const cardQ4 = document.getElementById("card-q4");
+            const cardQ5 = document.getElementById("card-q5");
+            const cardQ6 = document.getElementById("card-q6");
+            const cardQ7 = document.getElementById("card-q7");
+            
+            if (val === "Não, nunca passei") {
+              // Preenche automaticamente valores neutros para pular
+              document.getElementById("q4").value = "Outro / Não aplicável";
+              document.getElementById("q5").value = "Outro / Não aplicável";
+              document.getElementById("q6").value = "Não se aplica";
+              document.getElementById("q7").value = "Sem prejuízo";
+              
+              cardQ4.style.opacity = "0.5";
+              cardQ5.style.opacity = "0.5";
+              cardQ6.style.opacity = "0.5";
+              cardQ7.style.opacity = "0.5";
+            } else {
+              cardQ4.style.opacity = "1";
+              cardQ5.style.opacity = "1";
+              cardQ6.style.opacity = "1";
+              cardQ7.style.opacity = "1";
+            }
+          }
+        });
+      });
+
+      // Carregar banco de dados
+      let db = JSON.parse(localStorage.getItem("guardiao_pesquisa_dados") || "[]");
+      
+      const form = document.getElementById("interview-form");
+      const statTotal = document.getElementById("stat-total");
+      const statScamRatio = document.getElementById("stat-scam-ratio");
+      const statReportRatio = document.getElementById("stat-report-ratio");
+      const statDigitalLiteracy = document.getElementById("stat-digital-literacy");
+      
+      const chartChannels = document.getElementById("chart-channels");
+      const chartTypes = document.getElementById("chart-types");
+      const chartTriggers = document.getElementById("chart-triggers");
+      const chartLosses = document.getElementById("chart-losses");
+      
+      const wordCloudContainer = document.getElementById("word-cloud-container");
+      const tableBody = document.getElementById("table-body");
+
+      // Botoes de ações
+      document.getElementById("btn-export-csv").addEventListener("click", exportToCSV);
+      document.getElementById("btn-seed-data").addEventListener("click", seedData);
+      document.getElementById("btn-clear-db").addEventListener("click", clearDatabase);
+
+      // Submit do Formulário
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        // Validar campos hidden
+        const q1 = document.getElementById("q1").value;
+        const q2 = document.getElementById("q2").value;
+        const q3 = document.getElementById("q3").value;
+        const q4 = document.getElementById("q4").value || "Outro / Não aplicável";
+        const q5 = document.getElementById("q5").value || "Outro / Não aplicável";
+        const q6 = document.getElementById("q6").value || "Não se aplica";
+        const q7 = document.getElementById("q7").value || "Sem prejuízo";
+        const q8 = document.getElementById("q8").value;
+        const q9 = document.getElementById("q9").value;
+        const q10 = document.getElementById("q10").value.trim();
+
+        if (!q1 || !q2 || !q3 || !q8 || !q9 || !q10) {
+          alert("Por favor, responda todas as perguntas antes de salvar.");
+          return;
+        }
+
+        const newId = db.length > 0 ? Math.max(...db.map(x => x.id)) + 1 : 1;
+        const newRecord = { id: newId, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10 };
+        
+        db.push(newRecord);
+        localStorage.setItem("guardiao_pesquisa_dados", JSON.stringify(db));
+        
+        // Resetar Formulário
+        form.reset();
+        document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+        document.getElementById("q1").value = "";
+        document.getElementById("q2").value = "";
+        document.getElementById("q3").value = "";
+        document.getElementById("q4").value = "";
+        document.getElementById("q5").value = "";
+        document.getElementById("q6").value = "";
+        document.getElementById("q7").value = "";
+        document.getElementById("q8").value = "";
+        document.getElementById("q9").value = "";
+        
+        // Re-render
+        renderDashboard();
+        
+        // Scroll ate o dashboard para ver o feedback visual
+        document.getElementById("dashboard-section").scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // Renderizar o dashboard
+      function renderDashboard() {
+        statTotal.textContent = db.length;
+        
+        if (db.length === 0) {
+          statScamRatio.textContent = "0%";
+          statReportRatio.textContent = "0%";
+          statDigitalLiteracy.textContent = "0%";
+          chartChannels.innerHTML = "<p style='text-align:center;'>Nenhum dado registrado.</p>";
+          chartTypes.innerHTML = "<p style='text-align:center;'>Nenhum dado registrado.</p>";
+          chartTriggers.innerHTML = "<p style='text-align:center;'>Nenhum dado registrado.</p>";
+          chartLosses.innerHTML = "<p style='text-align:center;'>Nenhum dado registrado.</p>";
+          wordCloudContainer.innerHTML = "<p style='text-align:center;'>Nenhum dado registrado.</p>";
+          tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center;'>Nenhuma entrevista registrada. Registre acima ou carregue dados simulados para ver o dashboard.</td></tr>";
+          return;
+        }
+
+        // 1. Métricas Gerais
+        const expostos = db.filter(x => x.q3 !== "Não, nunca passei").length;
+        const scamRatio = Math.round((expostos / db.length) * 100);
+        statScamRatio.textContent = `${scamRatio}%`;
+
+        const denunciaram = db.filter(x => x.q8 === "Registrei boletim de ocorrência / Banco").length;
+        const totalComGolpe = db.filter(x => x.q3 === "Sim, caí e tive prejuízo" || x.q3 === "Sim, tentaram mas percebi" || x.q3 === "Familiar/amigo caiu").length;
+        const reportRatio = totalComGolpe > 0 ? Math.round((denunciaram / totalComGolpe) * 100) : 0;
+        statReportRatio.textContent = `${reportRatio}%`;
+
+        const letramentoBaixoMedio = db.filter(x => x.q2 === "Baixo" || x.q2 === "Médio").length;
+        const literacyRatio = Math.round((letramentoBaixoMedio / db.length) * 100);
+        statDigitalLiteracy.textContent = `${literacyRatio}%`;
+
+        // Helper para contar frequencia
+        function getFreqs(fieldName) {
+          const freqs = {};
+          db.forEach(x => {
+            const val = x[fieldName] || "Desconhecido";
+            freqs[val] = (freqs[val] || 0) + 1;
+          });
+          return freqs;
+        }
+
+        // Renderizador de Graficos Simples (Barras de progresso horizontais)
+        function renderBarChart(container, freqs) {
+          container.innerHTML = "";
+          const sorted = Object.entries(freqs).sort((a,b) => b[1] - a[1]);
+          const maxVal = Math.max(...sorted.map(x => x[1]));
+          
+          sorted.forEach(([label, val]) => {
+            const pct = Math.round((val / db.length) * 100);
+            const rawPctOfMax = Math.round((val / maxVal) * 100);
+            
+            const barWrapper = document.createElement("div");
+            barWrapper.style.marginBottom = "10px";
+            barWrapper.innerHTML = `
+              <div style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:600; margin-bottom:2px;">
+                <span>${label}</span>
+                <span>${val} (${pct}%)</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: ${rawPctOfMax}%;"></div>
+              </div>
+            `;
+            container.appendChild(barWrapper);
+          });
+        }
+
+        // 2. Gráfico de Canais (Q4)
+        renderBarChart(chartChannels, getFreqs("q4"));
+
+        // 3. Gráfico de Tipos (Q5)
+        renderBarChart(chartTypes, getFreqs("q5"));
+
+        // 4. Gráfico de Fatores (Q6)
+        renderBarChart(chartTriggers, getFreqs("q6"));
+
+        // 5. Gráfico de Prejuízos (Q7)
+        renderBarChart(chartLosses, getFreqs("q7"));
+
+        // 6. Nuvem de sentimentos (Q10)
+        wordCloudContainer.innerHTML = "";
+        const sentimentos = db.map(x => x.q10.trim()).filter(Boolean);
+        const sentFreqs = {};
+        sentimentos.forEach(s => {
+          const formatted = s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+          sentFreqs[formatted] = (sentFreqs[formatted] || 0) + 1;
+        });
+
+        Object.entries(sentFreqs).forEach(([word, freq]) => {
+          const span = document.createElement("span");
+          span.className = "feeling-tag";
+          const fontSize = 11 + (freq * 2.5);
+          span.style.fontSize = `${fontSize}px`;
+          span.style.color = freq > 2 ? "var(--risk-high)" : (freq > 1 ? "var(--accent-teal)" : "var(--color-text)");
+          span.style.borderColor = freq > 2 ? "var(--risk-high)" : "var(--color-border)";
+          span.textContent = `${word} (${freq})`;
+          wordCloudContainer.appendChild(span);
+        });
+
+        // 7. Tabela Detalhada
+        tableBody.innerHTML = "";
+        db.forEach((record, index) => {
+          const tr = document.createElement("tr");
+          
+          let alertBadge = "✔️";
+          if (record.q3 === "Sim, caí e tive prejuízo") alertBadge = "🚨";
+          if (record.q3 === "Sim, tentaram mas percebi") alertBadge = "⚠️";
+          if (record.q3 === "Familiar/amigo caiu") alertBadge = "👥";
+
+          tr.innerHTML = `
+            <td><strong>${index + 1}</strong></td>
+            <td>${record.q1}</td>
+            <td>${record.q2}</td>
+            <td>${alertBadge} ${record.q3}</td>
+            <td>${record.q4}</td>
+            <td>${record.q5}</td>
+            <td>${record.q7}</td>
+            <td>${record.q8}</td>
+            <td style="font-family:var(--font-mono); font-weight:bold; color:var(--accent-teal);">${record.q10}</td>
+            <td>
+              <button class="btn-danger-sm btn-del" data-id="${record.id}">Remover</button>
+            </td>
+          `;
+          tableBody.appendChild(tr);
+        });
+
+        // Eventos de Deleção
+        document.querySelectorAll(".btn-del").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const targetId = parseInt(btn.getAttribute("data-id"));
+            db = db.filter(x => x.id !== targetId);
+            localStorage.setItem("guardiao_pesquisa_dados", JSON.stringify(db));
+            renderDashboard();
+          });
+        });
+      }
+
+      // Função de semear dados mock
+      function seedData() {
+        if (confirm("Deseja carregar 12 entrevistas de simulação para testar o painel visual? Os dados atuais serão combinados.")) {
+          db = [...db, ...DADOS_SIMULADOS_MOCK];
+          // Re-index
+          db.forEach((x, idx) => x.id = idx + 1);
+          localStorage.setItem("guardiao_pesquisa_dados", JSON.stringify(db));
+          renderDashboard();
+        }
+      }
+
+      // Limpar banco de dados
+      function clearDatabase() {
+        if (confirm("Tem certeza que deseja deletar todas as entrevistas salvas? Essa ação não pode ser desfeita.")) {
+          db = [];
+          localStorage.removeItem("guardiao_pesquisa_dados");
+          renderDashboard();
+        }
+      }
+
+      // Exportar para CSV
+      function exportToCSV() {
+        if (db.length === 0) {
+          alert("Nenhum dado disponível para exportação.");
+          return;
+        }
+
+        const headers = ["ID", "Faixa Etaria", "Letramento Digital", "Situacao Golpe", "Canal Principal", "Tipo de Golpe", "Fator Convencimento", "Prejuizo Financeiro", "Atitude Pos-Golpe", "Facilidade Orientacoes", "Sentimento Principal"];
+        
+        let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // BOM para Excel em PT-BR
+        csvContent += headers.join(";") + "\n"; // Usando ponto-e-vírgula por causa do Excel brasileiro
+        
+        db.forEach(x => {
+          const row = [
+            x.id,
+            `"${x.q1}"`,
+            `"${x.q2}"`,
+            `"${x.q3}"`,
+            `"${x.q4}"`,
+            `"${x.q5}"`,
+            `"${x.q6}"`,
+            `"${x.q7}"`,
+            `"${x.q8}"`,
+            `"${x.q9}"`,
+            `"${x.q10}"`
+          ];
+          csvContent += row.join(";") + "\n";
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        
+        const dataAtual = new Date().toISOString().split('T')[0];
+        link.setAttribute("download", `pesquisa_guardiao_rede_${dataAtual}.csv`);
+        document.body.appendChild(link); // Required for FF
+        
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      // Executar renderização inicial
+      renderDashboard();
+    });
+  </script>
+</body>
+</html>

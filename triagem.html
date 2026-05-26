@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guardião da Rede - Responda a algumas perguntas rápidas sobre seu perfil para personalizar as orientações de segurança.">
+  <title>Triagem de Perfil — Guardião da Rede</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header outset-border">
+    <div class="header-container">
+      <a href="index.html" class="logo-link">
+        <span class="logo-icon" aria-hidden="true">🛡️</span>
+        <span class="logo-text">Guardião da Rede</span>
+      </a>
+      <nav class="app-nav" aria-label="Navegação Principal">
+        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+        <a href="relato.html" class="nav-link outset-border active" id="nav-relato">Relatar Suspeita</a>
+        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MARQUEE RETRO -->
+  <div class="marquee-bar inset-border" aria-hidden="true">
+    <marquee scrollamount="4">ℹ️ DICA DA CAPI: Responda a triagem de perfil com atenção. Suas respostas definem o tipo de recomendação prática que nosso sistema de laudos vai gerar!</marquee>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" style="max-width: 550px;">
+    
+    <!-- CAPI WIDGET COM DIÁLOGO DINÂMICO -->
+    <div class="capi-widget" role="note" aria-label="Dica do Assistente">
+      <div class="capi-img-container outset-border">
+        <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
+      </div>
+      <div class="capi-bubble">
+        <div class="capi-bubble-title">Capi diz:</div>
+        <p style="margin-bottom: 0; color: #000;" id="capi-triage-text">
+          "Para começar a triagem do caso, me diga qual é a sua faixa etária! Alguns golpes são direcionados especificamente para faixas etárias de maior vulnerabilidade."
+        </p>
+      </div>
+    </div>
+
+    <!-- JANELA DE PERGUNTAS -->
+    <section class="window outset-border" id="triage-window">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>🧠 TRIAGEM_PERFIL_AKINATOR.EXE</span>
+        </div>
+        <div class="titlebar-controls">
+          <button class="win-btn" aria-label="Minimizar">_</button>
+          <button class="win-btn" aria-label="Maximizar">[]</button>
+          <button class="win-btn" aria-label="Fechar">X</button>
+        </div>
+      </div>
+      
+      <div class="window-body">
+        
+        <!-- PROGRESS BAR RETRO -->
+        <div class="triage-progress-bar inset-border" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="progress-bar">
+          <div class="triage-progress-fill" id="progress-fill" style="width: 20%;"></div>
+        </div>
+
+        <div id="triage-card">
+          <!-- STEP 1: IDADE -->
+          <div class="triage-step active" id="step-1" aria-hidden="false">
+            <div class="triage-question outset-border">Qual é a sua faixa etária?</div>
+            <div class="triage-options">
+              <button class="triage-option-btn outset-border" data-value="16-29" data-field="idade">
+                16 a 29 anos (Jovem)
+              </button>
+              <button class="triage-option-btn outset-border" data-value="30-59" data-field="idade">
+                30 a 59 anos (Adulto)
+              </button>
+              <button class="triage-option-btn outset-border" data-value="60+" data-field="idade">
+                Acima de 60 anos (Melhor Idade)
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 2: REGIÃO -->
+          <div class="triage-step" id="step-2" aria-hidden="true">
+            <div class="triage-question outset-border">Qual a sua região no Brasil?</div>
+            <div class="triage-options">
+              <button class="triage-option-btn outset-border" data-value="Norte" data-field="regiao">
+                Norte (ex: Belém, Manaus...)
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Nordeste" data-field="regiao">
+                Nordeste
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Centro-Oeste" data-field="regiao">
+                Centro-Oeste
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Sudeste" data-field="regiao">
+                Sudeste
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Sul" data-field="regiao">
+                Sul
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: FAMILIARIDADE -->
+          <div class="triage-step" id="step-3" aria-hidden="true">
+            <div class="triage-question outset-border">Seu nível de familiaridade com tecnologia:</div>
+            <div class="triage-options">
+              <button class="triage-option-btn outset-border" data-value="Baixo" data-field="familiaridade">
+                Baixo — Uso apenas básico para enviar mensagens e chamadas
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Médio" data-field="familiaridade">
+                Médio — Consigo usar apps de bancos, redes sociais e fazer compras
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Alto" data-field="familiaridade">
+                Alto — Tenho bastante facilidade digital, trabalho ou estudo com tecnologia
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: CANAL DE CONTATO -->
+          <div class="triage-step" id="step-4" aria-hidden="true">
+            <div class="triage-question outset-border">Por onde ocorreu o contato suspeito?</div>
+            <div class="triage-options">
+              <button class="triage-option-btn outset-border" data-value="WhatsApp" data-field="canal">
+                WhatsApp ou aplicativo de mensagens similar
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Ligação / SMS" data-field="canal">
+                Ligação telefônica clássica ou SMS tradicional
+              </button>
+              <button class="triage-option-btn outset-border" data-value="E-mail" data-field="canal">
+                E-mail recebido na minha caixa
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Rede Social / Chat de Vendas" data-field="canal">
+                Redes sociais ou chat de comércio (Tinder, Instagram, OLX, etc.)
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Outro" data-field="canal">
+                Sites de busca, páginas da internet ou outros meios
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 5: EXPOSIÇÃO DE DADOS PROFISSIONAIS -->
+          <div class="triage-step" id="step-5" aria-hidden="true">
+            <div class="triage-question outset-border">Você disponibiliza/possui dados públicos online?</div>
+            <div class="triage-options">
+              <button class="triage-option-btn outset-border" data-value="MEI" data-field="exposicaoDados">
+                Sim, sou MEI / Microempresário (dados de CNPJ e telefone públicos)
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Socio" data-field="exposicaoDados">
+                Sim, sou Sócio de empresa (dados de quadro societário públicos)
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Influencer" data-field="exposicaoDados">
+                Sim, sou Influenciador / Criador de conteúdo (e-mail/WhatsApp em bios)
+              </button>
+              <button class="triage-option-btn outset-border" data-value="Nenhum" data-field="exposicaoDados">
+                Não, sou apenas usuário comum / não possuo dados profissionais expostos
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- AÇÕES INFERIORES -->
+        <div class="triage-actions" id="triage-nav-actions">
+          <button class="btn btn-secondary outset-border" id="btn-triage-voltar" disabled>Voltar</button>
+          <span style="font-size: 11px; font-weight: bold;" id="step-indicator">Pergunta 1 de 5</span>
+        </div>
+
+      </div>
+      
+      <!-- LOADER -->
+      <div class="window-body loader-container" id="triage-loader" style="display: none;">
+        <div class="spinner"></div>
+        <h3 style="margin-top: 10px; font-family: var(--font-title);">ANALISANDO_EVIDENCIAS.CAB</h3>
+        <p style="text-align: center; font-size: 11px; margin-top: 5px;">
+          Processando dados semânticos do relato e cruzando com o banco de dados comunitário e regulamentos oficiais...
+        </p>
+      </div>
+
+      <div class="window-statusbar">
+        <span>Triagem ativa</span>
+        <span id="wizard-status">Passo 1/5</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
+  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="window outset-border modal-card">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>⚙️ CONFIGURACOES_IA.EXE</span>
+        </div>
+        <div class="titlebar-controls">
+          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <p style="margin-bottom: 10px;">
+          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
+        </p>
+        <div class="form-group">
+          <label for="gemini-key-input" class="form-label">API Key:</label>
+          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
+          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
+          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="app-footer outset-border">
+    <div class="footer-container">
+      <div>🛡️ Guardião da Rede - Cidadão na Rede FIB16</div>
+      <div>Sistema: Online [Port 8080]</div>
+    </div>
+  </footer>
+
+  <script src="js/classificador.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/triagem.js"></script>
+</body>
+</html>

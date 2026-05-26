@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guardião da Rede - Envie um relato anônimo de suspeita de golpe para receber uma análise de risco.">
+  <title>Relatar Suspeita — Guardião da Rede</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header outset-border">
+    <div class="header-container">
+      <a href="index.html" class="logo-link">
+        <span class="logo-icon" aria-hidden="true">🛡️</span>
+        <span class="logo-text">Guardião da Rede</span>
+      </a>
+      <nav class="app-nav" aria-label="Navegação Principal">
+        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+        <a href="relato.html" class="nav-link outset-border active" id="nav-relato">Relatar Suspeita</a>
+        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MARQUEE RETRO -->
+  <div class="marquee-bar inset-border" aria-hidden="true">
+    <marquee scrollamount="4">🔒 SEGURANÇA: Criptografia e anonimato garantidos. Não solicitamos senhas, tokens ou dados de cartões de crédito. Denuncie com segurança!</marquee>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" style="max-width: 650px;">
+    
+    <!-- CAPI WIDGET -->
+    <div class="capi-widget" role="note" aria-label="Instrução da Capi">
+      <div class="capi-img-container outset-border">
+        <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
+      </div>
+      <div class="capi-bubble">
+        <div class="capi-bubble-title">Capi diz:</div>
+        <p style="margin-bottom: 0; color: #000;">
+          "Lembre-se: o relato é <strong>totalmente anônimo</strong>! Não escreva informações pessoais confidenciais nos campos de texto (como sua senha bancária ou o número completo do seu cartão de crédito)."
+        </p>
+      </div>
+    </div>
+
+    <!-- JANELA DE FORMULÁRIO -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>📝 CRIAR_NOVO_RELATO.EXE</span>
+        </div>
+      </div>
+      
+      <div class="window-body">
+        <h2>Denunciar Suspeita de Fraude</h2>
+        <p style="margin-bottom: 15px;">Preencha a ficha do caso para gerar o diagnóstico de segurança:</p>
+
+        <form id="relato-form" novalidate>
+          <!-- TÍTULO -->
+          <div class="form-group">
+            <label for="titulo-relato" class="form-label">Título da denúncia:</label>
+            <input type="text" id="titulo-relato" class="form-input inset-border" required 
+                   placeholder="Ex: Recebi SMS falso cobrando taxa de rastreio de encomenda">
+          </div>
+
+          <!-- DESCRIÇÃO -->
+          <div class="form-group">
+            <label for="descricao-relato" class="form-label">O que aconteceu? (Descrição detalhada):</label>
+            <textarea id="descricao-relato" class="form-textarea inset-border" required
+                      placeholder="Descreva a situação: como entraram em contato? O que disseram? Pediram dinheiro, dados ou fotos? Enviaram algum link?"></textarea>
+          </div>
+
+          <!-- UPLOAD DE PRINT -->
+          <div class="form-group">
+            <label class="form-label">Anexar print da conversa ou comprovante (Opcional):</label>
+            
+            <div class="upload-area inset-border" id="upload-zone" tabindex="0" role="button" aria-label="Carregar Imagem">
+              <span class="upload-icon" aria-hidden="true">📸</span>
+              <span class="upload-text">Arraste e solte a imagem aqui</span>
+              <span class="upload-subtext">ou clique nesta caixa para selecionar a imagem</span>
+              <input type="file" id="imagem-relato" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Preview da imagem anexada -->
+            <div class="upload-preview-container inset-border" id="preview-box">
+              <img src="" alt="Visualização do anexo" class="upload-preview" id="preview-img">
+              <button type="button" class="btn-remove-preview" id="btn-remove">Remover Evidência</button>
+            </div>
+          </div>
+
+          <!-- AÇÕES -->
+          <div class="form-actions" style="margin-top: 20px; border-top: 1.5px solid var(--color-border); padding-top: 16px;">
+            <a href="index.html" class="btn btn-secondary outset-border">Cancelar</a>
+            <button type="submit" class="btn btn-primary outset-border" id="btn-submeter-relato">
+              Avançar para Triagem >>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="window-statusbar">
+        <span>Pronto para coletar dados</span>
+        <span>Modo: Anônimo Seguro</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
+  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="window outset-border modal-card">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>⚙️ CONFIGURACOES_IA.EXE</span>
+        </div>
+        <div class="titlebar-controls">
+          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <p style="margin-bottom: 10px;">
+          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
+        </p>
+        <div class="form-group">
+          <label for="gemini-key-input" class="form-label">API Key:</label>
+          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
+          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
+          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="app-footer outset-border">
+    <div class="footer-container">
+      <div>🛡️ Guardião da Rede - Cidadão na Rede FIB16</div>
+      <div>Sistema: Online [Port 8080]</div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const uploadZone = document.getElementById("upload-zone");
+      const fileInput = document.getElementById("imagem-relato");
+      const previewBox = document.getElementById("preview-box");
+      const previewImg = document.getElementById("preview-img");
+      const btnRemove = document.getElementById("btn-remove");
+      const form = document.getElementById("relato-form");
+      
+      let base64Image = "";
+
+      uploadZone.addEventListener("click", () => fileInput.click());
+
+      uploadZone.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          fileInput.click();
+        }
+      });
+
+      uploadZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadZone.classList.add("dragover");
+      });
+
+      uploadZone.addEventListener("dragleave", () => {
+        uploadZone.classList.remove("dragover");
+      });
+
+      uploadZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadZone.classList.remove("dragover");
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          processFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      fileInput.addEventListener("change", () => {
+        if (fileInput.files && fileInput.files[0]) {
+          processFile(fileInput.files[0]);
+        }
+      });
+
+      btnRemove.addEventListener("click", () => {
+        base64Image = "";
+        previewImg.src = "";
+        previewBox.style.display = "none";
+        uploadZone.style.display = "block";
+        fileInput.value = "";
+      });
+
+      function processFile(file) {
+        if (!file.type.startsWith("image/")) {
+          alert("Por favor, selecione apenas arquivos de imagem.");
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          base64Image = e.target.result;
+          previewImg.src = base64Image;
+          uploadZone.style.display = "none";
+          previewBox.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        const titulo = document.getElementById("titulo-relato").value.trim();
+        const descricao = document.getElementById("descricao-relato").value.trim();
+
+        if (!titulo || !descricao) {
+          alert("Por favor, preencha todos os campos obrigatórios.");
+          return;
+        }
+
+        localStorage.setItem("guardiao_relato_titulo", titulo);
+        localStorage.setItem("guardiao_relato_descricao", descricao);
+        localStorage.setItem("guardiao_relato_imagem", base64Image);
+
+        window.location.href = "triagem.html";
+      });
+    });
+  </script>
+</body>
+</html>
