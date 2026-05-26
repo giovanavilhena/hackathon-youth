@@ -7,7 +7,7 @@
   /* Cores Principais - Cyber Tech Escuro Premium */
   --bg-desktop: #080C14;      /* Fundo ultra-escuro de alta densidade */
   --bg-card: #131D30;         /* Fundo sólido de alto contraste (cinza-azul escuro) */
-  --color-border: #00F5D4;     /* Borda Teal Neon brilhante por padrão */
+  --color-border: rgba(0, 245, 212, 0.22);     /* Borda Teal Neon translúcida e suave para reduzir poluição */
   --color-text: #FFFFFF;       /* Texto principal branco puro para contraste absoluto */
   --color-text-muted: #38BDF8; /* Texto secundário azul celeste claro */
   
@@ -29,10 +29,10 @@
   --font-body: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-mono: 'Fira Code', monospace;
   
-  /* Sombra Plana 2D Neo-Brutalista Neon (Offset Roxo Neon) */
-  --shadow-flat: 4px 4px 0px var(--accent-purple);
-  --shadow-flat-sm: 2px 2px 0px var(--accent-purple);
-  --shadow-flat-lg: 6px 6px 0px var(--accent-purple);
+  /* Sombras Modernas Suaves (Fim da Sombra 2D Brutalista Rígida) */
+  --shadow-flat: 0 8px 30px rgba(0, 0, 0, 0.55);
+  --shadow-flat-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-flat-lg: 0 16px 48px rgba(0, 0, 0, 0.7);
   --shadow-glow: 0 0 20px rgba(0, 245, 212, 0.4);
   
   --transition-normal: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -48,11 +48,6 @@
 
 body {
   background-color: var(--bg-desktop);
-  /* Grade cibernética estilizada com linhas finas azuladas */
-  background-image: 
-    linear-gradient(rgba(0, 245, 212, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 245, 212, 0.02) 1px, transparent 1px);
-  background-size: 35px 35px;
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: 14px;
@@ -115,7 +110,7 @@ a:hover {
 }
 
 .card-flat:hover {
-  transform: translate(-3px, -3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-flat-lg);
   border-color: var(--accent-teal);
 }
@@ -1177,6 +1172,7 @@ p {
    CSS TICKER (REPLACING DEPRECATED MARQUEE)
    ============================================================================== */
 .ticker-wrap {
+  display: none !important;
   width: 100%;
   overflow: hidden;
   background: var(--bg-card);
