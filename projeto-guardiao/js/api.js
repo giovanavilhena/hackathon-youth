@@ -482,6 +482,226 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // ==============================================================================
+  // WIDGET DE CHATBOT FLUTUANTE (CAPI BOT)
+  // ==============================================================================
+  const chatbotWidget = document.getElementById("chatbot-widget");
+  const chatbotToggle = document.getElementById("chatbot-toggle");
+  const btnMinimizeChat = document.getElementById("btn-minimize-chat");
+  const chatbotInput = document.getElementById("chatbot-input");
+  const btnSendChat = document.getElementById("btn-send-chat");
+  const chatbotMessages = document.getElementById("chatbot-messages");
+  const chatbotLoading = document.getElementById("chatbot-loading");
+
+  if (chatbotWidget && chatbotToggle && btnMinimizeChat && chatbotInput && btnSendChat && chatbotMessages) {
+    // Abrir o chat
+    chatbotToggle.addEventListener("click", () => {
+      chatbotWidget.classList.remove("minimized");
+      chatbotInput.focus();
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    });
+
+    // Minimizar o chat
+    btnMinimizeChat.addEventListener("click", () => {
+      chatbotWidget.classList.add("minimized");
+    });
+
+    // Enviar mensagem
+    async function handleChatSubmit() {
+      const text = chatbotInput.value.trim();
+      if (!text) return;
+
+      chatbotInput.value = "";
+      appendChatMessage(text, "user");
+
+      // Mostra o loader
+      chatbotLoading.style.display = "block";
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+      try {
+        const reply = await getChatbotResponse(text);
+        appendChatMessage(reply, "bot");
+      } catch (err) {
+        console.error("Erro na conversação:", err);
+        appendChatMessage("⚠️ Desculpe, encontrei um erro técnico temporário ao processar sua resposta. Tente novamente.", "bot");
+      } finally {
+        chatbotLoading.style.display = "none";
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      }
+    }
+
+    btnSendChat.addEventListener("click", handleChatSubmit);
+    chatbotInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        handleChatSubmit();
+      }
+    });
+
+    // Função para renderizar uma mensagem
+    function appendChatMessage(text, sender) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `chat-message ${sender}`;
+      
+      const meta = document.createElement("div");
+      meta.className = "message-meta";
+      meta.style.fontSize = "10px";
+      meta.style.fontFamily = "var(--font-mono)";
+      meta.style.color = sender === "bot" ? "var(--accent-purple)" : "var(--accent-teal)";
+      meta.style.marginBottom = "2px";
+      
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      meta.textContent = sender === "bot" ? `Capi Bot • ${timeStr}` : `Você • ${timeStr}`;
+      
+      const textDiv = document.createElement("div");
+      textDiv.className = "message-text";
+      textDiv.style.fontSize = "12px";
+      textDiv.style.lineHeight = "1.45";
+      
+      // Sanitização básica e formatação de markdown
+      let formattedText = text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\*(.*?)\*/g, "<strong>$1</strong>")
+        .replace(/\n/g, "<br>");
+      textDiv.innerHTML = formattedText;
+      
+      msgDiv.appendChild(meta);
+      msgDiv.appendChild(textDiv);
+      chatbotMessages.appendChild(msgDiv);
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    // Histórico de mensagens estruturado para a API do Gemini
+    let chatHistory = [];
+
+    // Prompt de treinamento (System Instruction) do Capi Bot especialista em golpes
+    const SYSTEM_INSTRUCTION = `Você é o "Capi Bot", o especialista virtual de inteligência artificial do projeto "Guardião da Rede" (plataforma de segurança cibernética contra golpes virtuais).
+Seu objetivo é ajudar cidadãos a detectar se são vítimas de engenharia social, phishing ou fraudes financeiras de forma amigável, ética e direta.
+
+Regras e Instruções para sua Resposta:
+1. Responda sempre em português (Brasil) de forma concisa, porém muito instrutiva e legível. Use bullet points e negrito.
+2. Seu tom é o de um especialista vigilante digital amigável. Use termos fáceis de entender.
+3. Se o usuário fornecer poucos detalhes (ex: "recebi um link"), faça perguntas simples e focadas (uma de cada vez) para entender o caso, por exemplo: "Como eles te contataram (SMS, WhatsApp, telefone)?", "Que tipo de link era?".
+4. Se identificar um golpe provável, forneça:
+   - Um veredito de risco claro (Ex: "⚠️ RISCO ESTIMADO: ALTO" ou "🟢 RISCO ESTIMADO: BAIXO").
+   - Explicação breve do mecanismo do golpe (ex: phishing fingindo ser os Correios ou sequestro de WhatsApp).
+   - Recomendações urgentes de proteção (Ex: NÃO clique, bloqueie o número, entre em contato com o banco pelo canal oficial).
+5. Incentive o usuário a usar a ferramenta principal "Relatar Suspeita" no menu superior para gerar um dossiê técnico de proteção detalhado para o caso.
+6. Nunca responda a perguntas fora de segurança da informação ou golpes. Se o usuário perguntar sobre outros assuntos, diga de forma bem-humorada que sua mente de capivara hacker está focada em caçar golpistas.`;
+
+    async function getChatbotResponse(userMessage) {
+      const apiKey = localStorage.getItem(GEMINI_STORAGE_KEY);
+
+      // Fallback heurístico se não houver API Key
+      if (!apiKey) {
+        return getHeuristicResponse(userMessage);
+      }
+
+      // Adiciona mensagem do usuário ao histórico local
+      chatHistory.push({
+        role: "user",
+        parts: [{ text: userMessage }]
+      });
+
+      // Limita o histórico das últimas 10 mensagens
+      if (chatHistory.length > 10) {
+        chatHistory = chatHistory.slice(-10);
+      }
+
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: chatHistory,
+        systemInstruction: {
+          parts: [{ text: SYSTEM_INSTRUCTION }]
+        },
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 500
+        }
+      };
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro na requisição para a API do Gemini");
+      }
+
+      const data = await response.json();
+      const botText = data.candidates[0].content.parts[0].text.trim();
+
+      // Adiciona a resposta do bot ao histórico
+      chatHistory.push({
+        role: "model",
+        parts: [{ text: botText }]
+      });
+
+      return botText;
+    }
+
+    // Assistente local com regras heurísticas simples
+    function getHeuristicResponse(message) {
+      const lower = message.toLowerCase();
+      let response = `⚠️ *[MODO OFFLINE / HEURÍSTICO EM EXECUÇÃO]*\n\n`;
+      response += `Para análises inteligentes profundas com IA, ative sua chave Gemini no ícone ⚙️ no menu superior.\n\n`;
+
+      let matched = false;
+
+      if (lower.includes("pix") || lower.includes("urgente") || lower.includes("dinheiro") || lower.includes("transfer") || lower.includes("familiar") || lower.includes("filho") || lower.includes("filha")) {
+        response += `🔴 *RISCO ESTIMADO: ALTO RISCO (Fraude Pix / Falso Familiar)*\n\n`;
+        response += `Parece uma tentativa de golpe financeira por WhatsApp ou rede social:\n`;
+        response += `• *NÃO transfira qualquer valor.*\n`;
+        response += `• Ligue imediatamente para o telefone normal (de voz) do seu familiar usando o número antigo.\n`;
+        response += `• Golpistas usam fotos clonadas e fingem urgência para impedir você de pensar racionalmente.\n\n`;
+        response += `Dica: Use a aba *Relatar Suspeita* do site para analisar o caso detalhadamente.`;
+        matched = true;
+      }
+      else if (lower.includes("link") || lower.includes("correios") || lower.includes("taxa") || lower.includes("rastreio") || lower.includes("siga") || lower.includes("entrega") || lower.includes("alfandega")) {
+        response += `🔴 *RISCO ESTIMADO: ALTO RISCO (Phishing de Encomendas)*\n\n`;
+        response += `Golpes que imitam taxas dos Correios ou transportadoras são extremamente frequentes no momento:\n`;
+        response += `• *NÃO clique no link e nunca digite dados de cartão de crédito.*\n`;
+        response += `• Verifique o código de rastreio direto no aplicativo oficial ou site oficial dos Correios (correios.com.br).\n`;
+        response += `• Domínios suspeitos costumam terminar em \`.site\`, \`.top\`, \`.xyz\` em vez de \`.com.br\`.\n\n`;
+        response += `Dica: Use a aba *Relatar Suspeita* do site para analisar o caso detalhadamente.`;
+        matched = true;
+      }
+      else if (lower.includes("vaga") || lower.includes("trabalho") || lower.includes("renda") || lower.includes("tarefa") || lower.includes("ganhar") || lower.includes("emprego") || lower.includes("extra")) {
+        response += `🔴 *RISCO ESTIMADO: ALTO RISCO (Falso Emprego / Tarefas Pix)*\n\n`;
+        response += `Ofertas fáceis de trabalho via WhatsApp ou Telegram são falsas:\n`;
+        response += `• Eles pedem para você fazer pequenas tarefas (como curtir vídeos) e te pagam valores baixos no início.\n`;
+        response += `• Depois, exigem que você deposite valores maiores para 'subir de nível' ou 'sacar a comissão'. É uma pirâmide financeira.\n`;
+        response += `• *NÃO deposite dinheiro.* Bloqueie o recrutador imediatamente.\n\n`;
+        response += `Dica: Use a aba *Relatar Suspeita* do site para analisar o caso detalhadamente.`;
+        matched = true;
+      }
+      else if (lower.includes("banco") || lower.includes("0800") || lower.includes("bloqueada") || lower.includes("compra") || lower.includes("seguranca") || lower.includes("cartao") || lower.includes("senha")) {
+        response += `🔴 *RISCO ESTIMADO: ALTO RISCO (Falsa Central de Segurança)*\n\n`;
+        response += `Ligações alertando sobre transações ou transferências suspeitas na sua conta bancária costumam ser fraudes:\n`;
+        response += `• O golpista finge ser funcionário da área de segurança e pede que você transfira o dinheiro para uma 'conta segura' temporária.\n`;
+        response += `• *Desligue imediatamente.* O banco nunca liga solicitando transferências Pix, depósitos ou senhas.\n`;
+        response += `• Ligue para o número oficial impresso atrás do seu cartão físico.\n\n`;
+        response += `Dica: Use a aba *Relatar Suspeita* do site para analisar o caso detalhadamente.`;
+        matched = true;
+      }
+
+      if (!matched) {
+        response += `💡 *RISCO ESTIMADO: ANÁLISE INCONCLUSIVA (Modo Offline)*\n\n`;
+        response += `Não consegui identificar termos de golpes conhecidos na sua mensagem.\n\n`;
+        response += `Por favor, ative a chave API do Gemini no ícone ⚙️ no menu superior para conversar de forma livre e profunda com a inteligência artificial, ou descreva a suspeita citando se envolveu mensagens, WhatsApp, links, ligações ou transferências Pix.`;
+      }
+
+      return response;
+    }
+  }
 });
 
 
