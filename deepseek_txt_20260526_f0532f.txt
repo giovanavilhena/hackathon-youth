@@ -1,0 +1,90 @@
+5 ÁREAS DE MAIOR INCIDÊNCIA DE GOLPES VIRTUAIS NO BRASIL
+Baseado em tendências de relatórios recentes de segurança digital
+(Fonte de referência: DataSenado 2024, Anuário Brasileiro de Segurança Pública, CERT.br, CGI.br)
+
+================================================================================
+
+ÁREA 1: FRAUDES EM APLICATIVOS DE MENSAGENS (WHATSAPP)
+Tipo de golpe mais comum:
+Golpe da clonagem de conta, em que criminosos se passam por um familiar ou amigo 
+da vítima. Exemplo: mensagem como "Mãe, perdi meu celular, pode transferir um Pix 
+para este número?" usando foto real da pessoa.
+Número de vítimas estimado: 153 mil em 2024 (dados Febraban) [citation:6].
+Perfil típico da vítima:
+- Faixa etária: Extremos da pirâmide etária (jovens de 16 a 29 anos e idosos 
+acima de 60 anos). Idosos são alvos mais frequentes por terem menor intimidade 
+com tecnologia; jovens caem por excesso de confiança [citation:1][citation:6].
+- Escolaridade / Renda: Entre idosos, atinge todos os níveis de escolaridade. 
+O senso comum aponta maior vulnerabilidade de pessoas com menor familiaridade 
+digital [citation:1].
+
+================================================================================
+
+ÁREA 2: COMÉRCIO ELETRÔNICO FRAUDULENTO (FALSAS VENDAS)
+Tipo de golpe mais comum:
+Lojas virtuais falsas e anúncios em redes sociais com preços muito abaixo do 
+mercado. A vítima paga via Pix ou boleto e não recebe o produto. Também inclui 
+o "golpe da maquininha", com adulteração de valores.
+Número de vítimas estimado: 150 mil em 2024 (dados Febraban). 40% da população 
+de SP já caiu em compras de lojas inexistentes [citation:6][citation:10].
+Perfil típico da vítima:
+- Faixa etária: Adultos entre 30 e 59 anos. São os que mais realizam transações 
+online e têm renda para consumo [citation:10].
+- Escolaridade: Ensino superior.
+- Renda: Mais alta. O uso intenso da internet para compras aumenta a exposição, 
+mesmo entre pessoas com maior nível educacional [citation:10].
+
+================================================================================
+
+ÁREA 3: ENGENHARIA SOCIAL BANCÁRIA E FINANCEIRA
+Tipo de golpe mais comum:
+Golpe da falsa central bancária ou do falso funcionário de banco. O criminoso 
+liga, alega uma transação suspeita e induz a vítima a fornecer senhas, dados do 
+cartão ou a fazer transferências para regularizar um falso problema.
+Número de vítimas estimado: 105 mil em 2024 (dados Febraban) [citation:6].
+Perfil típico da vítima:
+- Faixa etária: Principalmente idosos (60+). Criminosos exploram a confiança em 
+autoridades e a menor familiaridade com procedimentos digitais de segurança 
+[citation:1][citation:6].
+- Escolaridade: Variada, com maior incidência entre pessoas com menor acesso a 
+informações sobre segurança digital.
+- Renda: Aposentados e pensionistas de renda fixa.
+
+================================================================================
+
+ÁREA 4: PHISHING E CAPTURA DE DADOS PESSOAIS
+Tipo de golpe mais comum:
+E-mails, SMS ou sites falsos que imitam bancos, lojas ou serviços do governo 
+para roubar credenciais de acesso. O CERT.br classifica esta categoria como 
+"Fraude/Phishing" [citation:3].
+Perfil típico da vítima:
+- Faixa etária: Distribuído uniformemente entre adultos de todas as idades. 
+A pesquisa DataSenado 2024 não encontrou perfil claro por faixa etária: 
+as vítimas se distribuem proporcionalmente às características socioeconômicas 
+da população brasileira [citation:2].
+- Escolaridade: Todos os níveis. Um ataque bem elaborado pode enganar até 
+usuários experientes.
+- Renda: Sem perfil específico identificado.
+
+================================================================================
+
+ÁREA 5: FRAUDES EM PLATAFORMAS DE RELACIONAMENTO E COMUNIDADES VIRTUAIS
+Tipo de golpe mais comum:
+Golpe do falso romance (catfishing) ou do falso investimento. O criminoso cria 
+um perfil falso, constrói um relacionamento de confiança e depois pede dinheiro 
+alegando uma emergência ou induz a vítima a investir em esquemas fraudulentos.
+Plataformas de comunidades registram a maior taxa de suspeita de fraude digital 
+no Brasil: 15,2% das transações são suspeitas [citation:9].
+Perfil típico da vítima:
+- Faixa etária: Geração Z (nascidos entre 1997 e 2010), que foi a que mais 
+relatou perdas financeiras em golpes (38%), enquanto Baby Boomers (1946-1964) 
+foram os que menos relataram (11%) [citation:9].
+- Escolaridade: Predominantemente pessoas com maior familiaridade com redes 
+sociais e aplicativos de relacionamento.
+
+================================================================================
+OBSERVAÇÃO: Os dados específicos de perfil de vítima por escolaridade e renda 
+são limitados. A pesquisa DataSenado 2024 [citation:2] não encontrou viés 
+socioeconômico significativo na distribuição geral de vítimas. As tendências 
+aqui descritas baseiam-se em análises qualitativas de especialistas e pesquisas 
+regionais citadas nas fontes.

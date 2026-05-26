@@ -1,0 +1,54 @@
+CARACTERÍSTICAS MAIS COMUNS DE GOLPES VIRTUAIS
+==============================================
+
+1. URGÊNCIA OU AMEAÇA ARTIFICIAL
+   Exemplo: "Seu acesso ao banco será bloqueado em 30 minutos. Clique aqui 
+   para evitar o cancelamento da sua conta." O golpista força uma decisão 
+   rápida para impedir o raciocínio lógico.
+
+2. OFERTA MUITO VANTAJOSA (ESQUEMA PONZI/PIRÂMIDE)
+   Exemplo: "Invista R$ 50 e receba R$ 5.000 em 24 horas! Método secreto 
+   usando inteligência artificial no Pix." Promessas de retorno 
+   desproporcional e sem lastro real.
+
+3. SOLICITAÇÃO DE DADOS SENSÍVEIS (PHISHING)
+   Exemplo: Um falso e-mail dos Correios pede que você pague uma "taxa de 
+   liberação alfandegária" fornecendo CPF, foto do RG e número do cartão 
+   de crédito em um site falso.
+
+4. ERRO GRAMATICAL E DE FORMATAÇÃO
+   Exemplo: Um suposto comunicado do "Banco do Brasil" escrito com letras 
+   trocadas, acentos inexistentes, uso de "VC" no lugar de "você" e 
+   logotipos borrados. Isso serve como filtro para achar vítimas menos 
+   atentas.
+
+5. FALSA AUTORIDADE (SPOOFING DE IDENTIDADE)
+   Exemplo: O criminoso se passa pelo gerente do banco via WhatsApp, usando 
+   uma foto de terno e o logo da instituição, e pede para você fazer um 
+   "teste de token" fornecendo o código enviado por SMS.
+
+6. PAGAMENTO ANTECIPADO (FEE FRAUD)
+   Exemplo: "Você ganhou um sorteio! Mas para receber o prêmio, é preciso 
+   pagar R$ 200 de frete e taxa de documentação adiantado via boleto ou 
+   Pix para uma conta de pessoa física."
+
+7. ANEXO OU LINK INESPERADO
+   Exemplo: Um e-mail falso de nota fiscal (suposto .pdf) que, na verdade, 
+   é um arquivo executável (.exe) ou um link encurtado que instala um 
+   programa espião para roubar senhas bancárias.
+
+8. ISOLAMENTO E SIGILO
+   Exemplo: "É uma investigação sigilosa da Polícia Federal sobre sua conta. 
+   Não conte a ninguém da sua família ou ao banco, senão você pode ser preso 
+   por obstrução de justiça." O objetivo é impedir que uma segunda pessoa 
+   alerte a vítima.
+
+9. PRESSÃO EMOCIONAL (GOLPE DO AMOR OU SEQUESTRO)
+   Exemplo: Uma mensagem de WhatsApp afirmando ser um filho(a) que perdeu o 
+   celular e está em apuros: "Pai, bati o carro e preciso transferir 
+   R$ 3.000 agora para esse número, depois te explico."
+
+10. ERRO DE CANAL (MIGRAÇÃO DE CONVERSA)
+    Exemplo: A conversa começa no chat da OLX/Marketplace, mas o suposto 
+    comprador pede para continuar o contato via WhatsApp particular e envia 
+    um link falso de "confirmação de venda" para roubar os dados do cartão.

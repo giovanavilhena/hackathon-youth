@@ -1,0 +1,25 @@
+MVP — SISTEMA COMUNITÁRIO DE ALERTA CONTRA GOLPES
+
+O MVP é um site com assistente virtual integrado, funcionando como uma central 
+comunitária de proteção contra golpes. O uso é simples e não exige cadastro. Ao 
+acessar a plataforma, o usuário encontra duas opções principais: "Relatar uma 
+Suspeita" e "Consultar Golpes Conhecidos".
+
+No fluxo de relato, a pessoa descreve de forma anônima o que aconteceu: escreve 
+um título e uma breve descrição da situação suspeita e, se tiver, anexa uma 
+imagem (como um print de conversa ou um comprovante). Em menos de um minuto, o 
+sistema faz três coisas em sequência: primeiro, aplica uma triagem 
+sociodemográfica para contextualizar o relato — idade, região e grau de 
+familiaridade digital do usuário; depois, a inteligência artificial compara o 
+relato com a base de dados de golpes já registrados pela comunidade e com guias 
+oficiais de prevenção; por fim, retorna uma análise clara com o potencial de 
+golpe (baixo, médio ou alto) e orientações práticas sobre o que fazer. Se a 
+análise contiver algum erro, o usuário pode solicitar correção por e-mail ou 
+ticket, e um especialista humano revisa o caso.
+
+A segunda parte do MVP é o Hub Público de Golpes, uma vitrine de acesso livre 
+onde qualquer pessoa — mesmo sem fazer um relato — pode navegar pelos golpes 
+mais comuns do momento, ver exemplos reais (com dados preservados) e aprender a 
+identificar ameaças. Toda a experiência é guiada por um chatbot que conversa em 
+linguagem natural, tornando a plataforma acessível tanto para jovens acostumados 
+a apps quanto para idosos com pouca experiência digital.

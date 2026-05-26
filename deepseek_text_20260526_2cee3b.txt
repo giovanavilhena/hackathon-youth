@@ -1,0 +1,24 @@
+MVP — CENTRAL DE ALERTA CONTRA GOLPES
+
+Nosso MVP é um site simples com um chatbot inteligente. Não exige cadastro, 
+funciona no celular e no computador. A ideia é clara: qualquer pessoa pode 
+relatar uma suspeita de golpe e receber uma análise rápida, ou simplesmente 
+consultar os golpes que estão circulando.
+
+COMO FUNCIONA O RELATO:
+Você acessa o site e digita, anonimamente, um título curto e uma descrição do 
+que aconteceu. Se tiver um print da conversa ou comprovante, pode anexar a 
+imagem. Em seguida, o sistema faz perguntas rápidas sobre seu perfil (idade, 
+região, nível de familiaridade com tecnologia). Depois, a IA entra em ação: 
+ela compara seu relato com milhares de outros já registrados pela comunidade e 
+com guias oficiais de segurança, como os do Banco Central e da Febraban. Em 
+segundos, você recebe uma classificação — potencial de golpe baixo, médio ou 
+alto — e orientações práticas sobre como agir. Se a análise estiver errada, 
+você pode solicitar revisão por e-mail. Um especialista humano corrige o caso, 
+e o sistema aprende com o erro.
+
+HUB PÚBLICO DE GOLPES:
+Mesmo sem fazer um relato, qualquer pessoa pode navegar pelo hub público. Ele 
+mostra os golpes mais frequentes do momento, com exemplos reais anonimizados e 
+dicas de prevenção. É como uma vitrine viva, atualizada pela própria comunidade, 
+que ajuda a população a se proteger de forma simples, rápida e colaborativa.

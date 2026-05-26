@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guardião da Rede - Hub Público de Golpes Recentes. Aprenda a reconhecer as fraudes virtuais mais comuns no Brasil.">
+  <title>Hub de Golpes Conhecidos — Guardião da Rede</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header outset-border">
+    <div class="header-container">
+      <a href="index.html" class="logo-link">
+        <span class="logo-icon" aria-hidden="true">🛡️</span>
+        <span class="logo-text">Guardião da Rede</span>
+      </a>
+      <nav class="app-nav" aria-label="Navegação Principal">
+        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+        <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+        <a href="hub.html" class="nav-link outset-border active" id="nav-hub">Dicionário de Golpes</a>
+        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MARQUEE RETRO -->
+  <div class="marquee-bar inset-border" aria-hidden="true">
+    <marquee scrollamount="4">📖 DICIONÁRIO DE FRAUDES: Consulte o glossário de golpes mapeados das diretrizes oficiais de segurança e saiba como se antecipar aos criminosos!</marquee>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <!-- CAPI WIDGET DICTIONARY -->
+    <div class="capi-widget" role="note" aria-label="Aviso da Capi">
+      <div class="capi-img-container outset-border">
+        <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
+      </div>
+      <div class="capi-bubble">
+        <div class="capi-bubble-title">Capi diz:</div>
+        <p style="margin-bottom: 0; color: #000;">
+          "Este é o nosso Dicionário de Golpes Virtuais! Use a barra de pesquisa ou clique nos botões cinzas de filtro para estudar os golpes mais aplicados no Brasil!"
+        </p>
+      </div>
+    </div>
+
+    <!-- JANELA DO DICIONÁRIO -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>📖 DICIONARIO_GOLPES_VIRTUAIS.HLP</span>
+        </div>
+      </div>
+      
+      <div class="window-body">
+        <h2>Dicionário Temático de Golpes</h2>
+        <p style="margin-bottom: 15px;">Filtre ou busque termos chave para compreender o modus operandi dos criminosos:</p>
+
+        <!-- SEARCH AND FILTER BAR -->
+        <div class="search-filter-bar inset-border">
+          <input type="text" id="search-bar" class="search-input inset-border" 
+                 placeholder="Digite termos de busca (ex: pix, boleto, tinder, central, banco)...">
+          
+          <div class="filter-categories" id="filter-container">
+            <button class="filter-chip active outset-border" data-category="all">Todos</button>
+            <button class="filter-chip outset-border" data-category="whatsapp">WhatsApp / Mensagens</button>
+            <button class="filter-chip outset-border" data-category="ecommerce">E-commerce / Compras</button>
+            <button class="filter-chip outset-border" data-category="bancos">Engenharia Bancária</button>
+            <button class="filter-chip outset-border" data-category="phishing">Phishing / Links</button>
+            <button class="filter-chip outset-border" data-category="relacionamento">Romance / Vagas / Investimento</button>
+          </div>
+        </div>
+
+        <!-- SCAMS GRID -->
+        <div class="scams-grid" id="scams-grid-container" aria-live="polite">
+          <!-- Preenchido via JS -->
+        </div>
+
+      </div>
+
+      <div class="window-statusbar">
+        <span>Filtro de Dicionário Ativo</span>
+        <span id="scams-count">7 Categorias Carregadas</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
+  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="window outset-border modal-card">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>⚙️ CONFIGURACOES_IA.EXE</span>
+        </div>
+        <div class="titlebar-controls">
+          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <p style="margin-bottom: 10px;">
+          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
+        </p>
+        <div class="form-group">
+          <label for="gemini-key-input" class="form-label">API Key:</label>
+          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
+          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
+          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="app-footer outset-border">
+    <div class="footer-container">
+      <div>🛡️ Guardião da Rede - Cidadão na Rede FIB16</div>
+      <div>Sistema: Online [Port 8080]</div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script>
+    const GOLPES_DATABASE = [
+      {
+        titulo: "Golpe do Falso Familiar (WhatsApp Clone)",
+        categoria: "whatsapp",
+        gravidade: "Risco Alto",
+        incidencia: "~153 mil vítimas em 2024 (dados Febraban)",
+        perfil: "Extremos da pirâmide (jovens 16-29 e idosos 60+)",
+        descricao: "O criminoso usa uma foto real de um familiar (como filho ou neto) no WhatsApp e entra em contato fingindo ter mudado de celular. Ele alega uma urgência financeira e pede uma transferência Pix imediata.",
+        prevencao: "Sempre faça uma ligação convencional ou de vídeo para o número antigo do familiar para validar a história antes de fazer qualquer Pix."
+      },
+      {
+        titulo: "Falsa Central Telefônica de Banco",
+        categoria: "bancos",
+        gravidade: "Risco Alto",
+        incidencia: "~105 mil vítimas em 2024 (dados Febraban)",
+        perfil: "Principalmente idosos (60+) de todas as escolaridades",
+        descricao: "Criminosos ligam simulando o número do banco (máscara 0800) alegando compras suspeitas na conta da vítima. Sob pretexto de 'cancelar' a transação, instruem a vítima a fazer transferências Pix para uma conta de segurança ou a digitar a senha no telefone.",
+        prevencao: "Desligue na hora. Bancos nunca pedem senhas ou transferências sob pretexto de segurança. Ligue para o número oficial impresso atrás do seu cartão bancário."
+      },
+      {
+        titulo: "Loja Virtual Falsa / Anúncio Desconto Fake",
+        categoria: "ecommerce",
+        gravidade: "Risco Alto",
+        incidencia: "Alta (40% da população do estado de SP já foi vítima)",
+        perfil: "Adultos de 30 a 59 anos (ativos em compras online)",
+        descricao: "Anúncios em redes sociais oferecem produtos muito cobiçados (como celulares e TVs) por menos da metade do preço normal. O site imita grandes varejistas. O cliente compra, paga via Pix ou boleto, e a loja desaparece sem enviar o produto.",
+        prevencao: "Evite comprar por links diretos de redes sociais. Verifique a reputação no Reclame Aqui e confira se a URL do site é a oficial."
+      },
+      {
+        titulo: "Golpe da Maquininha com Defeito",
+        categoria: "ecommerce",
+        gravidade: "Risco Médio",
+        incidencia: "Frequente em capitais e aplicativos de delivery",
+        perfil: "Consumidores urbanos em geral",
+        descricao: "O entregador de delivery diz que a maquininha está com a tela borrada, defeito no sinal ou sem visor. Ele digita um valor de milhares de reais (ex: R$ 3.000) no lugar de uma taxa pequena (ex: R$ 5) e cobra o cliente.",
+        prevencao: "Nunca aproxime ou insira o cartão em maquininhas sem visor funcionando. Exija o comprovante ou pague pelo aplicativo do serviço."
+      },
+      {
+        titulo: "Phishing dos Correios (Taxa Alfandegária)",
+        categoria: "phishing",
+        gravidade: "Risco Médio",
+        incidencia: "Milhões de envios diários no Brasil",
+        perfil: "Todos os perfis (consumidores de e-commerce internacional)",
+        descricao: "A vítima recebe um SMS dizendo que sua encomenda dos Correios foi barrada e precisa de pagamento de taxa de liberação alfandegária. A mensagem inclui um link que simula com perfeição o portal dos Correios, onde é cobrado um Pix.",
+        prevencao: "Não clique em links de SMS. Copie o código de rastreio e faça a consulta manual diretamente no site oficial dos Correios."
+      },
+      {
+        titulo: "Falso Romance Virtual (Catfishing)",
+        categoria: "relacionamento",
+        gravidade: "Risco Alto",
+        incidencia: "Representa 15.2% das tentativas de fraude digital",
+        perfil: "Predominantemente jovens e adultos solitários",
+        descricao: "Criminosos usam fotos de outras pessoas no Tinder ou Instagram e constroem um relacionamento amoroso virtual com a vítima. Após ganhar confiança, inventam emergências (acidentes, impostos) e passam a pedir dinheiro.",
+        prevencao: "Nunca envie dinheiro para pessoas que conheceu na internet e nunca viu pessoalmente. Faça buscas reversas das fotos do perfil."
+      },
+      {
+        titulo: "Falsas Vagas de Emprego Remoto (Click Farm)",
+        categoria: "relacionamento",
+        gravidade: "Risco Alto",
+        incidencia: "Muito frequente em mensagens de WhatsApp/Telegram",
+        perfil: "Jovens em busca de renda extra ou primeiro emprego",
+        descricao: "Vagas oferecidas no WhatsApp prometendo comissão para curtir vídeos no TikTok. Para aumentar os ganhos, exigem depósitos Pix de garantia. A vítima faz os depósitos e os criminosos bloqueiam o contato.",
+        prevencao: "Nenhum emprego legítimo cobra taxas ou pede depósitos Pix para liberar salários. Desconfie de rendas extras fáceis."
+      }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const gridContainer = document.getElementById("scams-grid-container");
+      const searchBar = document.getElementById("search-bar");
+      const filterChips = document.querySelectorAll(".filter-chip");
+      const scamsCount = document.getElementById("scams-count");
+      
+      let activeCategory = "all";
+      let searchTimeout = null;
+
+      renderScams();
+
+      searchBar.addEventListener("input", () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          renderScams();
+        }, 150);
+      });
+
+      filterChips.forEach(chip => {
+        chip.addEventListener("click", () => {
+          document.querySelector(".filter-chip.active").classList.remove("active");
+          chip.classList.add("active");
+
+          activeCategory = chip.getAttribute("data-category");
+          renderScams();
+        });
+      });
+
+      function renderScams() {
+        const query = searchBar.value.trim().toLowerCase();
+        gridContainer.innerHTML = "";
+
+        const filtered = GOLPES_DATABASE.filter(golpe => {
+          const matchCategory = activeCategory === "all" || golpe.categoria === activeCategory;
+          const matchQuery = !query || 
+            golpe.titulo.toLowerCase().includes(query) || 
+            golpe.descricao.toLowerCase().includes(query) ||
+            golpe.prevencao.toLowerCase().includes(query);
+          
+          return matchCategory && matchQuery;
+        });
+
+        scamsCount.textContent = `${filtered.length} Itens Encontrados`;
+
+        if (filtered.length === 0) {
+          gridContainer.innerHTML = `
+            <div class="no-results" role="alert" style="width: 100%; text-align: center; padding: 20px; border: 1.5px dashed var(--color-border); background: #FFF;">
+              <h3>Nenhum golpe encontrado</h3>
+              <p>Tente buscar por termos mais genéricos ou mude a categoria de filtro.</p>
+            </div>
+          `;
+          return;
+        }
+
+        filtered.forEach(golpe => {
+          const card = document.createElement("article");
+          card.className = "card scam-card outset-border";
+
+          let catName = golpe.categoria.toUpperCase();
+          if (golpe.categoria === "ecommerce") catName = "E-COMMERCE";
+          if (golpe.categoria === "relacionamento") catName = "ROMANCE / VAGAS / INVEST.";
+
+          const isHigh = golpe.gravidade.includes("Alto");
+          const severityColor = isHigh ? "var(--risk-high)" : "var(--risk-medium)";
+
+          card.innerHTML = `
+            <div class="scam-header">
+              <span class="scam-area-badge" style="font-size: 10px; color: var(--accent-teal); font-weight: bold;">[${catName}]</span>
+              <span class="scam-severity" style="color: ${severityColor}; font-size: 11px;">● ${golpe.gravidade}</span>
+            </div>
+            
+            <div class="scam-body">
+              <h3 style="margin-bottom: 5px; color: var(--accent-teal); font-size: 13px;">${golpe.titulo}</h3>
+              <p style="font-size: 11.5px; color: #333; margin-bottom: 8px;">${golpe.descricao}</p>
+              
+              <ul class="scam-details" style="border-top: 1px dashed var(--color-border); padding-top: 6px; font-size: 10.5px; margin-bottom: 8px;">
+                <li class="scam-detail-item">
+                  <span class="scam-detail-label">Incidência:</span>
+                  <span class="scam-detail-value" style="color: #555;">${golpe.incidencia}</span>
+                </li>
+                <li class="scam-detail-item">
+                  <span class="scam-detail-label">Alvos Típicos:</span>
+                  <span class="scam-detail-value" style="color: #555;">${golpe.perfil}</span>
+                </li>
+              </ul>
+
+              <div class="inset-border" style="background: #FFFBEB; padding: 6px; font-size: 11px; border-left: 3px solid var(--accent-teal);">
+                <strong style="color: var(--accent-teal); font-size: 10px;">✓ Prevenção Oficial:</strong>
+                <p style="margin-bottom: 0; margin-top: 2px;">${golpe.prevencao}</p>
+              </div>
+            </div>
+          `;
+          gridContainer.appendChild(card);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

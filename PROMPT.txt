@@ -1,0 +1,198 @@
+# CONTEXTO DO PROJETO
+
+Eu estou participando de um hackathon chamado "Cidadão na Rede - FIB16", que ocorre em Belém/PA. Meu projeto se chama "Guardião da Rede" e tem como tema:
+
+- Segurança digital
+- Uso responsável e deveres na Internet
+
+## Problema que resolvemos
+Os vídeos do Cidadão na Rede são excelentes para conscientização geral, mas não oferecem suporte personalizado ou baseado na experiência da comunidade. Vítimas de golpes virtuais não têm um canal anônimo e inteligente para verificar se uma situação suspeita é realmente um golpe.
+
+## Nossa solução (MVP)
+Um site responsivo com:
+1. Formulário anônimo para relato de suspeita de golpe (título + descrição + imagem opcional)
+2. Triagem sociodemográfica opcional (similar ao Akinator - perguntas curtas sobre perfil da vítima)
+3. Motor de análise baseado em similaridade com relatos anteriores + diretrizes oficiais
+4. Resposta automática com nível de risco (baixo/médio/alto) e recomendações
+5. Hub público com categorias de golpes mais reportados
+6. Chatbot no Telegram (versão simplificada) para relatos rápidos
+
+## Público-alvo
+- Pessoas leigas em tecnologia
+- Vítimas potenciais de golpes (idosos, pequenos empresários, MEIs, usuários comuns)
+- Faixa etária indefinida (acessível para todos)
+
+---
+
+# ACESSO AOS ARQUIVOS DA PESQUISA
+
+Eu tenho uma pasta com arquivos .txt que contêm as respostas de pesquisas que fiz usando o DeepSeek. Esses arquivos contêm:
+
+- Características universais de golpes virtuais (com exemplos)
+- Áreas com maior incidência de golpes no Brasil
+- Perfil típico das vítimas por tipo de golpe
+- Fluxo de perguntas para a triagem sociodemográfica
+
+## SOLICITAÇÃO
+Por favor, acesse a pasta que eu indicar (vou passar o caminho agora) e leia TODOS os arquivos .txt que estão nela. Extraia as informações relevantes para alimentar o sistema de classificação de golpes do meu site.
+
+[INSIRA AQUI O CAMINHO COMPLETO DA SUA PASTA COM OS ARQUIVOS TXT]
+Exemplo: C:\Users\SeuNome\Desktop\hackathon\pesquisas\
+
+---
+
+# TAREFA PRINCIPAL
+
+Com base no conteúdo desses arquivos, você deve:
+
+1. **CRIAR UM SITE COMPLETO** (HTML/CSS/JS) com as seguintes páginas:
+   - Página inicial com apresentação do projeto "Guardião da Rede"
+   - Página de relato anônimo (formulário com título, descrição, upload de imagem)
+   - Página de triagem (perguntas sociodemográficas estilo Akinator)
+   - Página de resultado (exibe nível de risco + orientações)
+   - Hub de golpes conhecidos (lista categorizada extraída dos arquivos .txt)
+
+2. **IMPLEMENTAR A LÓGICA DE CLASSIFICAÇÃO**:
+   - Use os dados dos arquivos .txt para criar um array/objeto JavaScript com os padrões de golpes conhecidos
+   - Implemente uma função que compara o relato do usuário com esses padrões e retorna:
+     - Nível de risco (baixo: 0-33%, médio: 34-66%, alto: 67-100%)
+     - Explicação do porquê aquilo parece ou não um golpe
+     - Ações recomendadas (ex: "não clique em links", "verifique o remetente", "entre em contato pelo canal oficial")
+
+3. **CRIAR UMA VERSÃO SIMPLIFICADA DO CHATBOT PARA TELEGRAM**:
+   - Gere o código base de um bot para Telegram (pode ser em Python usando python-telegram-bot ou Node.js com telegraf)
+   - O bot deve receber uma descrição de suspeita de golpe e responder com o nível de risco
+   - Explique como hospedar gratuitamente (ex: Render, Fly.io ou Replit)
+
+4. **GARANTIR ACESSIBILIDADE E RESPONSIVIDADE**:
+   - O site deve funcionar bem no celular (mobile-first)
+   - Contraste adequado para leitura
+   - Compatível com leitores de tela (basicão)
+
+---
+
+# OBTENÇÃO DE API KEY (COTA GRATUITA)
+
+Você precisará usar uma API de IA em algum momento (ex: para refinar as respostas ou gerar recomendações personalizadas). Siga as instruções abaixo, por ordem de preferência:
+
+## Opção 1: DeepSeek (via API oficial - mais barata do mercado)
+1. Acesse https://platform.deepseek.com/
+2. Crie uma conta (pode ser com e-mail do Google)
+3. Vá em "Chaves de API" no menu lateral esquerdo
+4. Clique em "Criar nova chave de API"
+5. Dê um nome (ex: "hackathon-guardiao")
+6. Copie a chave gerada (será algo como sk-...)
+7. Para usar a API, você precisa comprar créditos (é pré-pago):
+   - O preço é ~R$ 0,14 por milhão de tokens de entrada e ~R$ 0,55 por milhão de tokens de saída
+   - Para teste, basta depositar o valor mínimo (geralmente US$ 5 ou equivalente)
+   - **Ou**, se quiser testar sem pagar agora, use o chat web do DeepSeek gratuitamente (mas aí não será via API)
+
+## Opção 2: Google Gemini (com AI Studio gratuito - sem custo inicial)
+1. Acesse https://aistudio.google.com/
+2. Faça login com sua conta Google
+3. Clique em "Get API key" no menu lateral
+4. Clique em "Create API key"
+5. Escolha "Gemini API" (a chave será gerada automaticamente)
+6. Copie a chave e guarde
+
+✅ **O Gemini tem uma cota gratuita generosa** (60 requisições por minuto, sem custo por vários meses para uso moderado). Esta é a opção mais recomendada para o hackathon, pois você não precisa colocar cartão de crédito.
+
+## Como usar a chave no Antigravity/Projeto:
+- Se usar **Gemini**: instale o SDK com `npm install @google/generative-ai` (JavaScript) ou `pip install google-generativeai` (Python)
+- Se usar **DeepSeek**: a API é compatível com OpenAI, então use `npm install openai` e mude a `baseURL` para `https://api.deepseek.com`
+
+## Instrução final sobre API:
+**Por favor, escreva no seu código um arquivo `.env.example` mostrando as variáveis necessárias (ex: GEMINI_API_KEY, DEEPSEEK_API_KEY), e inclua comentários explicando como obter cada chave. Não coloque chaves reais no código.**
+
+---
+
+# ESTÉTICA E INSPIRAÇÃO
+
+Use como inspiração visual o site https://jararacalab.org/ (mas não copie - crie identidade própria). Características desejadas:
+
+- Cores que transmitam segurança e confiança (ex: azul marinho, verde-água, cinza claro)
+- Tipografia limpa e legível
+- Ícones simples indicando perigo/segurança
+- Responsivo e rápido
+
+---
+
+# ESTRUTURA DE ARQUIVOS ESPERADA
+
+Por favor, gere os seguintes arquivos como resposta:
+/projeto-guardiao/
+├── index.html (página inicial)
+├── relato.html (formulário de relato)
+├── triagem.html (perguntas sociodemográficas)
+├── resultado.html (exibe análise)
+├── hub.html (lista de golpes conhecidos)
+├── css/
+│ └── estilo.css
+├── js/
+│ ├── classificador.js (lógica de análise dos golpes)
+│ ├── triagem.js (fluxo de perguntas)
+│ └── api.js (integração com IA, se aplicável)
+├── chatbot/
+│ ├── bot-telegram.js (ou .py)
+│ └── README-bot.md (instruções de deploy)
+├── .env.example
+└── README.md (explicação do projeto para avaliação do hackathon)
+
+text
+
+---
+
+# PRAZO E FORMATO DE ENTREGA
+
+Por favor, produza o código completo inline na resposta do Antigravity (não apenas instruções). Use HTML, CSS e JavaScript puros (sem frameworks pesados) para facilitar a execução local.
+
+Ao final, forneça um resumo com:
+1. Lista de arquivos gerados
+2. Como executar localmente (ex: `npx http-server` ou apenas abrir o index.html)
+3. Como fazer o deploy gratuito (sugestão: Vercel, Netlify ou GitHub Pages)
+
+Vamos começar! Primeiro, confirme que você leu esta mensagem, depois peça a confirmação do caminho da pasta com os arquivos .txt.
+📋 Como usar este prompt no Antigravity
+Passo	Ação
+1	Abra o Antigravity (assistente de código do Google DeepMind)
+2	Crie um novo projeto/workspace e selecione a pasta onde estão seus arquivos .txt como workspace ativo
+3	Copie o prompt acima inteiro
+4	Cole no chat do Antigravity
+5	Substitua [INSIRA AQUI O CAMINHO COMPLETO DA SUA PASTA] pelo caminho real da sua pasta (ex: C:\Users\SeuNome\hackathon\pesquisas\ ou /home/usuario/hackathon/pesquisas/)
+6	Envie e aguarde o Antigravity gerar o código completo
+🔑 Sobre a obtenção da API key (reforçando)
+Como a busca mostrou:
+
+Opção	Como obter	Custo	Recomendação
+Google Gemini API	Acesse AI Studio → Get API key → grátis	Plano gratuito generoso (60 RPM) 	✅ Mais simples para o hackathon
+DeepSeek API	Acesse platform.deepseek.com → criar chave	Pré-pago (~R$0,14/milhão de tokens)	⚠️ Precisa de crédito mínimo 
+Antigravity	Já integrado ao Google	Gratuito dentro do ambiente	✅ Para desenvolvimento local 
+Minha sugestão: Use o Antigravity sem API key para construir o site estático + lógica de classificação baseada nos seus arquivos .txt. Se quiser adicionar IA "real" para melhorar as respostas, configure a API do Gemini (gratuita).
+
+🚀 Após o Antigravity gerar o código
+Teste localmente abrindo o index.html no navegador
+
+Ajuste os dados do arquivo js/classificador.js com os golpes mais relevantes dos seus .txt
+
+Faça o deploy gratuito no Vercel ou Netlify (só arrastar a pasta)
+
+Grave um vídeo curto (2-3 min) mostrando o funcionamento
+
+Suba no Google Drive e cole o link no formulário de submissão
+
+Agora é só copiar o prompt e colar no Antigravity! Se precisar de ajustes ou tiver dúvidas, é só chamar.
+
+
+
+---
+
+# PRAZO E FORMATO DE ENTREGA
+
+Por favor, produza o código completo inline na resposta do Antigravity (não apenas instruções). Use HTML, CSS e JavaScript puros (sem frameworks pesados) para facilitar a execução local.
+
+Ao final, forneça um resumo com:
+1. Lista de arquivos gerados
+2. Como executar localmente (ex: `npx http-server` ou apenas abrir o index.html)
+3. Como fazer o deploy gratuito (sugestão: Vercel, Netlify ou GitHub Pages)
+
+Vamos começar! Primeiro, confirme que você leu esta mensagem, depois peça a confirmação do caminho da pasta com os arquivos .txt.

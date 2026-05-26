@@ -1,0 +1,33 @@
+JUSTIFICATIVA DO PROJETO — HACKATHON SEGURANÇA DIGITAL + IA + CROWDREPORT
+
+As campanhas atuais de conscientização sobre golpes digitais — em sua maioria 
+vídeos institucionais, cartilhas estáticas e alertas em redes sociais — cumprem 
+um papel fundamental na construção de uma base mínima de conhecimento. No entanto, 
+esses materiais operam em um modelo unidirecional e massificado: a mesma mensagem 
+é transmitida a todos os públicos, independentemente de idade, nível de letramento 
+digital, região geográfica ou contexto socioeconômico. Essa abordagem genérica 
+ignora um dado essencial da cibersegurança comportamental — a eficácia da defesa 
+depende da capacidade de adaptação à realidade local do usuário. Enquanto um 
+idoso enfrenta majoritariamente golpes por telefone, um jovem adulto lida com 
+fraudes em marketplaces e plataformas de investimento; a mensagem única não 
+alcança esses dois perfis com a mesma relevância.
+
+Nosso projeto propõe romper esse ciclo com um sistema que une três pilares: 
+inteligência artificial para processamento de linguagem natural e classificação 
+de ameaças, uma interface de crowdreport anônimo para captura de relatos da 
+própria comunidade e uma camada de devolutiva educacional adaptativa. Em vez de 
+depender exclusivamente de campanhas sazonais elaboradas por especialistas, o 
+sistema aprende continuamente com o fluxo real de tentativas de golpe reportadas 
+pelos usuários. A IA identifica padrões emergentes — como uma nova variante do 
+golpe do falso boleto circulando em um bairro específico — e gera alertas 
+contextualizados, na linguagem e no canal adequados àquele grupo de risco. O 
+anonimato do relato, por sua vez, reduz a barreira do constrangimento, fator 
+psicológico que sabidamente inibe a notificação de fraudes bem-sucedidas.
+
+Dessa forma, substitui-se a comunicação vertical por um ecossistema de vigilância 
+coletiva e aprendizagem distribuída. A comunidade se torna, ao mesmo tempo, sensor 
+e escudo: cada relato alimenta uma base de conhecimento viva, que retroalimenta 
+a proteção de todos. O resultado é uma estratégia de prevenção mais granular, 
+dinâmica e inclusiva — capaz de alcançar desde o adolescente que navega por redes 
+sociais até o aposentado que usa apenas o aplicativo de mensagens, com a mesma 
+eficácia adaptativa.
