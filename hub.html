@@ -9,6 +9,9 @@
 </head>
 <body>
 
+  <!-- LINK DE ACESSIBILIDADE -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
   <!-- HEADER -->
   <header class="app-header outset-border">
     <div class="header-container">
@@ -16,25 +19,31 @@
         <span class="logo-icon" aria-hidden="true">🛡️</span>
         <span class="logo-text">Guardião da Rede</span>
       </a>
-      <nav class="app-nav" aria-label="Navegação Principal">
-        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-        <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
-        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-        <a href="hub.html" class="nav-link outset-border active" id="nav-hub">Dicionário de Golpes</a>
-        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
-        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
-        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
-      </nav>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
+        <nav class="app-nav" aria-label="Navegação Principal">
+          <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+          <a href="hub.html" class="nav-link outset-border active" id="nav-hub">Dicionário de Golpes</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- MARQUEE RETRO -->
-  <div class="marquee-bar inset-border" aria-hidden="true">
-    <marquee scrollamount="4">📖 DICIONÁRIO DE FRAUDES: Consulte o glossário de golpes mapeados das diretrizes oficiais de segurança e saiba como se antecipar aos criminosos!</marquee>
+  <!-- TICKER DE ALERTAS (CSS TICKER) -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">📖 DICIONÁRIO DE FRAUDES: Consulte o glossário de golpes mapeados das diretrizes oficiais de segurança e saiba como se antecipar aos criminosos!</span>
+      <span class="ticker-item">📖 DICIONÁRIO DE FRAUDES: Consulte o glossário de golpes mapeados das diretrizes oficiais de segurança e saiba como se antecipar aos criminosos!</span>
+    </div>
   </div>
 
   <!-- MAIN CONTENT -->
-  <main class="main-content">
+  <main class="main-content boot-hidden" id="main-content">
     
     <!-- CAPI WIDGET DICTIONARY -->
     <div class="capi-widget" role="note" aria-label="Aviso da Capi">
@@ -44,7 +53,7 @@
       <div class="capi-bubble">
         <div class="capi-bubble-title">Capi diz:</div>
         <p style="margin-bottom: 0;">
-          "Navegue pelas principais ameaças mapeadas na nossa base de conhecimento. Aqui, você aprende como cada golpe funciona e confere dicas diretas dos especialistas do Cidadão na Rede!"
+          "Navegue pelas principais ameaças mapeadas na nossa base de conhecimento. Aqui, você aprende como cada golpe funciona e confere dicas diretas dos especialistas!"
         </p>
       </div>
     </div>
@@ -58,15 +67,15 @@
       </div>
       
       <div class="window-body">
-        <h2>Dicionário Temático de Golpes</h2>
+        <h2 style="font-size: 16px; margin-bottom: 8px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Dicionário Temático de Golpes</h2>
         <p style="margin-bottom: 15px;">Filtre ou busque termos chave para compreender o modus operandi dos criminosos:</p>
 
         <!-- SEARCH AND FILTER BAR -->
-        <div class="search-filter-bar inset-border">
+        <div class="search-filter-bar inset-border" style="margin-bottom: 24px;">
           <input type="text" id="search-bar" class="search-input inset-border" 
-                 placeholder="Digite termos de busca (ex: pix, boleto, tinder, central, banco)...">
+                 placeholder="Digite termos de busca (ex: pix, boleto, tinder, central, banco, correios)..." aria-label="Pesquisar golpes">
           
-          <div class="filter-categories" id="filter-container">
+          <div class="filter-categories" id="filter-container" style="margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
             <button class="filter-chip active outset-border" data-category="all">Todos</button>
             <button class="filter-chip outset-border" data-category="whatsapp">WhatsApp / Mensagens</button>
             <button class="filter-chip outset-border" data-category="ecommerce">E-commerce / Compras</button>
@@ -76,8 +85,8 @@
           </div>
         </div>
 
-        <!-- SCAMS GRID -->
-        <div class="scams-grid" id="scams-grid-container" aria-live="polite">
+        <!-- SCAMS GRID (ACCESSIBILITY: ARIA-LIVE) -->
+        <div class="scams-grid" id="scams-grid-container" aria-live="polite" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
           <!-- Preenchido via JS -->
         </div>
 
@@ -91,33 +100,6 @@
 
   </main>
 
-  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
-  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
-    <div class="window outset-border modal-card">
-      <div class="window-titlebar">
-        <div class="titlebar-text">
-          <span>⚙️ CONFIGURACOES_IA.EXE</span>
-        </div>
-        <div class="titlebar-controls">
-          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
-        </div>
-      </div>
-      <div class="window-body">
-        <p style="margin-bottom: 10px;">
-          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
-        </p>
-        <div class="form-group">
-          <label for="gemini-key-input" class="form-label">API Key:</label>
-          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
-        </div>
-        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
-          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
-          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
     <div class="footer-container">
@@ -126,6 +108,7 @@
     </div>
   </footer>
 
+  <script src="js/components.js"></script>
   <script src="js/api.js"></script>
   <script>
     const GOLPES_DATABASE = [
@@ -142,7 +125,7 @@
         titulo: "Falsa Central Telefônica de Banco",
         categoria: "bancos",
         gravidade: "Risco Alto",
-        incidencia: "~105 mil vítimas em 2024 (dados Febraban)",
+        incidencia: "~105 mil vítimas in 2024 (dados Febraban)",
         perfil: "Principalmente idosos (60+) de todas as escolaridades",
         descricao: "Criminosos ligam simulando o número do banco (máscara 0800) alegando compras suspeitas na conta da vítima. Sob pretexto de 'cancelar' a transação, instruem a vítima a fazer transferências Pix para uma conta de segurança ou a digitar a senha no telefone.",
         prevencao: "Desligue na hora. Bancos nunca pedem senhas ou transferências sob pretexto de segurança. Ligue para o número oficial impresso atrás do seu cartão bancário."
@@ -240,9 +223,9 @@
 
         if (filtered.length === 0) {
           gridContainer.innerHTML = `
-            <div class="no-results" role="alert" style="width: 100%; text-align: center; padding: 20px; border: 1.5px dashed var(--color-border); background: #FFF;">
-              <h3>Nenhum golpe encontrado</h3>
-              <p>Tente buscar por termos mais genéricos ou mude a categoria de filtro.</p>
+            <div class="no-results card-flat" role="alert" style="width: 100%; text-align: center; padding: 24px; background: rgba(0,0,0,0.2);">
+              <h3 style="color: var(--risk-high); font-size:16px;">Nenhum golpe encontrado</h3>
+              <p style="font-size:12.5px; color: var(--color-text-muted); margin-top:6px;">Tente buscar por termos mais genéricos ou mude a categoria de filtro.</p>
             </div>
           `;
           return;
@@ -250,7 +233,7 @@
 
         filtered.forEach(golpe => {
           const card = document.createElement("article");
-          card.className = "card scam-card outset-border";
+          card.className = "card-flat scam-card fade-up";
 
           let catName = golpe.categoria.toUpperCase();
           if (golpe.categoria === "ecommerce") catName = "E-COMMERCE";
@@ -258,36 +241,56 @@
 
           const isHigh = golpe.gravidade.includes("Alto");
           const severityColor = isHigh ? "var(--risk-high)" : "var(--risk-medium)";
+          const badgeText = isHigh ? "🔴 ALTO RISCO" : "🟡 MÉDIO";
+
+          card.style.borderLeft = `5px solid ${severityColor}`;
+          card.style.position = "relative";
 
           card.innerHTML = `
-            <div class="scam-header">
-              <span class="scam-area-badge" style="font-size: 10px; color: var(--accent-teal); font-weight: bold;">[${catName}]</span>
-              <span class="scam-severity" style="color: ${severityColor}; font-size: 11px;">● ${golpe.gravidade}</span>
+            <div class="scam-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="scam-area-badge" style="font-size: 10px; color: var(--accent-purple); font-weight: bold; font-family: var(--font-mono);">[${catName}]</span>
+              <span style="font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 4px; background: ${severityColor}20; color: ${severityColor}; border: 1.5px solid ${severityColor}40;">
+                ${isHigh ? '⚠️ ' : ''}${badgeText}
+              </span>
             </div>
             
             <div class="scam-body">
-              <h3 style="margin-bottom: 5px; color: var(--accent-teal); font-size: 13.5px;">${golpe.titulo}</h3>
-              <p style="font-size: 12.5px; margin-bottom: 12px; color: var(--color-text);">${golpe.descricao}</p>
+              <h3 style="margin-bottom: 6px; color: var(--accent-teal); font-size: 15px; font-family: var(--font-body); font-weight: 800;">${golpe.titulo}</h3>
+              <p style="font-size: 12.5px; margin-bottom: 14px; color: var(--color-text); line-height: 1.5;">${golpe.descricao}</p>
               
-              <ul class="scam-details" style="border-top: 1.5px dashed rgba(255,255,255,0.08); padding-top: 10px; font-size: 11px; margin-bottom: 12px;">
+              <ul class="scam-details" style="border-top: 1.5px dashed rgba(255,255,255,0.06); padding-top: 12px; font-size: 11px; margin-bottom: 14px; list-style:none; display:flex; flex-direction:column; gap:4px; font-family:var(--font-mono);">
                 <li class="scam-detail-item">
-                  <span class="scam-detail-label">Incidência:</span>
+                  <span class="scam-detail-label" style="color: var(--accent-teal); font-weight:bold;">Incidência:</span>
                   <span class="scam-detail-value" style="color: var(--color-text-muted);">${golpe.incidencia}</span>
                 </li>
                 <li class="scam-detail-item">
-                  <span class="scam-detail-label">Alvos Típicos:</span>
+                  <span class="scam-detail-label" style="color: var(--accent-teal); font-weight:bold;">Alvos Típicos:</span>
                   <span class="scam-detail-value" style="color: var(--color-text-muted);">${golpe.perfil}</span>
                 </li>
               </ul>
 
-              <div style="background: rgba(0, 245, 212, 0.05); border: 1.5px solid rgba(0, 245, 212, 0.2); padding: 10px; font-size: 11.5px; border-left: 4px solid var(--accent-teal); border-radius: 6px; color: var(--color-text-muted);">
-                <strong style="color: var(--accent-teal); font-size: 10.5px; display: block; margin-bottom: 2px;">✓ Prevenção Oficial:</strong>
-                <p style="margin-bottom: 0; color: var(--color-text);">${golpe.prevencao}</p>
+              <div style="background: rgba(0, 245, 212, 0.03); border: 1.5px solid rgba(0, 245, 212, 0.15); padding: 12px; font-size: 12px; border-left: 4px solid var(--accent-teal); border-radius: 8px; color: var(--color-text-muted);">
+                <strong style="color: var(--accent-teal); font-size: 11px; display: block; margin-bottom: 4px; text-transform: uppercase; font-family: var(--font-mono);">🛡️ Prevenção Oficial:</strong>
+                <p style="margin-bottom: 0; color: var(--color-text); line-height: 1.45;">${golpe.prevencao}</p>
               </div>
             </div>
           `;
           gridContainer.appendChild(card);
         });
+
+        // Trigger das animações fade-up
+        if (typeof window.IntersectionObserver === "function") {
+          const newFades = gridContainer.querySelectorAll(".fade-up:not(.visible)");
+          const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                obs.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.02 });
+          newFades.forEach(el => observer.observe(el));
+        }
       }
     });
   </script>

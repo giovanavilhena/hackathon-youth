@@ -24,7 +24,7 @@
     }
     
     .question-title {
-      font-family: var(--font-mono);
+      font-family: var(--font-body);
       font-weight: 700;
       font-size: 14px;
       color: var(--accent-teal);
@@ -36,8 +36,14 @@
     
     .options-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: 1fr;
       gap: 10px;
+    }
+
+    @media (min-width: 600px) {
+      .options-grid.two-col {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
     
     .option-btn {
@@ -45,7 +51,7 @@
       color: var(--color-text);
       border: 1.5px solid var(--color-border);
       border-radius: 6px;
-      padding: 12px 14px;
+      padding: 14px 16px;
       font-family: var(--font-body);
       font-size: 13px;
       font-weight: 600;
@@ -60,11 +66,13 @@
     .option-btn:hover {
       background: var(--accent-light);
       border-color: var(--accent-teal);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-flat-sm);
     }
     
     .option-btn.selected {
       background: var(--accent-teal);
-      color: white;
+      color: #000;
       border-color: var(--color-border);
       box-shadow: inset 2px 2px 0px rgba(0,0,0,0.2);
     }
@@ -98,13 +106,15 @@
     }
 
     .metric-label {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--color-text-muted);
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .progress-bar-container {
-      background: #E2E8F0;
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--color-border);
       height: 16px;
       border-radius: 8px;
@@ -116,18 +126,29 @@
     .progress-bar-fill {
       height: 100%;
       background: var(--accent-teal);
-      transition: width 0.3s ease;
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.1, 1.0, 0.1, 1.0);
     }
 
-    .feeling-tag {
+    .feeling-tag-cloud {
       display: inline-block;
-      background: var(--bg-desktop);
       border: 1.5px solid var(--color-border);
-      border-radius: 4px;
-      padding: 3px 8px;
-      margin: 3px;
-      font-size: 11px;
-      font-weight: 600;
+      border-radius: 6px;
+      padding: 6px 12px;
+      margin: 6px;
+      font-weight: bold;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s, color 0.2s;
+      cursor: pointer;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-flat-sm);
+    }
+
+    .feeling-tag-cloud:hover {
+      transform: scale(1.25) rotate(0deg) !important;
+      box-shadow: var(--shadow-flat);
+      border-color: var(--accent-teal) !important;
+      z-index: 10;
+      color: var(--accent-teal) !important;
     }
 
     .actions-bar {
@@ -140,9 +161,9 @@
     .table-container {
       overflow-x: auto;
       border: 1.5px solid var(--color-border);
-      border-radius: 6px;
+      border-radius: 8px;
       margin-top: 16px;
-      background: white;
+      background: #0A0F1D;
     }
 
     table {
@@ -153,14 +174,16 @@
     }
 
     th, td {
-      padding: 10px 12px;
+      padding: 12px 14px;
       border-bottom: 1.5px solid var(--color-border);
+      color: var(--color-text);
     }
 
     th {
       background: var(--bg-desktop);
       font-family: var(--font-mono);
       font-weight: 700;
+      color: var(--accent-teal);
     }
 
     tr:last-child td {
@@ -170,21 +193,43 @@
     .btn-danger-sm {
       background: var(--risk-high-bg);
       color: var(--risk-high);
-      border: 1px solid var(--color-border);
+      border: 1.5px solid var(--color-border);
       border-radius: 4px;
       cursor: pointer;
-      font-size: 10px;
-      padding: 2px 6px;
+      font-size: 11px;
+      padding: 4px 8px;
       font-weight: bold;
+      transition: var(--transition-normal);
     }
 
     .btn-danger-sm:hover {
       background: var(--risk-high);
-      color: white;
+      color: #000;
+      transform: translate(-1px, -1px);
+      box-shadow: var(--shadow-flat-sm);
+    }
+
+    /* Animação Shimmer na barra do Wizard */
+    @keyframes shimmer-bar {
+      0% {
+        background-position: -200px 0;
+      }
+      100% {
+        background-position: 200px 0;
+      }
+    }
+    
+    .wizard-shimmer {
+      background-image: linear-gradient(90deg, var(--accent-teal), var(--accent-purple), var(--accent-teal));
+      background-size: 200px 100%;
+      animation: shimmer-bar 3s linear infinite;
     }
   </style>
 </head>
 <body>
+
+  <!-- LINK DE ACESSIBILIDADE -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
 
   <!-- HEADER -->
   <header class="app-header outset-border">
@@ -193,25 +238,31 @@
         <span class="logo-icon" aria-hidden="true">🛡️</span>
         <span class="logo-text">Guardião da Rede</span>
       </a>
-      <nav class="app-nav" aria-label="Navegação Principal">
-        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-        <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
-        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
-        <a href="pesquisa.html" class="nav-link outset-border active" id="nav-pesquisa">Pesquisa de Campo</a>
-        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
-      </nav>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
+        <nav class="app-nav" aria-label="Navegação Principal">
+          <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+          <a href="pesquisa.html" class="nav-link outset-border active" id="nav-pesquisa">Pesquisa de Campo</a>
+          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- MARQUEE RETRO -->
-  <div class="marquee-bar inset-border" aria-hidden="true">
-    <marquee scrollamount="4">🎤 PESQUISA NACIONAL DE SEGURANÇA DIGITAL: Participe respondendo nossa pesquisa de opinião sobre golpes digitais no Brasil!</marquee>
+  <!-- TICKER DE ALERTAS (CSS TICKER) -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">🎤 PESQUISA DE SEGURANÇA DIGITAL NO FIB16: Ajude a mapear as ameaças virtuais e proteja Belém-PA!</span>
+      <span class="ticker-item">🎤 PESQUISA DE SEGURANÇA DIGITAL NO FIB16: Ajude a mapear as ameaças virtuais e proteja Belém-PA!</span>
+    </div>
   </div>
 
   <!-- MAIN CONTENT -->
-  <main class="main-content">
+  <main class="main-content boot-hidden" id="main-content">
     
     <!-- CAPI WIDGET -->
     <div class="capi-widget" id="capi-guide-box" role="note" aria-label="Guia da Capi para a pesquisa">
@@ -220,8 +271,8 @@
       </div>
       <div class="capi-bubble">
         <div class="capi-bubble-title">Capi diz:</div>
-        <p style="margin-bottom: 0; color: #000;">
-          "Olá! Esta pesquisa é rápida e <strong>100% anônima</strong>. Seus relatos nos ajudam a entender como os golpes virtuais estão atingindo nossa população e a treinar meu motor de inteligência para proteger a todos!"
+        <p style="margin-bottom: 0;">
+          "Olá! Esta pesquisa é rápida e <strong>100% anônima</strong>. Seus relatos nos ajudam a entender como os golpes virtuais estão atingindo nossa população e a calibrar minha inteligência de proteção!"
         </p>
       </div>
     </div>
@@ -239,7 +290,7 @@
         <p style="font-size: 13.5px; color: var(--color-text-muted); line-height: 1.5; margin-bottom: 24px;">
           Suas respostas foram arquivadas localmente com segurança e anonimato. Seus dados nos ajudam a mapear quais golpes digitais estão sendo aplicados no Brasil.
         </p>
-        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
           <a href="relato.html" class="btn btn-primary">⚡ Analisar Suspeita de Golpe</a>
           <button class="btn btn-secondary" id="btn-survey-again">🎤 Responder Novamente</button>
         </div>
@@ -250,7 +301,7 @@
       </div>
     </section>
 
-    <!-- FORMULÁRIO DE PESQUISA -->
+    <!-- FORMULÁRIO DE PESQUISA (MODO WIZARD STEP-BY-STEP) -->
     <section class="window outset-border" id="survey-window">
       <div class="window-titlebar">
         <div class="titlebar-text">
@@ -258,135 +309,171 @@
         </div>
       </div>
       <div class="window-body">
-        <h2>Pesquisa de Opinião: Exposição a Golpes Digitais</h2>
-        <p>Responda às perguntas rápidas abaixo para ajudar a mapear a vulnerabilidade digital dos usuários brasileiros.</p>
         
+        <!-- Barra de Progresso do Wizard -->
+        <div class="wizard-progress-container" style="margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
+          <div class="wizard-progress-header" style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; font-weight: bold; margin-bottom: 8px;">
+            <span id="wizard-step-title" style="color: var(--accent-teal);">📋 Perfil Digital</span>
+            <span id="wizard-step-label" style="color: var(--color-text-muted);">Etapa 1 de 3</span>
+          </div>
+          <div class="progress-bar-container" style="margin-top: 0; margin-bottom: 0;">
+            <div id="wizard-progress-fill" class="progress-bar-fill wizard-shimmer" style="width: 33.3%;"></div>
+          </div>
+        </div>
+
         <form id="interview-form">
           
-          <!-- Q1: Faixa Etária -->
-          <div class="question-card">
-            <label class="question-title">1. Qual é a sua faixa etária?</label>
-            <div class="options-grid">
-              <button type="button" class="option-btn" data-q="q1" data-val="Menos de 18">👶 Menos de 18 anos</button>
-              <button type="button" class="option-btn" data-q="q1" data-val="18 a 29">🧑 18 a 29 anos</button>
-              <button type="button" class="option-btn" data-q="q1" data-val="30 a 59">🧔 30 a 59 anos</button>
-              <button type="button" class="option-btn" data-q="q1" data-val="60+ (Idoso)">👵 60 anos ou mais (Melhor Idade)</button>
-            </div>
-            <input type="hidden" name="q1" id="q1" required>
-          </div>
+          <!-- STEP 1: PERFIL DIGITAL -->
+          <div id="step-1-container" class="wizard-step">
+            <h2 style="font-family: var(--font-body); font-weight: 800; font-size: 18px; margin-bottom: 4px; color: var(--accent-teal);">Perfil do Participante</h2>
+            <p style="margin-bottom: 20px; font-size: 13px; color: var(--color-text-muted);">Nos ajude a entender quem é você para traçarmos filtros estatísticos de segurança.</p>
 
-          <!-- Q2: Letramento Digital -->
-          <div class="question-card">
-            <label class="question-title">2. Como você avalia seu nível de familiaridade com tecnologia e internet?</label>
-            <div class="options-grid" style="grid-template-columns: 1fr;">
-              <button type="button" class="option-btn" data-q="q2" data-val="Baixo">📱 Baixo — Faço apenas o básico, como ligações e mensagens de WhatsApp</button>
-              <button type="button" class="option-btn" data-q="q2" data-val="Médio">💻 Médio — Consigo fazer compras, navegar em redes e usar apps de banco</button>
-              <button type="button" class="option-btn" data-q="q2" data-val="Alto">🛡️ Alto — Trabalho, estudo ou tenho muita facilidade com segurança e tecnologia</button>
+            <!-- Q1: Faixa Etária -->
+            <div class="question-card">
+              <label class="question-title">1. Qual é a sua faixa etária?</label>
+              <div class="options-grid two-col">
+                <button type="button" class="option-btn" data-q="q1" data-val="Menos de 18">👶 Menos de 18 anos</button>
+                <button type="button" class="option-btn" data-q="q1" data-val="18 a 29">🧑 18 a 29 anos</button>
+                <button type="button" class="option-btn" data-q="q1" data-val="30 a 59">🧔 30 a 59 anos</button>
+                <button type="button" class="option-btn" data-q="q1" data-val="60+ (Idoso)">👵 60 anos ou mais</button>
+              </div>
+              <input type="hidden" name="q1" id="q1" required>
             </div>
-            <input type="hidden" name="q2" id="q2" required>
-          </div>
 
-          <!-- Q3: Experiência com Golpes -->
-          <div class="question-card">
-            <label class="question-title">3. Você ou alguém muito próximo já passou por uma situação de golpe virtual ou suspeita?</label>
-            <div class="options-grid" style="grid-template-columns: 1fr;">
-              <button type="button" class="option-btn" data-q="q3" data-val="Sim, caí e tive prejuízo">🚨 Sim, eu já caí em um golpe e tive prejuízo financeiro</button>
-              <button type="button" class="option-btn" data-q="q3" data-val="Sim, tentaram mas percebi">⚠️ Sim, tentaram aplicar em mim, mas percebi a tempo</button>
-              <button type="button" class="option-btn" data-q="q3" data-val="Familiar/amigo caiu">👥 Eu não, mas um familiar ou amigo próximo caiu</button>
-              <button type="button" class="option-btn" data-q="q3" data-val="Não, nunca passei">✅ Não, nunca passei por isso nem conheço quem passou</button>
-            </div>
-            <input type="hidden" name="q3" id="q3" required>
-          </div>
-
-          <!-- Q4: Canal do Golpe -->
-          <div class="question-card" id="card-q4">
-            <label class="question-title">4. Por qual canal principal ocorreu essa tentativa ou golpe?</label>
-            <div class="options-grid">
-              <button type="button" class="option-btn" data-q="q4" data-val="WhatsApp / Telegram">💬 WhatsApp / Telegram</button>
-              <button type="button" class="option-btn" data-q="q4" data-val="Redes Sociais">📸 Redes Sociais (Insta/TikTok/FB)</button>
-              <button type="button" class="option-btn" data-q="q4" data-val="E-mail ou SMS">✉️ E-mail ou SMS</button>
-              <button type="button" class="option-btn" data-q="q4" data-val="Ligação telefônica">📞 Ligação (Falsa Central de Banco)</button>
-              <button type="button" class="option-btn" data-q="q4" data-val="Sites de compras">🛒 Sites de Venda / Anúncios</button>
-              <button type="button" class="option-btn" data-q="q4" data-val="Outro / Não aplicável">❓ Outro / Não aplicável</button>
-            </div>
-            <input type="hidden" name="q4" id="q4">
-          </div>
-
-          <!-- Q5: Tipo de Golpe -->
-          <div class="question-card" id="card-q5">
-            <label class="question-title">5. Qual era o tipo do golpe ou suspeita?</label>
-            <div class="options-grid" style="grid-template-columns: 1fr;">
-              <button type="button" class="option-btn" data-q="q5" data-val="Falso parente (Pix)">👶 Falso Parente: Mensagem com foto clonada pedindo Pix urgente</button>
-              <button type="button" class="option-btn" data-q="q5" data-val="Falsa vaga de emprego">💼 Vaga de Emprego Falsa: Ganhos com tarefas que pedem depósitos</button>
-              <button type="button" class="option-btn" data-q="q5" data-val="Falsa venda/Compra fake">🛒 Compra/Venda Falsa: Loja clonada ou preço absurdamente baixo</button>
-              <button type="button" class="option-btn" data-q="q5" data-val="Falsa central de banco">🏦 Falso Funcionário de Banco: Ligação de segurança pedindo Pix/selfie</button>
-              <button type="button" class="option-btn" data-q="q5" data-val="Links falsos (Correios/etc)">🔗 Phishing/Link falso: Taxa de Correios retida ou atualização de dados</button>
-              <button type="button" class="option-btn" data-q="q5" data-val="Outro / Não aplicável">❓ Outro / Não aplicável</button>
-            </div>
-            <input type="hidden" name="q5" id="q5">
-          </div>
-
-          <!-- Q6: Fator de Convencimento -->
-          <div class="question-card" id="card-q6">
-            <label class="question-title">6. Qual fator fez você (ou a pessoa) acreditar ou quase acreditar na mensagem?</label>
-            <div class="options-grid" style="grid-template-columns: 1fr;">
-              <button type="button" class="option-btn" data-q="q6" data-val="Urgência/Ameaça">⏱️ Senso de urgência ou ameaça (ex: "sua conta será bloqueada hoje")</button>
-              <button type="button" class="option-btn" data-q="q6" data-val="Ganho financeiro fácil">💰 Proposta extremamente vantajosa (dinheiro rápido, prêmio, desconto)</button>
-              <button type="button" class="option-btn" data-q="q6" data-val="Apelo emocional">❤️ Apelo emocional (ajudar um filho ou conhecido em apuros)</button>
-              <button type="button" class="option-btn" data-q="q6" data-val="Semelhança com canais oficiais">🏢 Imitação perfeita de bancos ou órgãos do governo (logo, voz do atendente)</button>
-              <button type="button" class="option-btn" data-q="q6" data-val="Não se aplica">❓ Não se aplica</button>
-            </div>
-            <input type="hidden" name="q6" id="q6">
-          </div>
-
-          <!-- Q7: Prejuízo Financeiro -->
-          <div class="question-card" id="card-q7">
-            <label class="question-title">7. Se houve perda financeira, qual foi o valor aproximado?</label>
-            <div class="options-grid">
-              <button type="button" class="option-btn" data-q="q7" data-val="Sem prejuízo">💵 Não tive prejuízo financeiro</button>
-              <button type="button" class="option-btn" data-q="q7" data-val="Até R$ 100">💸 Até R$ 100</button>
-              <button type="button" class="option-btn" data-q="q7" data-val="De R$ 100 a R$ 1.000">💳 De R$ 100 a R$ 1.000</button>
-              <button type="button" class="option-btn" data-q="q7" data-val="De R$ 1.000 a R$ 5.000">🏦 De R$ 1.000 a R$ 5.000</button>
-              <button type="button" class="option-btn" data-q="q7" data-val="Acima de R$ 5.000">💎 Acima de R$ 5.000</button>
-            </div>
-            <input type="hidden" name="q7" id="q7">
-          </div>
-
-          <!-- Q8: Ações Tomadas -->
-          <div class="question-card">
-            <label class="question-title">8. Qual foi a principal atitude tomada após a ocorrência?</label>
-            <div class="options-grid" style="grid-template-columns: 1fr;">
-              <button type="button" class="option-btn" data-q="q8" data-val="Não fiz nada / Vergonha">🤐 Não fiz nada (por vergonha, medo ou desinteresse)</button>
-              <button type="button" class="option-btn" data-q="q8" data-val="Registrei boletim de ocorrência / Banco">📞 Fiz denúncia oficial (boletim de ocorrência, reporte ao banco ou operadora)</button>
-              <button type="button" class="option-btn" data-q="q8" data-val="Alertei amigos e família">🗣️ Compartilhei a história com amigos ou familiares para alertá-los</button>
-              <button type="button" class="option-btn" data-q="q8" data-val="Procurei informações na web">🔍 Busquei na internet ou em órgãos de defesa para saber o que fazer</button>
-            </div>
-            <input type="hidden" name="q8" id="q8" required>
-          </div>
-
-          <!-- Q9: Facilidade de Informação -->
-          <div class="question-card">
-            <label class="question-title">9. Você acha fácil encontrar orientações claras sobre como se proteger de crimes virtuais?</label>
-            <div class="options-grid">
-              <button type="button" class="option-btn" data-q="q9" data-val="Muito difícil">❌ Muito difícil (são genéricas ou confusas)</button>
-              <button type="button" class="option-btn" data-q="q9" data-val="Médio">⚠️ Médio (existem alertas, mas difíceis de consultar na hora)</button>
-              <button type="button" class="option-btn" data-q="q9" data-val="Fácil">✅ Fácil (sei exatamente o que fazer e onde procurar)</button>
-            </div>
-            <input type="hidden" name="q9" id="q9" required>
-          </div>
-
-          <!-- Q10: Sentimento Gerado -->
-          <div class="question-card">
-            <label class="question-title">10. Em sua opinião, qual é o principal sentimento/emoção gerado por um golpe digital? (Uma palavra)</label>
-            <div class="form-group" style="margin-bottom: 0;">
-              <input type="text" id="q10" name="q10" class="form-input inset-border" required placeholder="Ex: Impotência, Medo, Vergonha, Raiva, Indignação, Insegurança">
+            <!-- Q2: Letramento Digital -->
+            <div class="question-card">
+              <label class="question-title">2. Como você avalia seu nível de familiaridade com tecnologia e internet?</label>
+              <div class="options-grid">
+                <button type="button" class="option-btn" data-q="q2" data-val="Baixo">📱 Baixo — Faço apenas o básico, como ligações e mensagens de WhatsApp</button>
+                <button type="button" class="option-btn" data-q="q2" data-val="Médio">💻 Médio — Consigo fazer compras, navegar em redes e usar apps de banco</button>
+                <button type="button" class="option-btn" data-q="q2" data-val="Alto">🛡️ Alto — Trabalho, estudo ou tenho muita facilidade com segurança e tecnologia</button>
+              </div>
+              <input type="hidden" name="q2" id="q2" required>
             </div>
           </div>
 
-          <div style="text-align: right; margin-top: 20px;">
-            <button type="submit" class="btn btn-primary outset-border" style="padding: 12px 24px; font-size: 14px;">
-              💾 Enviar Minhas Respostas
+          <!-- STEP 2: SUA EXPERIÊNCIA -->
+          <div id="step-2-container" class="wizard-step" style="display: none;">
+            <h2 style="font-family: var(--font-body); font-weight: 800; font-size: 18px; margin-bottom: 4px; color: var(--accent-teal);">Sua Experiência com Golpes</h2>
+            <p style="margin-bottom: 20px; font-size: 13px; color: var(--color-text-muted);">Sua vivência direta ou de pessoas próximas nos ajuda a mapear os canais ativos.</p>
+
+            <!-- Q3: Experiência com Golpes -->
+            <div class="question-card">
+              <label class="question-title">3. Você ou alguém muito próximo já passou por uma situação de golpe virtual ou suspeita?</label>
+              <div class="options-grid">
+                <button type="button" class="option-btn" data-q="q3" data-val="Sim, caí e tive prejuízo">🚨 Sim, eu já caí em um golpe e tive prejuízo financeiro</button>
+                <button type="button" class="option-btn" data-q="q3" data-val="Sim, tentaram mas percebi">⚠️ Sim, tentaram aplicar em mim, mas percebi a tempo</button>
+                <button type="button" class="option-btn" data-q="q3" data-val="Familiar/amigo caiu">👥 Eu não, mas um familiar ou amigo próximo caiu</button>
+                <button type="button" class="option-btn" data-q="q3" data-val="Não, nunca passei">✅ Não, nunca passei por isso nem conheço quem passou</button>
+              </div>
+              <input type="hidden" name="q3" id="q3" required>
+            </div>
+
+            <!-- Q4: Canal do Golpe -->
+            <div class="question-card" id="card-q4">
+              <label class="question-title">4. Por qual canal principal ocorreu essa tentativa ou golpe?</label>
+              <div class="options-grid two-col">
+                <button type="button" class="option-btn" data-q="q4" data-val="WhatsApp / Telegram">💬 WhatsApp / Telegram</button>
+                <button type="button" class="option-btn" data-q="q4" data-val="Redes Sociais">📸 Redes Sociais (Insta/TikTok/FB)</button>
+                <button type="button" class="option-btn" data-q="q4" data-val="E-mail ou SMS">✉️ E-mail ou SMS</button>
+                <button type="button" class="option-btn" data-q="q4" data-val="Ligação telefônica">📞 Ligação (Falsa Central de Banco)</button>
+                <button type="button" class="option-btn" data-q="q4" data-val="Sites de compras">🛒 Sites de Venda / Anúncios</button>
+                <button type="button" class="option-btn" data-q="q4" data-val="Outro / Não aplicável">❓ Outro / Não aplicável</button>
+              </div>
+              <input type="hidden" name="q4" id="q4">
+            </div>
+
+            <!-- Q5: Tipo de Golpe -->
+            <div class="question-card" id="card-q5">
+              <label class="question-title">5. Qual era o tipo do golpe ou suspeita?</label>
+              <div class="options-grid">
+                <button type="button" class="option-btn" data-q="q5" data-val="Falso parente (Pix)">👶 Falso Parente: Mensagem com foto clonada pedindo Pix urgente</button>
+                <button type="button" class="option-btn" data-q="q5" data-val="Falsa vaga de emprego">💼 Vaga de Emprego Falsa: Ganhos com tarefas que pedem depósitos</button>
+                <button type="button" class="option-btn" data-q="q5" data-val="Falsa venda/Compra fake">🛒 Compra/Venda Falsa: Loja clonada ou preço absurdamente baixo</button>
+                <button type="button" class="option-btn" data-q="q5" data-val="Falsa central de banco">🏦 Falso Funcionário de Banco: Ligação de segurança pedindo Pix/selfie</button>
+                <button type="button" class="option-btn" data-q="q5" data-val="Links falsos (Correios/etc)">🔗 Phishing/Link falso: Taxa de Correios retida ou atualização de dados</button>
+                <button type="button" class="option-btn" data-q="q5" data-val="Outro / Não aplicável">❓ Outro / Não aplicável</button>
+              </div>
+              <input type="hidden" name="q5" id="q5">
+            </div>
+          </div>
+
+          <!-- STEP 3: IMPACTO SOFRIDO -->
+          <div id="step-3-container" class="wizard-step" style="display: none;">
+            <h2 style="font-family: var(--font-body); font-weight: 800; font-size: 18px; margin-bottom: 4px; color: var(--accent-teal);">Impacto e Sentimento</h2>
+            <p style="margin-bottom: 20px; font-size: 13px; color: var(--color-text-muted);">Como isso repercutiu emocionalmente e financeiramente nas decisões.</p>
+
+            <!-- Q6: Fator de Convencimento -->
+            <div class="question-card" id="card-q6">
+              <label class="question-title">6. Qual fator fez você (ou a pessoa) acreditar ou quase acreditar na mensagem?</label>
+              <div class="options-grid">
+                <button type="button" class="option-btn" data-q="q6" data-val="Urgência/Ameaça">⏱️ Senso de urgência ou ameaça (ex: "sua conta será bloqueada hoje")</button>
+                <button type="button" class="option-btn" data-q="q6" data-val="Ganho financeiro fácil">💰 Proposta extremamente vantajosa (dinheiro rápido, prêmio, desconto)</button>
+                <button type="button" class="option-btn" data-q="q6" data-val="Apelo emocional">❤️ Apelo emocional (ajudar um filho ou conhecido em apuros)</button>
+                <button type="button" class="option-btn" data-q="q6" data-val="Semelhança com canais oficiais">🏢 Imitação perfeita de bancos ou órgãos do governo (logo, voz do atendente)</button>
+                <button type="button" class="option-btn" data-q="q6" data-val="Não se aplica">❓ Não se aplica</button>
+              </div>
+              <input type="hidden" name="q6" id="q6">
+            </div>
+
+            <!-- Q7: Prejuízo Financeiro -->
+            <div class="question-card" id="card-q7">
+              <label class="question-title">7. Se houve perda financeira, qual foi o valor aproximado?</label>
+              <div class="options-grid two-col">
+                <button type="button" class="option-btn" data-q="q7" data-val="Sem prejuízo">💵 Não tive prejuízo financeiro</button>
+                <button type="button" class="option-btn" data-q="q7" data-val="Até R$ 100">💸 Até R$ 100</button>
+                <button type="button" class="option-btn" data-q="q7" data-val="De R$ 100 a R$ 1.000">💳 De R$ 100 a R$ 1.000</button>
+                <button type="button" class="option-btn" data-q="q7" data-val="De R$ 1.000 a R$ 5.000">🏦 De R$ 1.000 a R$ 5.000</button>
+                <button type="button" class="option-btn" data-q="q7" data-val="Acima de R$ 5.000">💎 Acima de R$ 5.000</button>
+              </div>
+              <input type="hidden" name="q7" id="q7">
+            </div>
+
+            <!-- Q8: Ações Tomadas -->
+            <div class="question-card">
+              <label class="question-title">8. Qual foi a principal atitude tomada após a ocorrência?</label>
+              <div class="options-grid">
+                <button type="button" class="option-btn" data-q="q8" data-val="Não fiz nada / Vergonha">🤐 Não fiz nada (por vergonha, medo ou desinteresse)</button>
+                <button type="button" class="option-btn" data-q="q8" data-val="Registrei boletim de ocorrência / Banco">📞 Fiz denúncia oficial (boletim de ocorrência, reporte ao banco ou operadora)</button>
+                <button type="button" class="option-btn" data-q="q8" data-val="Alertei amigos e família">🗣️ Compartilhei a história com amigos ou familiares para alertá-los</button>
+                <button type="button" class="option-btn" data-q="q8" data-val="Procurei informações na web">🔍 Busquei na internet ou em órgãos de defesa para saber o que fazer</button>
+              </div>
+              <input type="hidden" name="q8" id="q8" required>
+            </div>
+
+            <!-- Q9: Facilidade de Informação -->
+            <div class="question-card">
+              <label class="question-title">9. Você acha fácil encontrar orientações claras sobre como se proteger de crimes virtuais?</label>
+              <div class="options-grid two-col">
+                <button type="button" class="option-btn" data-q="q9" data-val="Muito difícil">❌ Muito difícil</button>
+                <button type="button" class="option-btn" data-q="q9" data-val="Médio">⚠️ Médio (difícil consultar na hora)</button>
+                <button type="button" class="option-btn" data-q="q9" data-val="Fácil">✅ Fácil (sei onde procurar)</button>
+              </div>
+              <input type="hidden" name="q9" id="q9" required>
+            </div>
+
+            <!-- Q10: Sentimento Gerado -->
+            <div class="question-card">
+              <label class="question-title">10. Em sua opinião, qual é o principal sentimento/emoção gerado por um golpe digital? (Escreva uma única palavra)</label>
+              <div class="form-group" style="margin-bottom: 0;">
+                <input type="text" id="q10" name="q10" class="form-input inset-border" required placeholder="Ex: Impotência, Medo, Vergonha, Raiva, Frustração, Insegurança">
+              </div>
+            </div>
+          </div>
+
+          <!-- Wizard Navegação -->
+          <div style="display: flex; justify-content: space-between; margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
+            <button type="button" id="btn-prev-step" class="btn btn-secondary outset-border" style="display: none; padding: 10px 20px;">
+              ← Voltar
             </button>
+            <div style="margin-left: auto;">
+              <button type="button" id="btn-next-step" class="btn btn-primary outset-border" style="padding: 12px 24px; font-size: 14px;">
+                Continuar →
+              </button>
+              <button type="submit" id="btn-submit-survey" class="btn btn-primary outset-border" style="padding: 12px 24px; font-size: 14px; display: none;">
+                💾 Enviar Minhas Respostas
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -397,7 +484,7 @@
     </section>
 
     <!-- DASHBOARD DE RESULTADOS (OCULTO POR PADRÃO - PAINEL DO PESQUISADOR) -->
-    <section class="window outset-border" id="dashboard-section" style="display: none; margin-top: 40px;">
+    <section class="window outset-border" id="dashboard-section" style="display: none; margin-top: 40px; margin-bottom: 60px;">
       <div class="window-titlebar">
         <div class="titlebar-text">
           <span>📊 MONITOR_PESQUISA_ESTATISTICAS.EXE [PAINEL DO AVALIADOR]</span>
@@ -405,7 +492,7 @@
       </div>
       <div class="window-body">
         <h2>Painel do Pesquisador (Hackathon FIB16)</h2>
-        <p>Estatísticas compiladas em tempo real a partir do banco de dados local para tirar prints e alimentar os slides da apresentação final.</p>
+        <p>Estatísticas compiladas em tempo real a partir do banco de dados local para alimentar os slides da apresentação final.</p>
         
         <!-- BARRA DE AÇÕES DOS DADOS -->
         <div class="actions-bar">
@@ -419,7 +506,7 @@
           <div class="metric-card">
             <span class="metric-label">TOTAL DE RESPOSTAS</span>
             <div class="metric-value" id="stat-total">0</div>
-            <span class="metric-label" style="font-family: var(--font-mono); font-size: 11px;">FIB16 / Belém-PA</span>
+            <span class="metric-label" style="font-family: var(--font-mono); font-size: 10px;">FIB16 / Belém-PA</span>
           </div>
 
           <!-- CARD 2: % Afetados -->
@@ -440,7 +527,7 @@
           <div class="metric-card">
             <span class="metric-label">LETRAMENTO DIGITAL BAIXO/MÉDIO</span>
             <div class="metric-value" id="stat-digital-literacy">0%</div>
-            <span class="metric-label" style="font-size: 10px;">Precisam de alertas claros e acessíveis</span>
+            <span class="metric-label" style="font-size: 10px;">Precisam de alertas simples e acessíveis</span>
           </div>
         </div>
 
@@ -448,9 +535,9 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 24px;">
           
           <!-- Canais do Golpe -->
-          <div class="card-flat" style="box-shadow: none;">
-            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 4px; margin-bottom: 12px;">
-              📢 Principais Canais dos Golpes (%)
+          <div class="card-flat" style="box-shadow: none; background: rgba(0,0,0,0.2);">
+            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13.5px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 6px; margin-bottom: 14px;">
+              📢 Principais Canais dos Golpes
             </h3>
             <div id="chart-channels">
               <!-- Renderizado dinamicamente -->
@@ -458,8 +545,8 @@
           </div>
 
           <!-- Tipos de Golpe -->
-          <div class="card-flat" style="box-shadow: none;">
-            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 4px; margin-bottom: 12px;">
+          <div class="card-flat" style="box-shadow: none; background: rgba(0,0,0,0.2);">
+            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13.5px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 6px; margin-bottom: 14px;">
               👾 Tipos de Golpes Mais Relatados
             </h3>
             <div id="chart-types">
@@ -472,8 +559,8 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 20px;">
           
           <!-- Fatores de Convencimento -->
-          <div class="card-flat" style="box-shadow: none;">
-            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 4px; margin-bottom: 12px;">
+          <div class="card-flat" style="box-shadow: none; background: rgba(0,0,0,0.2);">
+            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13.5px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 6px; margin-bottom: 14px;">
               🧠 Gatilhos Emocionais / Convencimento
             </h3>
             <div id="chart-triggers">
@@ -482,8 +569,8 @@
           </div>
 
           <!-- Prejuízo Financeiro -->
-          <div class="card-flat" style="box-shadow: none;">
-            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 4px; margin-bottom: 12px;">
+          <div class="card-flat" style="box-shadow: none; background: rgba(0,0,0,0.2);">
+            <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13.5px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 6px; margin-bottom: 14px;">
               💸 Faixas de Prejuízo Financeiro
             </h3>
             <div id="chart-losses">
@@ -493,19 +580,19 @@
 
         </div>
 
-        <!-- SENTIMENTOS (NUVEM DE PALAVRAS / LISTA) -->
-        <div class="card-flat" style="margin-top: 20px; box-shadow: none;">
-          <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 4px; margin-bottom: 12px;">
+        <!-- SENTIMENTOS (NUVEM DE PALAVRAS INTERATIVA) -->
+        <div class="card-flat" style="margin-top: 20px; box-shadow: none; background: rgba(0,0,0,0.2);">
+          <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13.5px; border-bottom: 1.5px solid var(--color-border); padding-bottom: 6px; margin-bottom: 14px;">
             🎭 Sentimentos Gerados pelas Fraudes (Nuvem de Palavras)
           </h3>
-          <div id="word-cloud-container" style="text-align: center; padding: 15px; background: var(--bg-desktop); border: 1.5px dashed var(--color-border); border-radius: 6px;">
+          <div id="word-cloud-container" style="text-align: center; padding: 24px 16px; background: var(--bg-desktop); border: 1.5px dashed var(--color-border); border-radius: 8px; min-height: 120px; overflow: hidden; position: relative;">
             <!-- Renderizado dinamicamente -->
           </div>
         </div>
 
         <!-- TABELA DE RESPOSTAS DETALHADAS -->
-        <div style="margin-top: 24px;">
-          <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13px;">📋 Lista de Respostas Detalhadas</h3>
+        <div style="margin-top: 28px;">
+          <h3 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 13.5px; margin-bottom: 8px;">📋 Lista de Respostas Detalhadas</h3>
           <div class="table-container">
             <table>
               <thead>
@@ -536,41 +623,14 @@
       </div>
     </section>
 
-    <!-- GAVETA DISCRETA PARA O PESQUISADOR ATIVAR O DASHBOARD -->
-    <div style="margin-top: 40px; text-align: center; margin-bottom: 24px;">
-      <button class="btn btn-secondary" id="btn-toggle-admin" style="font-size: 11px; padding: 6px 14px; opacity: 0.6; transition: opacity 0.2s;">
-        ⚙️ Painel do Pesquisador (Avaliação do Hackathon)
+    <!-- PAINEL FIXO FLUTUANTE NO CANTO INFERIOR DIREITO PARA O PESQUISADOR ATIVAR O DASHBOARD -->
+    <div style="position: fixed; bottom: 85px; right: 24px; z-index: 999;">
+      <button class="btn btn-secondary outset-border" id="btn-toggle-admin" style="font-size: 12px; padding: 10px 16px; border-radius: 50px; box-shadow: var(--shadow-flat); font-weight: bold; display: flex; align-items: center; gap: 6px;">
+        📊 <span>Ver Painel</span>
       </button>
     </div>
 
   </main>
-
-  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
-  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
-    <div class="window outset-border modal-card">
-      <div class="window-titlebar">
-        <div class="titlebar-text">
-          <span>⚙️ CONFIGURACOES_IA.EXE</span>
-        </div>
-        <div class="titlebar-controls">
-          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
-        </div>
-      </div>
-      <div class="window-body">
-        <p style="margin-bottom: 10px;">
-          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
-        </p>
-        <div class="form-group">
-          <label for="gemini-key-input" class="form-label">API Key:</label>
-          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
-        </div>
-        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
-          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
-          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
@@ -580,6 +640,7 @@
     </div>
   </footer>
 
+  <script src="js/components.js"></script>
   <script src="js/api.js"></script>
   <script>
     // Mock inicial realista com dados de campo
@@ -606,14 +667,109 @@
       btnToggleAdmin.addEventListener("click", () => {
         if (dashboardSection.style.display === "none") {
           dashboardSection.style.display = "block";
-          btnToggleAdmin.textContent = "❌ Fechar Painel do Pesquisador";
-          btnToggleAdmin.style.opacity = "1";
+          btnToggleAdmin.innerHTML = "❌ <span>Fechar Painel</span>";
           dashboardSection.scrollIntoView({ behavior: 'smooth' });
+          renderDashboard(); // Re-renderiza para rodar animações das barras
         } else {
           dashboardSection.style.display = "none";
-          btnToggleAdmin.textContent = "⚙️ Painel do Pesquisador (Avaliação do Hackathon)";
-          btnToggleAdmin.style.opacity = "0.6";
+          btnToggleAdmin.innerHTML = "📊 <span>Ver Painel</span>";
         }
+      });
+
+      // ==============================================================================
+      // CONTROLE DO WIZARD (FORMULÁRIO EM PASSOS)
+      // ==============================================================================
+      let currentStep = 1;
+      const totalSteps = 3;
+      
+      const wizardStepTitle = document.getElementById("wizard-step-title");
+      const wizardStepLabel = document.getElementById("wizard-step-label");
+      const wizardProgressFill = document.getElementById("wizard-progress-fill");
+      
+      const btnPrev = document.getElementById("btn-prev-step");
+      const btnNext = document.getElementById("btn-next-step");
+      const btnSubmit = document.getElementById("btn-submit-survey");
+      
+      function showStep(step) {
+        document.querySelectorAll(".wizard-step").forEach(el => el.style.display = "none");
+        document.getElementById(`step-${step}-container`).style.display = "block";
+        
+        // Aplica animação fade-up ao passo ativo
+        const activeContainer = document.getElementById(`step-${step}-container`);
+        activeContainer.classList.remove("visible");
+        activeContainer.classList.add("fade-up");
+        setTimeout(() => activeContainer.classList.add("visible"), 50);
+        
+        // Atualiza cabeçalho do wizard
+        if (step === 1) {
+          wizardStepTitle.textContent = "📋 Perfil Digital";
+        } else if (step === 2) {
+          wizardStepTitle.textContent = "🎯 Sua Experiência";
+        } else if (step === 3) {
+          wizardStepTitle.textContent = "💔 Impacto e Sentimento";
+        }
+        
+        wizardStepLabel.textContent = `Etapa ${step} de ${totalSteps}`;
+        wizardProgressFill.style.width = `${(step / totalSteps) * 100}%`;
+        
+        // Controla exibição dos botões
+        btnPrev.style.display = step === 1 ? "none" : "block";
+        if (step === totalSteps) {
+          btnNext.style.display = "none";
+          btnSubmit.style.display = "block";
+        } else {
+          btnNext.style.display = "block";
+          btnSubmit.style.display = "none";
+        }
+        
+        // Scroll suave para o topo do formulário
+        document.getElementById("survey-window").scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      
+      function validateStep(step) {
+        if (step === 1) {
+          const q1 = document.getElementById("q1").value;
+          const q2 = document.getElementById("q2").value;
+          if (!q1) {
+            showToast("Por favor, responda à Pergunta 1 (Faixa Etária).", "warning");
+            return false;
+          }
+          if (!q2) {
+            showToast("Por favor, selecione seu nível de letramento (Pergunta 2).", "warning");
+            return false;
+          }
+        } else if (step === 2) {
+          const q3 = document.getElementById("q3").value;
+          if (!q3) {
+            showToast("Por favor, selecione se já passou por situações de golpes (Pergunta 3).", "warning");
+            return false;
+          }
+          if (q3 !== "Não, nunca passei") {
+            const q4 = document.getElementById("q4").value;
+            const q5 = document.getElementById("q5").value;
+            if (!q4) {
+              showToast("Por favor, selecione por qual canal ocorreu o golpe (Pergunta 4).", "warning");
+              return false;
+            }
+            if (!q5) {
+              showToast("Por favor, selecione qual era o tipo de golpe (Pergunta 5).", "warning");
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+      
+      btnNext.addEventListener("click", () => {
+        if (validateStep(currentStep)) {
+          currentStep++;
+          showStep(currentStep);
+        }
+      });
+      
+      btnPrev.addEventListener("click", () => {
+        currentStep--;
+        showStep(currentStep);
       });
 
       // Gerenciar seleção dos botões de opções do formulário
@@ -630,6 +786,10 @@
           
           // Marcar o atual
           btn.classList.add("selected");
+          
+          // Feedback de clique instantâneo
+          btn.style.transform = "scale(0.95)";
+          setTimeout(() => { btn.style.transform = ""; }, 100);
           
           // Preencher o input hidden correspondente
           document.getElementById(qId).value = val;
@@ -661,6 +821,12 @@
               cardQ5.style.opacity = "1";
               cardQ6.style.opacity = "1";
               cardQ7.style.opacity = "1";
+              
+              // Se antes tinha preenchido com fallback, limpa
+              if (document.getElementById("q4").value === "Outro / Não aplicável") document.getElementById("q4").value = "";
+              if (document.getElementById("q5").value === "Outro / Não aplicável") document.getElementById("q5").value = "";
+              if (document.getElementById("q6").value === "Não se aplica") document.getElementById("q6").value = "";
+              if (document.getElementById("q7").value === "Sem prejuízo") document.getElementById("q7").value = "";
             }
           }
         });
@@ -697,7 +863,11 @@
         thankYouCard.style.display = "none";
         surveyWindow.style.display = "block";
         capiGuideBox.style.display = "flex";
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        currentStep = 1;
+        showStep(1);
+        form.reset();
+        document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+        document.querySelectorAll('input[type="hidden"]').forEach(i => i.value = "");
       });
 
       // Submit do Formulário
@@ -717,7 +887,7 @@
         const q10 = document.getElementById("q10").value.trim();
 
         if (!q1 || !q2 || !q3 || !q8 || !q9 || !q10) {
-          alert("Por favor, responda a todas as perguntas marcadas antes de enviar.");
+          showToast("Por favor, preencha todos os campos obrigatórios.", "error");
           return;
         }
 
@@ -726,19 +896,6 @@
         
         db.push(newRecord);
         localStorage.setItem("guardiao_pesquisa_dados", JSON.stringify(db));
-        
-        // Resetar Formulário
-        form.reset();
-        document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
-        document.getElementById("q1").value = "";
-        document.getElementById("q2").value = "";
-        document.getElementById("q3").value = "";
-        document.getElementById("q4").value = "";
-        document.getElementById("q5").value = "";
-        document.getElementById("q6").value = "";
-        document.getElementById("q7").value = "";
-        document.getElementById("q8").value = "";
-        document.getElementById("q9").value = "";
         
         // Exibir tela de agradecimento
         surveyWindow.style.display = "none";
@@ -758,12 +915,12 @@
           statScamRatio.textContent = "0%";
           statReportRatio.textContent = "0%";
           statDigitalLiteracy.textContent = "0%";
-          chartChannels.innerHTML = "<p style='text-align:center;'>Nenhum dado registrado.</p>";
-          chartTypes.innerHTML = "<p style='text-align:center;'>Nenhum dado registrado.</p>";
-          chartTriggers.innerHTML = "<p style='text-align:center;'>Nenhum dado registrado.</p>";
-          chartLosses.innerHTML = "<p style='text-align:center;'>Nenhum dado registrado.</p>";
-          wordCloudContainer.innerHTML = "<p style='text-align:center;'>Nenhum dado registrado.</p>";
-          tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center;'>Nenhuma entrevista registrada. Registre acima ou carregue dados simulados para ver o dashboard.</td></tr>";
+          chartChannels.innerHTML = "<p style='text-align:center; padding: 20px; color: var(--color-text-muted);'>Nenhum dado registrado.</p>";
+          chartTypes.innerHTML = "<p style='text-align:center; padding: 20px; color: var(--color-text-muted);'>Nenhum dado registrado.</p>";
+          chartTriggers.innerHTML = "<p style='text-align:center; padding: 20px; color: var(--color-text-muted);'>Nenhum dado registrado.</p>";
+          chartLosses.innerHTML = "<p style='text-align:center; padding: 20px; color: var(--color-text-muted);'>Nenhum dado registrado.</p>";
+          wordCloudContainer.innerHTML = "<p style='text-align:center; padding: 20px; color: var(--color-text-muted);'>Nenhum sentimento registrado ainda.</p>";
+          tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; padding: 20px; color: var(--color-text-muted);'>Nenhuma entrevista registrada. Registre acima ou carregue dados simulados.</td></tr>";
           return;
         }
 
@@ -791,28 +948,39 @@
           return freqs;
         }
 
-        // Renderizador de Graficos Simples (Barras de progresso horizontais)
+        // Paleta de Cores Neon para Gráficos
+        const COLORS = ['var(--accent-teal)', 'var(--accent-purple)', '#3B82F6', '#F59E0B', '#EF4444', '#10B981', '#EC4899', '#6366F1'];
+
+        // Renderizador de Graficos Simples (Barras de progresso animadas e coloridas)
         function renderBarChart(container, freqs) {
           container.innerHTML = "";
           const sorted = Object.entries(freqs).sort((a,b) => b[1] - a[1]);
           const maxVal = Math.max(...sorted.map(x => x[1]));
           
-          sorted.forEach(([label, val]) => {
+          sorted.forEach(([label, val], idx) => {
             const pct = Math.round((val / db.length) * 100);
             const rawPctOfMax = Math.round((val / maxVal) * 100);
+            const isWinner = val === maxVal && val > 0;
+            const barColor = COLORS[idx % COLORS.length];
             
             const barWrapper = document.createElement("div");
-            barWrapper.style.marginBottom = "10px";
+            barWrapper.style.marginBottom = "14px";
             barWrapper.innerHTML = `
-              <div style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:600; margin-bottom:2px;">
-                <span>${label}</span>
-                <span>${val} (${pct}%)</span>
+              <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:600; margin-bottom:4px; font-family: var(--font-body);">
+                <span>${isWinner ? '🏆 ' : ''}${label}</span>
+                <span style="font-family: var(--font-mono); color:${barColor}; font-weight:bold;">${val} ${val === 1 ? 'resposta' : 'respostas'} (${pct}%)</span>
               </div>
-              <div class="progress-bar-container">
-                <div class="progress-bar-fill" style="width: ${rawPctOfMax}%;"></div>
+              <div class="progress-bar-container" style="background: rgba(255,255,255,0.03);">
+                <div class="progress-bar-fill" id="bar-${container.id}-${idx}" style="width: 0%; background:${barColor}; box-shadow: 0 0 8px ${barColor}80; border-radius: 8px;"></div>
               </div>
             `;
             container.appendChild(barWrapper);
+
+            // Animação diferida
+            setTimeout(() => {
+              const el = document.getElementById(`bar-${container.id}-${idx}`);
+              if (el) el.style.width = `${rawPctOfMax}%`;
+            }, 100 + (idx * 50));
           });
         }
 
@@ -828,7 +996,7 @@
         // 5. Gráfico de Prejuízos (Q7)
         renderBarChart(chartLosses, getFreqs("q7"));
 
-        // 6. Nuvem de sentimentos (Q10)
+        // 6. Nuvem de sentimentos interativa (Q10)
         wordCloudContainer.innerHTML = "";
         const sentimentos = db.map(x => x.q10.trim()).filter(Boolean);
         const sentFreqs = {};
@@ -837,16 +1005,48 @@
           sentFreqs[formatted] = (sentFreqs[formatted] || 0) + 1;
         });
 
-        Object.entries(sentFreqs).forEach(([word, freq]) => {
-          const span = document.createElement("span");
-          span.className = "feeling-tag";
-          const fontSize = 11 + (freq * 2.5);
-          span.style.fontSize = `${fontSize}px`;
-          span.style.color = freq > 2 ? "var(--risk-high)" : (freq > 1 ? "var(--accent-teal)" : "var(--color-text)");
-          span.style.borderColor = freq > 2 ? "var(--risk-high)" : "var(--color-border)";
-          span.textContent = `${word} (${freq})`;
-          wordCloudContainer.appendChild(span);
-        });
+        const sortedSent = Object.entries(sentFreqs).sort((a,b) => b[1] - a[1]);
+        if (sortedSent.length > 0) {
+          const maxFreq = sortedSent[0][1];
+          
+          sortedSent.forEach(([word, freq]) => {
+            const span = document.createElement("span");
+            span.className = "feeling-tag-cloud";
+            
+            // Fórmula do tamanho da fonte (12px a 28px)
+            const fontSize = 12 + (freq / maxFreq) * 16;
+            span.style.fontSize = `${fontSize}px`;
+            
+            // Atribui cor baseada na frequência
+            let color = 'var(--color-text)';
+            let borderColor = 'rgba(255,255,255,0.08)';
+            if (freq >= 3) {
+              color = 'var(--risk-high)';
+              borderColor = 'var(--risk-high)';
+            } else if (freq === 2) {
+              color = 'var(--accent-purple)';
+              borderColor = 'var(--accent-purple)';
+            } else {
+              color = 'var(--accent-teal)';
+              borderColor = 'var(--accent-teal)30';
+            }
+            
+            span.style.color = color;
+            span.style.borderColor = borderColor;
+            
+            // Rotação suave aleatória (-8 a 8 graus)
+            const rotation = (Math.random() * 16 - 8).toFixed(1);
+            span.style.transform = `rotate(${rotation}deg)`;
+            
+            // Tooltip e contagem
+            span.setAttribute("title", `${freq} ocorrências`);
+            span.innerHTML = `${word} <span style="font-family: var(--font-mono); font-size:10px; opacity:0.6;">(${freq})</span>`;
+            
+            wordCloudContainer.appendChild(span);
+          });
+        } else {
+          wordCloudContainer.innerHTML = "<p style='text-align:center; padding: 20px; color: var(--color-text-muted);'>Nenhum sentimento válido.</p>";
+        }
 
         // 7. Tabela Detalhada
         tableBody.innerHTML = "";
@@ -854,8 +1054,8 @@
           const tr = document.createElement("tr");
           
           let alertBadge = "✔️";
-          if (record.q3 === "Sim, caí e tive prejuízo") alertBadge = "🚨";
-          if (record.q3 === "Sim, tentaram mas percebi") alertBadge = "⚠️";
+          if (record.q3 === "Sim, caí e tive prejuízo") alertBadge = "🔴";
+          if (record.q3 === "Sim, tentaram mas percebi") alertBadge = "🟡";
           if (record.q3 === "Familiar/amigo caiu") alertBadge = "👥";
 
           tr.innerHTML = `
@@ -882,6 +1082,7 @@
             db = db.filter(x => x.id !== targetId);
             localStorage.setItem("guardiao_pesquisa_dados", JSON.stringify(db));
             renderDashboard();
+            showToast("Entrevista removida do banco.", "info");
           });
         });
       }
@@ -893,6 +1094,7 @@
           db.forEach((x, idx) => x.id = idx + 1);
           localStorage.setItem("guardiao_pesquisa_dados", JSON.stringify(db));
           renderDashboard();
+          showToast("12 Entrevistas carregadas com sucesso no painel!", "success");
         }
       }
 
@@ -902,13 +1104,14 @@
           db = [];
           localStorage.removeItem("guardiao_pesquisa_dados");
           renderDashboard();
+          showToast("Todo o banco de dados local foi excluído.", "warning");
         }
       }
 
       // Exportar para CSV
       function exportToCSV() {
         if (db.length === 0) {
-          alert("Nenhum dado disponível para exportação.");
+          showToast("Nenhum dado disponível para exportação.", "error");
           return;
         }
 
@@ -944,9 +1147,11 @@
         
         link.click();
         document.body.removeChild(link);
+        showToast("Planilha CSV baixada com sucesso!", "success");
       }
 
-      // Executar renderização inicial
+      // Executa inicialização
+      showStep(1);
       renderDashboard();
     });
   </script>
