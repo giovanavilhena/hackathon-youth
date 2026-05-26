@@ -27,6 +27,7 @@
           <a href="historico.html" class="nav-link outset-border active" id="nav-historico">Histórico Público</a>
           <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
           <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+          <a href="jogo.html" class="nav-link outset-border" id="nav-jogo">🎮 Jogo</a>
           <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
           <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
         </nav>
@@ -58,6 +59,89 @@
       </div>
     </div>
 
+    <!-- PAINEL DE MÉTRICAS DE DENÚNCIAS -->
+    <section class="window outset-border" style="margin-bottom: 24px;">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>📊 PAINEL_METRICAS_DENUNCIAS.EXE</span>
+        </div>
+      </div>
+      <div class="window-body">
+        <h2 style="font-size: 16px; margin-bottom: 6px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Painel de Métricas de Denúncias</h2>
+        <p style="font-size: 12.5px; color: var(--color-text-muted); margin-bottom: 20px;">Distribuição dos relatos comunitários calculada em tempo real a partir do banco de casos. Atualiza conforme novas denúncias são registradas.</p>
+
+        <!-- KPIs -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 24px;">
+          <div class="card-flat" style="padding: 14px; text-align: center; box-shadow: none; background: rgba(0,245,212,0.05); border-color: rgba(0,245,212,0.3);">
+            <div style="font-size: 9px; color: var(--color-text-muted); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Total de Casos</div>
+            <div style="font-family: var(--font-mono); font-size: 28px; font-weight: 800; color: var(--accent-teal);" id="kpi-total">0</div>
+          </div>
+          <div class="card-flat" style="padding: 14px; text-align: center; box-shadow: none; background: rgba(239,68,68,0.05); border-color: rgba(239,68,68,0.3);">
+            <div style="font-size: 9px; color: var(--color-text-muted); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Alto Risco</div>
+            <div style="font-family: var(--font-mono); font-size: 28px; font-weight: 800; color: var(--risk-high);" id="kpi-alto">0</div>
+          </div>
+          <div class="card-flat" style="padding: 14px; text-align: center; box-shadow: none; background: rgba(245,158,11,0.05); border-color: rgba(245,158,11,0.3);">
+            <div style="font-size: 9px; color: var(--color-text-muted); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Risco Médio</div>
+            <div style="font-family: var(--font-mono); font-size: 28px; font-weight: 800; color: var(--risk-medium);" id="kpi-medio">0</div>
+          </div>
+          <div class="card-flat" style="padding: 14px; text-align: center; box-shadow: none; background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3);">
+            <div style="font-size: 9px; color: var(--color-text-muted); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Risco Baixo</div>
+            <div style="font-family: var(--font-mono); font-size: 28px; font-weight: 800; color: var(--risk-low);" id="kpi-baixo">0</div>
+          </div>
+          <div class="card-flat" style="padding: 14px; text-align: center; box-shadow: none; background: rgba(168,85,247,0.05); border-color: rgba(168,85,247,0.3);">
+            <div style="font-size: 9px; color: var(--color-text-muted); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Risco Médio %</div>
+            <div style="font-family: var(--font-mono); font-size: 28px; font-weight: 800; color: var(--accent-purple);" id="kpi-pct-alto">0%</div>
+          </div>
+        </div>
+
+        <!-- GRÁFICOS EM GRADE -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+
+          <!-- GRÁFICO 1: Por Categoria de Golpe -->
+          <div class="card-flat" style="padding: 16px; box-shadow: none;">
+            <h3 style="font-size: 12px; font-family: var(--font-mono); color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;">📂 Por Categoria de Golpe</h3>
+            <div id="chart-categoria" style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="color: var(--color-text-muted); font-size: 11px; font-family: var(--font-mono);">Calculando...</div>
+            </div>
+          </div>
+
+          <!-- GRÁFICO 2: Por Canal de Contato -->
+          <div class="card-flat" style="padding: 16px; box-shadow: none;">
+            <h3 style="font-size: 12px; font-family: var(--font-mono); color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;">📱 Por Canal de Contato</h3>
+            <div id="chart-canal" style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="color: var(--color-text-muted); font-size: 11px; font-family: var(--font-mono);">Calculando...</div>
+            </div>
+          </div>
+
+          <!-- GRÁFICO 3: Por Faixa Etária -->
+          <div class="card-flat" style="padding: 16px; box-shadow: none;">
+            <h3 style="font-size: 12px; font-family: var(--font-mono); color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;">👥 Por Faixa Etária Afetada</h3>
+            <div id="chart-idade" style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="color: var(--color-text-muted); font-size: 11px; font-family: var(--font-mono);">Calculando...</div>
+            </div>
+          </div>
+
+          <!-- GRÁFICO 4: Por Região -->
+          <div class="card-flat" style="padding: 16px; box-shadow: none;">
+            <h3 style="font-size: 12px; font-family: var(--font-mono); color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;">🗺️ Por Região Geográfica</h3>
+            <div id="chart-regiao" style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="color: var(--color-text-muted); font-size: 11px; font-family: var(--font-mono);">Calculando...</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- NOTA METODOLÓGICA -->
+        <div style="margin-top: 16px; padding: 10px 14px; background: var(--bg-desktop); border-left: 4px solid rgba(0,245,212,0.4); border-radius: 6px; font-size: 11px; color: var(--color-text-muted);">
+          <strong style="color: var(--accent-teal);">ℹ️ Metodologia:</strong> Dados computados localmente a partir dos relatos anônimos registrados neste dispositivo. Inclui casos mock de referência. Nenhum dado pessoal é transmitido externamente.
+        </div>
+      </div>
+      <div class="window-statusbar">
+        <span id="metrics-status-left">Calculando métricas...</span>
+        <span>Painel em tempo real — localStorage</span>
+      </div>
+    </section>
+
     <!-- PAINEL DO HISTÓRICO -->
     <section class="window outset-border">
       <div class="window-titlebar">
@@ -68,7 +152,7 @@
 
       <div class="window-body">
         <h2 style="font-size: 16px; margin-bottom: 8px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Banco de Relatos Comunitários</h2>
-        
+
         <!-- Resumo do Banco Comunitário -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
           <div class="card-flat" style="padding: 12px; text-align: center; box-shadow: var(--shadow-flat-sm); background: rgba(0,0,0,0.2);">
@@ -277,7 +361,8 @@
       
       let itemsToShow = 5;
 
-      // Executa estatísticas e inicialização
+      // Executa estatísticas, métricas e inicialização
+      renderMetrics();
       renderStats();
       renderHistory();
 
@@ -296,6 +381,90 @@
         renderHistory();
         searchBar.scrollIntoView({ behavior: 'smooth' });
       });
+
+      // 0. Renderizador do Painel de Métricas
+      function renderMetrics() {
+        const total = reports.length;
+        if (total === 0) return;
+
+        // KPIs de risco
+        const niveis = { ALTO: 0, MÉDIO: 0, BAIXO: 0 };
+        reports.forEach(r => {
+          const n = r.analise && r.analise.nivel ? r.analise.nivel.toUpperCase() : "ALTO";
+          if (niveis[n] !== undefined) niveis[n]++;
+          else niveis["ALTO"]++;
+        });
+        document.getElementById("kpi-total").textContent = total;
+        document.getElementById("kpi-alto").textContent = niveis["ALTO"];
+        document.getElementById("kpi-medio").textContent = niveis["MÉDIO"];
+        document.getElementById("kpi-baixo").textContent = niveis["BAIXO"];
+        document.getElementById("kpi-pct-alto").textContent = Math.round((niveis["ALTO"] / total) * 100) + "%";
+        document.getElementById("metrics-status-left").textContent = `${total} casos analisados`;
+
+        const CHART_COLORS = [
+          "var(--accent-teal)", "var(--accent-purple)", "#F59E0B", "#38BDF8",
+          "var(--risk-high)", "var(--risk-low)", "#818CF8", "#FB923C"
+        ];
+
+        function buildBarChart(containerId, dataObj) {
+          const container = document.getElementById(containerId);
+          if (!container) return;
+          const entries = Object.entries(dataObj).sort((a, b) => b[1] - a[1]);
+          const max = entries[0] ? entries[0][1] : 1;
+          container.innerHTML = entries.map(([label, count], i) => {
+            const pct = Math.round((count / total) * 100);
+            const barW = Math.round((count / max) * 100);
+            const color = CHART_COLORS[i % CHART_COLORS.length];
+            return `
+              <div style="display: flex; flex-direction: column; gap: 3px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+                  <span style="color: var(--color-text); font-weight: 600; max-width: 65%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${label}">${label}</span>
+                  <span style="font-family: var(--font-mono); color: ${color}; font-weight: 700;">${count} <span style="color: var(--color-text-muted); font-weight: 400;">(${pct}%)</span></span>
+                </div>
+                <div style="background: rgba(255,255,255,0.07); border-radius: 4px; height: 7px; overflow: hidden;">
+                  <div style="height: 100%; width: ${barW}%; background: ${color}; border-radius: 4px; transition: width 0.6s ease;"></div>
+                </div>
+              </div>`;
+          }).join("");
+        }
+
+        // Gráfico 1: Por Categoria
+        const cats = {};
+        reports.forEach(r => {
+          let cat = (r.analise && r.analise.areaProvavel) ? r.analise.areaProvavel : "Indeterminado";
+          // Encurta rótulos longos
+          if (cat.length > 35) cat = cat.substring(0, 33) + "…";
+          cats[cat] = (cats[cat] || 0) + 1;
+        });
+        buildBarChart("chart-categoria", cats);
+
+        // Gráfico 2: Por Canal
+        const canais = {};
+        reports.forEach(r => {
+          const c = (r.triagem && r.triagem.canal) ? r.triagem.canal : "Desconhecido";
+          canais[c] = (canais[c] || 0) + 1;
+        });
+        buildBarChart("chart-canal", canais);
+
+        // Gráfico 3: Por Faixa Etária
+        const idades = {};
+        reports.forEach(r => {
+          let idade = (r.triagem && r.triagem.idade) ? r.triagem.idade : "Não informado";
+          if (["16-29", "18 a 29", "16 a 29"].includes(idade)) idade = "16 a 29 anos";
+          if (["30-59", "30 a 59"].includes(idade)) idade = "30 a 59 anos";
+          if (["60+", "60+ (Idoso)"].includes(idade)) idade = "60+ anos";
+          idades[idade] = (idades[idade] || 0) + 1;
+        });
+        buildBarChart("chart-idade", idades);
+
+        // Gráfico 4: Por Região
+        const regioes = {};
+        reports.forEach(r => {
+          const reg = (r.triagem && r.triagem.regiao) ? r.triagem.regiao : "Não informado";
+          regioes[reg] = (regioes[reg] || 0) + 1;
+        });
+        buildBarChart("chart-regiao", regioes);
+      }
 
       // 1. Renderizador de Estatísticas do Banco Comunitário
       function renderStats() {
