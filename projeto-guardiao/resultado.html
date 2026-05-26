@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Guardião da Rede - Veja o resultado da análise de risco de golpe virtual e orientações recomendadas.">
-  <title>Resultado da Análise — Guardião da Rede</title>
+  <meta name="description" content="CapiSafe - Veja o resultado da análise de risco de golpe virtual e orientações recomendadas.">
+  <title>Resultado da Análise — CapiSafe</title>
   <link rel="stylesheet" href="css/estilo.css">
   <style>
     @media print {
@@ -48,8 +48,8 @@
   <header class="app-header outset-border">
     <div class="header-container">
       <a href="index.html" class="logo-link">
-        <span class="logo-icon" aria-hidden="true">🛡️</span>
-        <span class="logo-text">Guardião da Rede</span>
+        <span class="logo-icon" aria-hidden="true">🦫</span>
+        <span class="logo-text">CapiSafe</span>
       </a>
       <div style="display: flex; gap: 8px; align-items: center;">
         <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
@@ -57,8 +57,9 @@
           <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
           <a href="relato.html" class="nav-link outset-border active" id="nav-relato">Relatar Suspeita</a>
           <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
           <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
           <a href="jogo.html" class="nav-link outset-border" id="nav-jogo">🎮 Jogo</a>
           <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
           <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
@@ -219,8 +220,8 @@
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
     <div class="footer-container">
-      <div>🛡️ Guardião da Rede - Cidadão na Rede FIB16</div>
-      <div>Sistema: Online [Port 8080]</div>
+      <div>🛡️ CapiSafe</div>
+      <div>Segurança Digital Brasileira</div>
     </div>
   </footer>
 
@@ -356,11 +357,11 @@
 
       // Compartilhar
       document.getElementById("btn-compartilhar").addEventListener("click", () => {
-        const textToShare = `⚠️ ALERTA DO GUARDIÃO DA REDE\n\nCaso: ${relatoTitulo}\nDiagnóstico provável: ${analise.areaProvavel}\nNível de Risco: ${nivel} (${risco}%)\n\nRecomendações de Proteção:\n- ${recs.slice(0, 2).map(r => r.split(':')[0]).join('\n- ')}\n\nAnalise suspeitas de golpes no Guardião da Rede.`;
+        const textToShare = `⚠️ ALERTA DO GUARDIÃO DA REDE\n\nCaso: ${relatoTitulo}\nDiagnóstico provável: ${analise.areaProvavel}\nNível de Risco: ${nivel} (${risco}%)\n\nRecomendações de Proteção:\n- ${recs.slice(0, 2).map(r => r.split(':')[0]).join('\n- ')}\n\nAnalise suspeitas de golpes no CapiSafe.`;
         
         if (navigator.share) {
           navigator.share({
-            title: `Guardião da Rede - Alerta de Golpe`,
+            title: `CapiSafe - Alerta de Golpe`,
             text: textToShare,
             url: window.location.href
           }).catch(err => console.log("Erro ao compartilhar:", err));
