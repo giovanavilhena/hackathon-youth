@@ -1,8 +1,7 @@
 /**
- * Guardião da Rede — Componentes Compartilhados Dinâmicos
- * 
- * Este script injeta elementos duplicados em todo o site, como o Modal de Configurações,
- * garantindo consistência e facilitando a manutenção do código.
+ * CapiSafe — Componentes Compartilhados Dinâmicos
+ *
+ * Injeta elementos reutilizados em todo o site (modal de configurações, chatbot).
  */
 
 (function() {
@@ -20,11 +19,11 @@
       </div>
       <div class="window-body">
         <p style="margin-bottom: 10px;">
-          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
+          Insira sua API Key da <strong>Maritaca AI</strong> para análises inteligentes avançadas com o Sabiá-3 🇧🇷. Chave salva localmente no navegador.
         </p>
         <div class="form-group">
-          <label for="gemini-key-input" class="form-label">API Key:</label>
-          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
+          <label for="gemini-key-input" class="form-label">API Key Maritaca:</label>
+          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="110672...">
         </div>
         <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
           <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>

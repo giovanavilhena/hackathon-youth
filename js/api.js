@@ -1,12 +1,12 @@
 /**
- * Guardião da Rede — Integração com API do Google Gemini
- * 
- * Este arquivo gerencia a chave de API salva no localStorage, a interface do modal
- * de configurações e a chamada da IA (Gemini 1.5 Flash).
+ * CapiSafe — Integração com API da Maritaca AI (Sabiá-3)
+ *
+ * Gerencia a chave de API salva no localStorage, o modal de configurações
+ * e as chamadas ao modelo de linguagem brasileiro Sabiá-3 (maritaca.ai).
  */
 
 // Chave do localStorage
-const GEMINI_STORAGE_KEY = "guardiao_gemini_api_key";
+const MARITACA_STORAGE_KEY = "capisafe_maritaca_api_key";
 
 // ==============================================================================
 // SISTEMA DE NOTIFICAÇÕES TOAST (SUBSTITUTO PARA ALERTS NATIVOS)
@@ -60,7 +60,7 @@ const clearSettings = document.getElementById("btn-clear-settings");
 if (settingsToggle && settingsModal) {
   // Abre o modal
   settingsToggle.addEventListener("click", () => {
-    const savedKey = localStorage.getItem(GEMINI_STORAGE_KEY) || "";
+    const savedKey = localStorage.getItem(MARITACA_STORAGE_KEY) || "";
     keyInput.value = savedKey;
     settingsModal.classList.add("active");
     settingsModal.setAttribute("aria-hidden", "false");
@@ -80,10 +80,10 @@ if (settingsToggle && settingsModal) {
   saveSettings.addEventListener("click", () => {
     const key = keyInput.value.trim();
     if (key) {
-      localStorage.setItem(GEMINI_STORAGE_KEY, key);
+      localStorage.setItem(MARITACA_STORAGE_KEY, key);
       showToast("Chave de API salva com sucesso localmente!", "success");
     } else {
-      localStorage.removeItem(GEMINI_STORAGE_KEY);
+      localStorage.removeItem(MARITACA_STORAGE_KEY);
       showToast("Chave removida. O site usará o classificador local offline.", "warning");
     }
     closeModal();
@@ -91,7 +91,7 @@ if (settingsToggle && settingsModal) {
 
   // Limpa a chave
   clearSettings.addEventListener("click", () => {
-    localStorage.removeItem(GEMINI_STORAGE_KEY);
+    localStorage.removeItem(MARITACA_STORAGE_KEY);
     keyInput.value = "";
     showToast("Chave de API removida do seu navegador.", "info");
     closeModal();
@@ -113,18 +113,18 @@ function closeModal() {
  * @returns {Promise<Object>} Promessa contendo os dados de análise do golpe
  */
 async function analisarRelatoComIA(titulo, descricao, triagem) {
-  const apiKey = localStorage.getItem(GEMINI_STORAGE_KEY);
+  const apiKey = localStorage.getItem(MARITACA_STORAGE_KEY);
 
   // Fallback se não houver chave salva
   if (!apiKey) {
-    console.log("Gemini API Key não configurada. Usando classificador local offline.");
+    console.log("Chave Maritaca AI não configurada. Usando classificador local offline.");
     return analisarRelatoLocal(titulo, descricao, triagem);
   }
 
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const endpoint = "https://chat.maritaca.ai/api/chat/completions";
 
   // Prepara prompt estruturado
-  const prompt = `Você é o "Guardião da Rede", um analista especialista em cibersegurança e golpes virtuais.
+  const prompt = `Você é o "Capi", analista especialista em cibersegurança e golpes virtuais do projeto CapiSafe.
 Analise o relato enviado por um cidadão e os dados de triagem sociodemográfica fornecidos.
 Sua resposta deve ser EXCLUSIVAMENTE um objeto JSON válido, estruturado conforme o exemplo abaixo, sem tags markdown (como \`\`\`json) e sem introduções ou conclusões textuais.
 
@@ -174,16 +174,16 @@ EXEMPLO DE FORMATO DE RETORNO (DEVE SER APENAS O JSON):
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        contents: [{
-          parts: [{ text: prompt }]
-        }],
-        generationConfig: {
-          responseMimeType: "application/json",
-          temperature: 0.1
-        }
+        model: "sabia-3",
+        messages: [
+          { role: "system", content: "Você é um analista especialista em cibersegurança brasileiro. Responda EXCLUSIVAMENTE com JSON válido, sem markdown, sem texto adicional." },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.1
       })
     });
 
@@ -192,14 +192,14 @@ EXEMPLO DE FORMATO DE RETORNO (DEVE SER APENAS O JSON):
     }
 
     const data = await response.json();
-    const jsonText = data.candidates[0].content.parts[0].text;
-    
+    const jsonText = data.choices[0].message.content;
+
     // Converte a string JSON recebida para objeto JS
     const analise = JSON.parse(jsonText.trim());
     return analise;
 
   } catch (error) {
-    console.error("Falha ao consultar a API do Gemini. Usando classificador local de fallback:", error);
+    console.error("Falha ao consultar a Maritaca AI. Usando classificador local de fallback:", error);
     // Fallback em caso de erro na rede ou limite de cota estourado
     return analisarRelatoLocal(titulo, descricao, triagem);
   }
@@ -440,7 +440,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let chatHistory = [];
 
     // Prompt de treinamento (System Instruction) do Capi Bot especialista em golpes
-    const SYSTEM_INSTRUCTION = `Você é o "Capi Bot", o especialista virtual de inteligência artificial do projeto "Guardião da Rede" (plataforma de segurança cibernética contra golpes virtuais).
+    const SYSTEM_INSTRUCTION = `Você é o "Capi Bot", o especialista virtual de inteligência artificial do projeto "CapiSafe" (plataforma brasileira de segurança cibernética contra golpes virtuais).
 Seu objetivo é ajudar cidadãos a detectar se são vítimas de engenharia social, phishing ou fraudes financeiras de forma amigável, ética e direta.
 
 Regras e Instruções para sua Resposta:
@@ -455,57 +455,51 @@ Regras e Instruções para sua Resposta:
 6. Nunca responda a perguntas fora de segurança da informação ou golpes. Se o usuário perguntar sobre outros assuntos, diga de forma bem-humorada que sua mente de capivara hacker está focada em caçar golpistas.`;
 
     async function getChatbotResponse(userMessage) {
-      const apiKey = localStorage.getItem(GEMINI_STORAGE_KEY);
+      const apiKey = localStorage.getItem(MARITACA_STORAGE_KEY);
 
       // Fallback heurístico se não houver API Key
       if (!apiKey) {
         return getHeuristicResponse(userMessage);
       }
 
-      // Adiciona mensagem do usuário ao histórico local
-      chatHistory.push({
-        role: "user",
-        parts: [{ text: userMessage }]
-      });
+      // Adiciona mensagem do usuário ao histórico local (formato OpenAI)
+      chatHistory.push({ role: "user", content: userMessage });
 
       // Limita o histórico das últimas 10 mensagens
       if (chatHistory.length > 10) {
         chatHistory = chatHistory.slice(-10);
       }
 
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const endpoint = "https://chat.maritaca.ai/api/chat/completions";
 
       const payload = {
-        contents: chatHistory,
-        systemInstruction: {
-          parts: [{ text: SYSTEM_INSTRUCTION }]
-        },
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 500
-        }
+        model: "sabia-3",
+        messages: [
+          { role: "system", content: SYSTEM_INSTRUCTION },
+          ...chatHistory
+        ],
+        temperature: 0.7,
+        max_tokens: 500
       };
 
       const response = await fetch(endpoint, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
         },
         body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
-        throw new Error("Erro na requisição para a API do Gemini");
+        throw new Error("Erro na requisição para a Maritaca AI");
       }
 
       const data = await response.json();
-      const botText = data.candidates[0].content.parts[0].text.trim();
+      const botText = data.choices[0].message.content.trim();
 
       // Adiciona a resposta do bot ao histórico
-      chatHistory.push({
-        role: "model",
-        parts: [{ text: botText }]
-      });
+      chatHistory.push({ role: "assistant", content: botText });
 
       return botText;
     }
@@ -514,7 +508,7 @@ Regras e Instruções para sua Resposta:
     function getHeuristicResponse(message) {
       const lower = message.toLowerCase();
       let response = `⚠️ *[MODO OFFLINE / HEURÍSTICO EM EXECUÇÃO]*\n\n`;
-      response += `Para análises inteligentes profundas com IA, ative sua chave Gemini no ícone ⚙️ no menu superior.\n\n`;
+      response += `Para análises inteligentes profundas com IA, ative sua chave Maritaca AI no ícone ⚙️ no menu superior.\n\n`;
 
       let matched = false;
 

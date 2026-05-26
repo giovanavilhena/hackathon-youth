@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CapiSafe — Quem somos nós, nossa missão, as co-fundadoras e a importância da internet segura no Brasil.">
+  <title>Quem Somos — CapiSafe</title>
+  <link rel="stylesheet" href="css/estilo.css">
+  <style>
+    /* ===== ESTILOS EXCLUSIVOS DA PÁGINA SOBRE ===== */
+
+    /* Founder Card */
+    .founder-card {
+      background: var(--bg-card);
+      border: 2px solid var(--color-border);
+      border-radius: 14px;
+      padding: 28px 22px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .founder-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-purple));
+    }
+    .founder-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 245, 212, 0.15);
+    }
+    .founder-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 800;
+      color: #000;
+      margin: 0 auto 16px;
+      box-shadow: 0 0 20px rgba(0, 245, 212, 0.3);
+    }
+    .founder-name {
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--color-text);
+      margin-bottom: 4px;
+    }
+    .founder-role {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+    }
+    .founder-bio {
+      font-size: 12.5px;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      text-align: left;
+    }
+    .founder-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 14px;
+    }
+    .founder-tag {
+      background: rgba(0, 245, 212, 0.08);
+      border: 1px solid rgba(0, 245, 212, 0.2);
+      color: var(--accent-teal);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    /* Capybara Fun Facts */
+    .capi-fact {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(0, 245, 212, 0.03);
+      border: 1px solid rgba(0, 245, 212, 0.1);
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .capi-fact:hover {
+      background: rgba(0, 245, 212, 0.07);
+    }
+    .capi-fact-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .capi-fact-text {
+      font-size: 12.5px;
+      color: var(--color-text-muted);
+      line-height: 1.55;
+    }
+    .capi-fact-title {
+      font-weight: 800;
+      color: var(--color-text);
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    /* Mission Stat */
+    .mission-stat {
+      text-align: center;
+      padding: 20px 14px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--color-border);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .mission-stat::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-teal), transparent);
+    }
+    .mission-stat-value {
+      font-family: var(--font-mono);
+      font-size: 30px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+    }
+    .mission-stat-label {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+      font-family: var(--font-body);
+    }
+
+    /* Audience Cards */
+    .audience-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--color-border);
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+    }
+    .audience-device {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    .audience-title {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--color-text);
+      margin-bottom: 6px;
+    }
+    .audience-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .audience-site { background: rgba(0,245,212,0.1); color: var(--accent-teal); border: 1px solid rgba(0,245,212,0.3); }
+    .audience-wpp { background: rgba(37,211,102,0.1); color: #25D366; border: 1px solid rgba(37,211,102,0.3); }
+
+    /* Name Origin */
+    .name-origin-card {
+      background: linear-gradient(135deg, rgba(0,245,212,0.05), rgba(168,85,247,0.05));
+      border: 2px solid rgba(0,245,212,0.2);
+      border-radius: 14px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .name-origin-card::before {
+      content: '"';
+      position: absolute;
+      top: -10px; left: 10px;
+      font-size: 80px;
+      color: rgba(0,245,212,0.08);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    /* Partner Logo Cards */
+    .partner-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--color-border);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .partner-card:hover {
+      border-color: var(--accent-teal);
+      box-shadow: 0 4px 20px rgba(0,245,212,0.1);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .partner-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .partner-name {
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--color-text);
+      margin-bottom: 2px;
+    }
+    .partner-desc {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    /* Glow pulse animation for hero */
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(0,245,212,0.2); }
+      50% { box-shadow: 0 0 40px rgba(0,245,212,0.4), 0 0 60px rgba(168,85,247,0.2); }
+    }
+    .glow-animated { animation: glow-pulse 3s ease-in-out infinite; }
+
+    /* Timeline item */
+    .timeline-item {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-teal);
+      flex-shrink: 0;
+      margin-top: 5px;
+      box-shadow: 0 0 8px rgba(0,245,212,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+  <header class="app-header outset-border">
+    <div class="header-container">
+      <a href="index.html" class="logo-link">
+        <span class="logo-icon" aria-hidden="true">🦫</span>
+        <span class="logo-text">CapiSafe</span>
+      </a>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
+        <nav class="app-nav" aria-label="Navegação Principal">
+          <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+          <a href="sobre.html" class="nav-link outset-border active" id="nav-sobre">Sobre</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
+          <a href="jogo.html" class="nav-link outset-border" id="nav-jogo">🎮 Jogo</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa</a>
+          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">🦫 CapiSafe: Feito do Brasil, para o Brasil • A capivara que protege a internet de todos os brasileiros • Porque a internet segura é um direito!</span>
+      <span class="ticker-item">🦫 CapiSafe: Feito do Brasil, para o Brasil • A capivara que protege a internet de todos os brasileiros • Porque a internet segura é um direito!</span>
+    </div>
+  </div>
+
+  <main class="main-content boot-hidden" id="main-content">
+
+    <!-- CAPI WIDGET -->
+    <div class="capi-widget" role="note" aria-label="Mensagem de Capi">
+      <div class="capi-img-container outset-border">
+        <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
+      </div>
+      <div class="capi-bubble">
+        <div class="capi-bubble-title">Capi diz:</div>
+        <p style="margin-bottom: 0;">
+          "Olá! Aqui você conhece a história do CapiSafe, as pessoas que o criaram e por que uma capivara detetive é a mascote perfeita para te proteger online. Afinal, a capivara se dá bem com todo mundo — e a internet segura também deveria ser assim!"
+        </p>
+      </div>
+    </div>
+
+    <!-- ====== SEÇÃO 1: MISSÃO E VISÃO ====== -->
+    <section class="window outset-border glow-animated">
+      <div class="window-titlebar">
+        <div class="titlebar-text"><span>🦫 SOBRE_CAPISAFE.TXT</span></div>
+      </div>
+      <div class="window-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center;">
+          <div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--accent-teal); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Nossa missão</div>
+            <h1 style="font-size: 24px; font-family: var(--font-body); font-weight: 800; color: var(--color-text); line-height: 1.25; margin-bottom: 14px;">
+              Uma internet <span style="color: var(--accent-teal);">segura</span> para todos os brasileiros
+            </h1>
+            <p style="font-size: 13.5px; line-height: 1.7; color: var(--color-text-muted); margin-bottom: 16px;">
+              O <strong style="color: var(--color-text);">CapiSafe</strong> é uma plataforma comunitária de combate a golpes virtuais no Brasil. Nasceu da convicção de que <strong style="color: var(--accent-teal);">a educação digital é a principal arma</strong> contra fraudes cibernéticas — e que ela precisa chegar a todos: do jovem ao idoso, do norte ao sul do país.
+            </p>
+            <p style="font-size: 13.5px; line-height: 1.7; color: var(--color-text-muted);">
+              Combinamos inteligência artificial, relatos anônimos da comunidade e conteúdo educativo oficial (NIC.br, CGI.br, CERT.br) para criar um sistema de proteção coletiva e acessível — sem cadastro, sem julgamento.
+            </p>
+          </div>
+          <div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="mission-stat">
+                <div class="mission-stat-value">47M</div>
+                <div class="mission-stat-label">brasileiros vítimas de fraude digital (Serasa, 2023)</div>
+              </div>
+              <div class="mission-stat">
+                <div class="mission-stat-value">R$2,5B</div>
+                <div class="mission-stat-label">perdidos em golpes via Pix por ano (Febraban)</div>
+              </div>
+              <div class="mission-stat">
+                <div class="mission-stat-value">70%</div>
+                <div class="mission-stat-label">dos golpes chegam via WhatsApp (PSafe, 2024)</div>
+              </div>
+              <div class="mission-stat">
+                <div class="mission-stat-value">5º</div>
+                <div class="mission-stat-label">país mais atacado por cibercrime no mundo (Kaspersky)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline do projeto -->
+        <div style="margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px;">
+          <h3 style="font-size: 12px; font-family: var(--font-mono); color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;">📅 Linha do tempo</h3>
+          <div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div>
+                <div style="font-weight: 800; font-size: 12.5px; color: var(--color-text);">Maio 2026 — Fórum da Internet no Brasil (FIB16), Belém/PA</div>
+                <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 2px;">Idea do CapiSafe apresentada no hackathon do maior evento de governança da internet da América Latina.</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="background: var(--accent-purple); box-shadow: 0 0 8px rgba(168,85,247,0.5);"></div>
+              <div>
+                <div style="font-weight: 800; font-size: 12.5px; color: var(--color-text);">Junho 2026 — MVP lançado</div>
+                <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 2px;">Primeira versão com relatos, diagnóstico por IA, histórico comunitário e jogo educativo.</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="background: #F59E0B; box-shadow: 0 0 8px rgba(245,158,11,0.5);"></div>
+              <div>
+                <div style="font-weight: 800; font-size: 12.5px; color: var(--color-text);">Próximo — CapiBot no WhatsApp</div>
+                <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 2px;">Expansão para o app mais usado no Brasil, tornando a proteção acessível para idosos e jovens via chat.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="window-statusbar">
+        <span>CapiSafe — nascido no FIB16, Belém/PA</span>
+        <span>Apoiado por NIC.br & CGI.br</span>
+      </div>
+    </section>
+
+    <!-- ====== SEÇÃO 2: NOME E MASCOTE ====== -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text"><span>🦫 POR_QUE_CAPISAFE_E_A_CAPIVARA.TXT</span></div>
+      </div>
+      <div class="window-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px;">
+
+          <!-- Nome CapiSafe -->
+          <div>
+            <h2 style="font-size: 16px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal); margin-bottom: 12px;">Por que CapiSafe?</h2>
+            <div class="name-origin-card" style="margin-bottom: 14px;">
+              <p style="font-size: 13.5px; line-height: 1.7; color: var(--color-text-muted);">
+                O nome combina <strong style="color: var(--accent-teal);">"Capi"</strong> — referência direta à capivara, nossa mascote — com <strong style="color: var(--accent-purple);">"Safe"</strong>, palavra em inglês que significa seguro. A junção é bilíngue, moderna e carrega em duas sílabas toda a proposta do projeto: <strong style="color: var(--color-text);">um lugar digital seguro</strong>, identificado com o Brasil e a cultura da capivara.
+              </p>
+            </div>
+            <div style="display: flex; gap: 12px; margin-bottom: 14px;">
+              <div style="flex: 1; background: rgba(0,245,212,0.07); border: 1.5px solid rgba(0,245,212,0.25); border-radius: 10px; padding: 14px; text-align: center;">
+                <div style="font-family: var(--font-mono); font-size: 22px; font-weight: 800; color: var(--accent-teal); margin-bottom: 4px;">Capi</div>
+                <div style="font-size: 11px; color: var(--color-text-muted);">Capivara • Nossa mascote • Brasil</div>
+              </div>
+              <div style="display: flex; align-items: center; font-size: 20px; color: var(--color-text-muted);">+</div>
+              <div style="flex: 1; background: rgba(168,85,247,0.07); border: 1.5px solid rgba(168,85,247,0.25); border-radius: 10px; padding: 14px; text-align: center;">
+                <div style="font-family: var(--font-mono); font-size: 22px; font-weight: 800; color: var(--accent-purple); margin-bottom: 4px;">Safe</div>
+                <div style="font-size: 11px; color: var(--color-text-muted);">Seguro (EN/PT) • Proposta • Missão</div>
+              </div>
+            </div>
+            <p style="font-size: 12px; color: var(--color-text-muted); line-height: 1.6; font-style: italic;">
+              "CapiSafe funciona em português e inglês simultaneamente — assim como queremos que nossa plataforma funcione: universal, inclusiva e reconhecível por todos."
+            </p>
+          </div>
+
+          <!-- Por que capivara -->
+          <div>
+            <h2 style="font-size: 16px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal); margin-bottom: 12px;">Por que uma capivara?</h2>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div class="capi-fact">
+                <span class="capi-fact-icon">🌎</span>
+                <div>
+                  <div class="capi-fact-title">Genuinamente brasileira</div>
+                  <div class="capi-fact-text">A capivara é o maior roedor do mundo, nativa da América do Sul e símbolo cultural do Brasil — assim como o CapiSafe é uma solução feita do Brasil para o Brasil.</div>
+                </div>
+              </div>
+              <div class="capi-fact">
+                <span class="capi-fact-icon">🤝</span>
+                <div>
+                  <div class="capi-fact-title">A mais social de todas as espécies</div>
+                  <div class="capi-fact-text">A capivara é famosa por conviver em harmonia com todos os animais — jacarés, pássaros, macacos, gatos. Ela não tem inimigos no reino animal. Exatamente como a internet deveria ser: um espaço de convivência segura para todos.</div>
+                </div>
+              </div>
+              <div class="capi-fact">
+                <span class="capi-fact-icon">🌐</span>
+                <div>
+                  <div class="capi-fact-title">Fenômeno cultural global</div>
+                  <div class="capi-fact-text">O meme "para a capivara, tudo bem" viralizou mundialmente, tornando a capivara um símbolo de equanimidade e serenidade — qualidades que cultivamos em nossa comunidade digital.</div>
+                </div>
+              </div>
+              <div class="capi-fact">
+                <span class="capi-fact-icon">🔍</span>
+                <div>
+                  <div class="capi-fact-title">A Capi detetive vigia por você</div>
+                  <div class="capi-fact-text">Nossa mascote Capi é uma capivara detetive: calma e social com todos, mas sempre alerta contra fraudes. A vigilância comunitária do CapiSafe funciona da mesma forma — juntos, nos protegemos.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== SEÇÃO 3: QUEM SOMOS — CO-FUNDADORAS ====== -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text"><span>👩‍💻 EQUIPE_CAPISAFE.TXT</span></div>
+      </div>
+      <div class="window-body">
+        <h2 style="font-size: 16px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal); margin-bottom: 6px;">Quem Somos</h2>
+        <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 24px; line-height: 1.6;">
+          O CapiSafe nasceu da parceria de duas jovens comprometidas com um único objetivo: tornar a internet um lugar mais seguro para todos os brasileiros.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 24px;">
+
+          <!-- CO-FUNDADORA 1 -->
+          <div class="founder-card">
+            <div class="founder-avatar">GV</div>
+            <div class="founder-name">Giovana Vilhena</div>
+            <div class="founder-role">Co-fundadora · Desenvolvedora & Estratégia</div>
+            <p class="founder-bio">
+              Jovem empreendedora digital e entusiasta dos direitos humanos na internet, Giovana Vilhena idealizou o CapiSafe durante o Fórum da Internet no Brasil 2026 (FIB16), em Belém/PA. Com formação em direito e interesse em tecnologia cívica, ela acredita que a proteção digital é uma questão de justiça social — e que toda pessoa, independente de idade ou renda, merece saber se uma mensagem é golpe antes de perder seu dinheiro. No CapiSafe, é responsável pela estratégia do produto, desenvolvimento e conexão com os parceiros institucionais.
+              <br><br>
+              <em style="font-size: 11px; color: rgba(56, 189, 248, 0.7);">⚠️ Revise e personalize esta bio com suas informações reais.</em>
+            </p>
+            <div class="founder-tags">
+              <span class="founder-tag">Direito Digital</span>
+              <span class="founder-tag">Tecnologia Cívica</span>
+              <span class="founder-tag">IA para o Bem</span>
+              <span class="founder-tag">FIB16</span>
+            </div>
+          </div>
+
+          <!-- CO-FUNDADORA 2 -->
+          <div class="founder-card">
+            <div class="founder-avatar" style="background: linear-gradient(135deg, var(--accent-purple), #EC4899);">K</div>
+            <div class="founder-name">Karoline</div>
+            <div class="founder-role">Co-fundadora · Design & Comunicação</div>
+            <p class="founder-bio">
+              Karoline é co-fundadora do CapiSafe e a mente por trás da identidade visual e da linguagem acessível da plataforma. Especialista em comunicação e design centrado no usuário, sua visão foi fundamental para garantir que o CapiSafe fosse compreensível tanto para jovens quanto para idosos — sem tecnicismos desnecessários. Karoline acredita que o design não é só estética: é a forma como a informação de segurança chega a quem mais precisa.
+              <br><br>
+              <em style="font-size: 11px; color: rgba(56, 189, 248, 0.7);">⚠️ Revise e personalize esta bio com as informações reais da Karoline.</em>
+            </p>
+            <div class="founder-tags">
+              <span class="founder-tag" style="color: var(--accent-purple); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.08);">Design UX</span>
+              <span class="founder-tag" style="color: var(--accent-purple); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.08);">Comunicação</span>
+              <span class="founder-tag" style="color: var(--accent-purple); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.08);">Inclusão Digital</span>
+              <span class="founder-tag" style="color: var(--accent-purple); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.08);">FIB16</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Citação / Manifesto -->
+        <div style="background: linear-gradient(135deg, rgba(0,245,212,0.05), rgba(168,85,247,0.05)); border: 1.5px solid rgba(0,245,212,0.2); border-radius: 12px; padding: 22px; text-align: center;">
+          <p style="font-size: 15px; font-style: italic; color: var(--color-text); line-height: 1.7; max-width: 600px; margin: 0 auto 10px;">
+            "Toda vez que alguém perde dinheiro para um golpe virtual, é porque não teve acesso à informação a tempo. O CapiSafe existe para mudar isso — de forma gratuita, anônima e para todos."
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-teal);">— Giovana Vilhena & Karoline, Co-fundadoras do CapiSafe</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== SEÇÃO 4: PÚBLICO-ALVO ====== -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text"><span>🎯 PUBLICO_ALVO_CAPISAFE.TXT</span></div>
+      </div>
+      <div class="window-body">
+        <h2 style="font-size: 16px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal); margin-bottom: 6px;">Para quem é o CapiSafe?</h2>
+        <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 20px;">Nossa plataforma foi desenhada para ser útil a públicos diversos, com canais adaptados a cada perfil de usuário.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 20px;">
+
+          <div class="audience-card">
+            <div class="audience-device">💻</div>
+            <div style="margin-bottom: 8px;"><span class="audience-badge audience-site">Site CapiSafe</span></div>
+            <div class="audience-title">Jovens e Adultos (16–59 anos)</div>
+            <p style="font-size: 12.5px; color: var(--color-text-muted); line-height: 1.6;">
+              Usuários habituados a navegar na web. O site oferece análise completa de relatos, histórico público, jogo educativo e conteúdo de referência — com interface rica e interativa.
+            </p>
+            <div style="margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px;">
+              <div style="font-size: 11px; color: var(--accent-teal); font-family: var(--font-mono);">✓ Relatos anônimos · ✓ Jogo · ✓ Academia · ✓ Histórico</div>
+            </div>
+          </div>
+
+          <div class="audience-card" style="border-color: rgba(37,211,102,0.25);">
+            <div class="audience-device">📱</div>
+            <div style="margin-bottom: 8px;"><span class="audience-badge audience-wpp">CapiBot WhatsApp</span></div>
+            <div class="audience-title">Jovens e Idosos (14–80+ anos)</div>
+            <p style="font-size: 12.5px; color: var(--color-text-muted); line-height: 1.6;">
+              Via WhatsApp, canal mais acessível do Brasil. A CapiBot responde em linguagem simples e direta: manda a mensagem suspeita, recebe o diagnóstico. Sem precisar abrir site ou instalar app.
+            </p>
+            <div style="margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px;">
+              <div style="font-size: 11px; color: #25D366; font-family: var(--font-mono);">✓ Sem cadastro · ✓ Linguagem simples · ✓ WhatsApp</div>
+            </div>
+          </div>
+
+          <div class="audience-card" style="border-color: rgba(168,85,247,0.25);">
+            <div class="audience-device">🏫</div>
+            <div style="margin-bottom: 8px;"><span class="audience-badge" style="background: rgba(168,85,247,0.1); color: var(--accent-purple); border: 1px solid rgba(168,85,247,0.3);">Educadores</span></div>
+            <div class="audience-title">Professores e Educadores</div>
+            <p style="font-size: 12.5px; color: var(--color-text-muted); line-height: 1.6;">
+              A Academia Capi e o jogo educativo podem ser usados em sala de aula. Conteúdo alinhado às diretrizes do CGI.br e NIC.br, com linguagem pedagógica e cenários da realidade brasileira.
+            </p>
+            <div style="margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px;">
+              <div style="font-size: 11px; color: var(--accent-purple); font-family: var(--font-mono);">✓ Academia · ✓ Jogo · ✓ Material gratuito</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== SEÇÃO 5: APOIOS E PARCEIROS ====== -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text"><span>🤝 APOIOS_E_REFERENCIAS.TXT</span></div>
+      </div>
+      <div class="window-body">
+        <h2 style="font-size: 16px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal); margin-bottom: 6px;">Apoios e Referências</h2>
+        <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 18px;">O CapiSafe é construído sobre os princípios e dados das principais instituições brasileiras de governança e segurança da internet:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 20px;">
+          <a href="https://nic.br" target="_blank" rel="noopener" class="partner-card">
+            <div class="partner-logo" style="background: rgba(0,245,212,0.1);">🌐</div>
+            <div>
+              <div class="partner-name">NIC.br</div>
+              <div class="partner-desc">Núcleo de Informação e Coordenação do Ponto BR</div>
+            </div>
+          </a>
+          <a href="https://cgi.br" target="_blank" rel="noopener" class="partner-card">
+            <div class="partner-logo" style="background: rgba(245,158,11,0.1);">🏛️</div>
+            <div>
+              <div class="partner-name">CGI.br</div>
+              <div class="partner-desc">Comitê Gestor da Internet no Brasil</div>
+            </div>
+          </a>
+          <a href="https://cert.br" target="_blank" rel="noopener" class="partner-card">
+            <div class="partner-logo" style="background: rgba(239,68,68,0.1);">🔐</div>
+            <div>
+              <div class="partner-name">CERT.br</div>
+              <div class="partner-desc">Centro de Estudos e Resposta a Incidentes</div>
+            </div>
+          </a>
+          <a href="https://internetsegura.br" target="_blank" rel="noopener" class="partner-card">
+            <div class="partner-logo" style="background: rgba(16,185,129,0.1);">🔒</div>
+            <div>
+              <div class="partner-name">Internet Segura</div>
+              <div class="partner-desc">Campanha oficial NIC.br para cidadania digital</div>
+            </div>
+          </a>
+          <a href="https://safernet.org.br" target="_blank" rel="noopener" class="partner-card">
+            <div class="partner-logo" style="background: rgba(168,85,247,0.1);">🛡️</div>
+            <div>
+              <div class="partner-name">SaferNet Brasil</div>
+              <div class="partner-desc">Central de denúncias de crimes na internet</div>
+            </div>
+          </a>
+          <a href="https://forumdainternet.cgi.br" target="_blank" rel="noopener" class="partner-card">
+            <div class="partner-logo" style="background: rgba(56,189,248,0.1);">🌎</div>
+            <div>
+              <div class="partner-name">FIB — Forum da Internet no Brasil</div>
+              <div class="partner-desc">Onde o CapiSafe nasceu — FIB16, Belém/PA</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Filosofia técnica -->
+        <div style="padding: 16px; background: var(--bg-desktop); border: 1.5px solid var(--color-border); border-radius: 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+          <div style="font-size: 12px;">
+            <div style="color: var(--accent-teal); font-weight: 800; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; margin-bottom: 4px;">🔓 Código Aberto</div>
+            <div style="color: var(--color-text-muted);">HTML, CSS e JavaScript puros. Sem frameworks proprietários — auditável por qualquer pessoa.</div>
+          </div>
+          <div style="font-size: 12px;">
+            <div style="color: var(--accent-teal); font-weight: 800; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; margin-bottom: 4px;">👁️ 100% Anônimo</div>
+            <div style="color: var(--color-text-muted);">Nenhum dado pessoal é coletado. Relatos são anonimizados e armazenados localmente.</div>
+          </div>
+          <div style="font-size: 12px;">
+            <div style="color: var(--accent-teal); font-weight: 800; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; margin-bottom: 4px;">🤖 IA para o Bem</div>
+            <div style="color: var(--color-text-muted);">Google Gemini integrado opcionalmente para diagnóstico detalhado — com transparência sobre o uso de IA.</div>
+          </div>
+          <div style="font-size: 12px;">
+            <div style="color: var(--accent-teal); font-weight: 800; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; margin-bottom: 4px;">♿ Acessível</div>
+            <div style="color: var(--color-text-muted);">Alto contraste, semântica HTML5, skip links e design responsivo para qualquer dispositivo.</div>
+          </div>
+        </div>
+      </div>
+      <div class="window-statusbar">
+        <span>Plataforma aberta e gratuita para todos</span>
+        <span>Segurança Digital Brasileira</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer outset-border">
+    <div class="footer-container">
+      <div>🦫 CapiSafe</div>
+      <div>Segurança Digital Brasileira</div>
+    </div>
+  </footer>
+
+  <script src="js/components.js"></script>
+  <script src="js/api.js"></script>
+</body>
+</html>
