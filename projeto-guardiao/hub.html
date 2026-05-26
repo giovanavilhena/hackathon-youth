@@ -43,8 +43,8 @@
       </div>
       <div class="capi-bubble">
         <div class="capi-bubble-title">Capi diz:</div>
-        <p style="margin-bottom: 0; color: #000;">
-          "Este é o nosso Dicionário de Golpes Virtuais! Use a barra de pesquisa ou clique nos botões cinzas de filtro para estudar os golpes mais aplicados no Brasil!"
+        <p style="margin-bottom: 0;">
+          "Navegue pelas principais ameaças mapeadas na nossa base de conhecimento. Aqui, você aprende como cada golpe funciona e confere dicas diretas dos especialistas do Cidadão na Rede!"
         </p>
       </div>
     </div>
@@ -266,23 +266,23 @@
             </div>
             
             <div class="scam-body">
-              <h3 style="margin-bottom: 5px; color: var(--accent-teal); font-size: 13px;">${golpe.titulo}</h3>
-              <p style="font-size: 11.5px; color: #333; margin-bottom: 8px;">${golpe.descricao}</p>
+              <h3 style="margin-bottom: 5px; color: var(--accent-teal); font-size: 13.5px;">${golpe.titulo}</h3>
+              <p style="font-size: 12.5px; margin-bottom: 12px; color: var(--color-text);">${golpe.descricao}</p>
               
-              <ul class="scam-details" style="border-top: 1px dashed var(--color-border); padding-top: 6px; font-size: 10.5px; margin-bottom: 8px;">
+              <ul class="scam-details" style="border-top: 1.5px dashed rgba(255,255,255,0.08); padding-top: 10px; font-size: 11px; margin-bottom: 12px;">
                 <li class="scam-detail-item">
                   <span class="scam-detail-label">Incidência:</span>
-                  <span class="scam-detail-value" style="color: #555;">${golpe.incidencia}</span>
+                  <span class="scam-detail-value" style="color: var(--color-text-muted);">${golpe.incidencia}</span>
                 </li>
                 <li class="scam-detail-item">
                   <span class="scam-detail-label">Alvos Típicos:</span>
-                  <span class="scam-detail-value" style="color: #555;">${golpe.perfil}</span>
+                  <span class="scam-detail-value" style="color: var(--color-text-muted);">${golpe.perfil}</span>
                 </li>
               </ul>
 
-              <div class="inset-border" style="background: #FFFBEB; padding: 6px; font-size: 11px; border-left: 3px solid var(--accent-teal);">
-                <strong style="color: var(--accent-teal); font-size: 10px;">✓ Prevenção Oficial:</strong>
-                <p style="margin-bottom: 0; margin-top: 2px;">${golpe.prevencao}</p>
+              <div style="background: rgba(0, 245, 212, 0.05); border: 1.5px solid rgba(0, 245, 212, 0.2); padding: 10px; font-size: 11.5px; border-left: 4px solid var(--accent-teal); border-radius: 6px; color: var(--color-text-muted);">
+                <strong style="color: var(--accent-teal); font-size: 10.5px; display: block; margin-bottom: 2px;">✓ Prevenção Oficial:</strong>
+                <p style="margin-bottom: 0; color: var(--color-text);">${golpe.prevencao}</p>
               </div>
             </div>
           `;

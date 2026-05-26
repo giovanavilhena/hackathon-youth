@@ -4,34 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Guardião da Rede - Pesquisa de campo e entrevistas sobre golpes virtuais realizadas no FIB16 em Belém/PA.">
-  <title>Pesquisa de Campo — Guardião da Rede</title>
+  <title>Pesquisa de Opinião — Guardião da Rede</title>
   <link rel="stylesheet" href="css/estilo.css">
   <style>
     /* Estilos específicos para a pesquisa de campo */
-    .interceptor-guide {
-      background: #F0FDFA;
-      border: 1.5px solid #0D9488;
-      border-left: 5px solid #0D9488;
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 24px;
-    }
-    
     .question-card {
       background: var(--bg-card);
       border: 1.5px solid var(--color-border);
-      border-radius: 6px;
-      padding: 16px;
-      margin-bottom: 16px;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
       box-shadow: var(--shadow-flat-sm);
+      transition: var(--transition-normal);
+    }
+    
+    .question-card:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px var(--color-border);
     }
     
     .question-title {
       font-family: var(--font-mono);
       font-weight: 700;
-      font-size: 13.5px;
+      font-size: 14px;
       color: var(--accent-teal);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -39,8 +36,8 @@
     
     .options-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
     }
     
     .option-btn {
@@ -48,9 +45,9 @@
       color: var(--color-text);
       border: 1.5px solid var(--color-border);
       border-radius: 6px;
-      padding: 10px 14px;
+      padding: 12px 14px;
       font-family: var(--font-body);
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 600;
       text-align: left;
       cursor: pointer;
@@ -210,80 +207,92 @@
 
   <!-- MARQUEE RETRO -->
   <div class="marquee-bar inset-border" aria-hidden="true">
-    <marquee scrollamount="4">🎤 PESQUISA DE CAMPO: Coletando dados no FIB16 em Belém/PA • Entreviste os participantes e compile as estatísticas de segurança para a apresentação do Hackathon!</marquee>
+    <marquee scrollamount="4">🎤 PESQUISA NACIONAL DE SEGURANÇA DIGITAL: Participe respondendo nossa pesquisa de opinião sobre golpes digitais no Brasil!</marquee>
   </div>
 
   <!-- MAIN CONTENT -->
   <main class="main-content">
     
     <!-- CAPI WIDGET -->
-    <div class="capi-widget" role="note" aria-label="Guia da Capi para a pesquisa">
+    <div class="capi-widget" id="capi-guide-box" role="note" aria-label="Guia da Capi para a pesquisa">
       <div class="capi-img-container outset-border">
         <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
       </div>
       <div class="capi-bubble">
         <div class="capi-bubble-title">Capi diz:</div>
         <p style="margin-bottom: 0; color: #000;">
-          "Esta página foi criada especialmente para você coletar respostas das pessoas no evento! Ela armazena tudo no seu navegador e calcula gráficos imediatos para o seu pitch. Você pode até baixar a planilha no final!"
+          "Olá! Esta pesquisa é rápida e <strong>100% anônima</strong>. Seus relatos nos ajudam a entender como os golpes virtuais estão atingindo nossa população e a treinar meu motor de inteligência para proteger a todos!"
         </p>
       </div>
     </div>
 
-    <!-- GUIA DE ENTREVISTAS (CHEAT SHEET) -->
-    <section class="interceptor-guide">
-      <h3 style="color: #0F766E; margin-bottom: 6px;">💡 Pitch Rápido e Contexto para a Entrevista</h3>
-      <p style="font-size: 13px; color: #115E59; margin-bottom: 8px; line-height: 1.4;">
-        <strong>Como abordar as pessoas no FIB16:</strong><br>
-        <em>"Olá, tudo bem? Somos do projeto <strong>Guardião da Rede</strong> do Hackathon. Estamos fazendo uma pesquisa rápida (menos de 2 min) para mapear a exposição a golpes digitais da comunidade do evento. O Guardião é um assistente comunitário anônimo que analisa relatos de suspeita de golpes no WhatsApp, emprego falso ou links e diz o risco real. Você poderia nos ajudar respondendo 10 perguntas rápidas?"</em>
-      </p>
-      <div style="font-size: 11.5px; color: #134E4A;">
-        <strong>Pilares do Projeto Guardião:</strong> 1. Crowdreport anônimo de ameaças • 2. Triagem sociodemográfica inteligente • 3. Classificador híbrido local + IA (Gemini) • 4. Devolutiva educativa adaptada à vítima.
+    <!-- TELA DE AGRADECIMENTO / SUCESSO -->
+    <section id="thank-you-card" class="window outset-border" style="display: none; max-width: 550px; margin: 20px auto;">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>🛡️ PESQUISA_SALVA.EXE</span>
+        </div>
+      </div>
+      <div class="window-body" style="text-align: center; padding: 32px 24px;">
+        <span style="font-size: 56px; display: block; margin-bottom: 12px; line-height: 1;">✅</span>
+        <h2 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 22px; margin-bottom: 8px;">Muito obrigado por colaborar!</h2>
+        <p style="font-size: 13.5px; color: var(--color-text-muted); line-height: 1.5; margin-bottom: 24px;">
+          Suas respostas foram arquivadas localmente com segurança e anonimato. Seus dados nos ajudam a mapear quais golpes digitais estão sendo aplicados no Brasil.
+        </p>
+        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+          <a href="relato.html" class="btn btn-primary">⚡ Analisar Suspeita de Golpe</a>
+          <button class="btn btn-secondary" id="btn-survey-again">🎤 Responder Novamente</button>
+        </div>
+      </div>
+      <div class="window-statusbar">
+        <span>Anonimato garantido pela rede</span>
+        <span>NIC.br & CGI.br</span>
       </div>
     </section>
 
-    <!-- FORMULÁRIO DE ENTREVISTA -->
-    <section class="window outset-border">
+    <!-- FORMULÁRIO DE PESQUISA -->
+    <section class="window outset-border" id="survey-window">
       <div class="window-titlebar">
         <div class="titlebar-text">
-          <span>📝 ENTRADA_DADOS_ENTREVISTA.EXE</span>
+          <span>📝 FORMULARIO_PESQUISA_SEGURANCA.EXE</span>
         </div>
       </div>
       <div class="window-body">
-        <h2>Registrar Nova Entrevista</h2>
-        <p>Preencha as respostas do entrevistado abaixo. As seleções foram projetadas com botões grandes para digitação rápida em celulares.</p>
+        <h2>Pesquisa de Opinião: Exposição a Golpes Digitais</h2>
+        <p>Responda às perguntas rápidas abaixo para ajudar a mapear a vulnerabilidade digital dos usuários brasileiros.</p>
         
         <form id="interview-form">
           
           <!-- Q1: Faixa Etária -->
           <div class="question-card">
-            <label class="question-title">1. Qual a faixa etária do entrevistado?</label>
+            <label class="question-title">1. Qual é a sua faixa etária?</label>
             <div class="options-grid">
-              <button type="button" class="option-btn" data-q="q1" data-val="Menos de 18">👶 Menos de 18</button>
+              <button type="button" class="option-btn" data-q="q1" data-val="Menos de 18">👶 Menos de 18 anos</button>
               <button type="button" class="option-btn" data-q="q1" data-val="18 a 29">🧑 18 a 29 anos</button>
               <button type="button" class="option-btn" data-q="q1" data-val="30 a 59">🧔 30 a 59 anos</button>
-              <button type="button" class="option-btn" data-q="q1" data-val="60+ (Idoso)">👵 60+ (Idoso)</button>
+              <button type="button" class="option-btn" data-q="q1" data-val="60+ (Idoso)">👵 60 anos ou mais (Melhor Idade)</button>
             </div>
             <input type="hidden" name="q1" id="q1" required>
           </div>
 
           <!-- Q2: Letramento Digital -->
           <div class="question-card">
-            <label class="question-title">2. Nível de familiaridade com tecnologia/internet:</label>
-            <div class="options-grid">
-              <button type="button" class="option-btn" data-q="q2" data-val="Baixo">📱 Baixo (básico/mensagens)</button>
-              <button type="button" class="option-btn" data-q="q2" data-val="Médio">💻 Médio (navego/compras)</button>
-              <button type="button" class="option-btn" data-q="q2" data-val="Alto">🛡️ Alto (tecnologia/cibersegurança)</button>
+            <label class="question-title">2. Como você avalia seu nível de familiaridade com tecnologia e internet?</label>
+            <div class="options-grid" style="grid-template-columns: 1fr;">
+              <button type="button" class="option-btn" data-q="q2" data-val="Baixo">📱 Baixo — Faço apenas o básico, como ligações e mensagens de WhatsApp</button>
+              <button type="button" class="option-btn" data-q="q2" data-val="Médio">💻 Médio — Consigo fazer compras, navegar em redes e usar apps de banco</button>
+              <button type="button" class="option-btn" data-q="q2" data-val="Alto">🛡️ Alto — Trabalho, estudo ou tenho muita facilidade com segurança e tecnologia</button>
             </div>
             <input type="hidden" name="q2" id="q2" required>
           </div>
 
           <!-- Q3: Experiência com Golpes -->
           <div class="question-card">
-            <label class="question-title">3. Já passou por alguma situação de golpe ou suspeita de golpe?</label>
+            <label class="question-title">3. Você ou alguém muito próximo já passou por uma situação de golpe virtual ou suspeita?</label>
             <div class="options-grid" style="grid-template-columns: 1fr;">
               <button type="button" class="option-btn" data-q="q3" data-val="Sim, caí e tive prejuízo">🚨 Sim, eu já caí em um golpe e tive prejuízo financeiro</button>
-              <button type="button" class="option-btn" data-q="q3" data-val="Sim, tentaram mas percebi">⚠️ Sim, tentaram aplicar mas eu percebi a tempo</button>
-              <button type="button" class="option-btn" data-q="q3" data-val="Familiar/amigo caiu">👥 Não comigo, mas um familiar ou amigo próximo caiu</button>
+              <button type="button" class="option-btn" data-q="q3" data-val="Sim, tentaram mas percebi">⚠️ Sim, tentaram aplicar em mim, mas percebi a tempo</button>
+              <button type="button" class="option-btn" data-q="q3" data-val="Familiar/amigo caiu">👥 Eu não, mas um familiar ou amigo próximo caiu</button>
               <button type="button" class="option-btn" data-q="q3" data-val="Não, nunca passei">✅ Não, nunca passei por isso nem conheço quem passou</button>
             </div>
             <input type="hidden" name="q3" id="q3" required>
@@ -291,13 +300,13 @@
 
           <!-- Q4: Canal do Golpe -->
           <div class="question-card" id="card-q4">
-            <label class="question-title">4. Qual foi o canal principal usado na tentativa ou golpe?</label>
+            <label class="question-title">4. Por qual canal principal ocorreu essa tentativa ou golpe?</label>
             <div class="options-grid">
               <button type="button" class="option-btn" data-q="q4" data-val="WhatsApp / Telegram">💬 WhatsApp / Telegram</button>
               <button type="button" class="option-btn" data-q="q4" data-val="Redes Sociais">📸 Redes Sociais (Insta/TikTok/FB)</button>
               <button type="button" class="option-btn" data-q="q4" data-val="E-mail ou SMS">✉️ E-mail ou SMS</button>
-              <button type="button" class="option-btn" data-q="q4" data-val="Ligação telefônica">📞 Ligação (falso funcionário)</button>
-              <button type="button" class="option-btn" data-q="q4" data-val="Sites de compras">🛒 Loja Falsa / Anúncio</button>
+              <button type="button" class="option-btn" data-q="q4" data-val="Ligação telefônica">📞 Ligação (Falsa Central de Banco)</button>
+              <button type="button" class="option-btn" data-q="q4" data-val="Sites de compras">🛒 Sites de Venda / Anúncios</button>
               <button type="button" class="option-btn" data-q="q4" data-val="Outro / Não aplicável">❓ Outro / Não aplicável</button>
             </div>
             <input type="hidden" name="q4" id="q4">
@@ -305,13 +314,13 @@
 
           <!-- Q5: Tipo de Golpe -->
           <div class="question-card" id="card-q5">
-            <label class="question-title">5. Qual era o tipo do golpe/suspeita?</label>
+            <label class="question-title">5. Qual era o tipo do golpe ou suspeita?</label>
             <div class="options-grid" style="grid-template-columns: 1fr;">
-              <button type="button" class="option-btn" data-q="q5" data-val="Falso parente (Pix)">👶 Falso Parente no WhatsApp pedindo Pix urgente</button>
-              <button type="button" class="option-btn" data-q="q5" data-val="Falsa vaga de emprego">💼 Emprego Falso (pedindo depósitos/investimentos)</button>
-              <button type="button" class="option-btn" data-q="q5" data-val="Falsa venda/Compra fake">🛒 Compra/venda falsa (preço irreal, site copiado)</button>
-              <button type="button" class="option-btn" data-q="q5" data-val="Falsa central de banco">🏦 Falsa central bancária (ligação de segurança do banco)</button>
-              <button type="button" class="option-btn" data-q="q5" data-val="Links falsos (Correios/etc)">🔗 Link falso / Roubo de dados (Phishing de SMS/Correios)</button>
+              <button type="button" class="option-btn" data-q="q5" data-val="Falso parente (Pix)">👶 Falso Parente: Mensagem com foto clonada pedindo Pix urgente</button>
+              <button type="button" class="option-btn" data-q="q5" data-val="Falsa vaga de emprego">💼 Vaga de Emprego Falsa: Ganhos com tarefas que pedem depósitos</button>
+              <button type="button" class="option-btn" data-q="q5" data-val="Falsa venda/Compra fake">🛒 Compra/Venda Falsa: Loja clonada ou preço absurdamente baixo</button>
+              <button type="button" class="option-btn" data-q="q5" data-val="Falsa central de banco">🏦 Falso Funcionário de Banco: Ligação de segurança pedindo Pix/selfie</button>
+              <button type="button" class="option-btn" data-q="q5" data-val="Links falsos (Correios/etc)">🔗 Phishing/Link falso: Taxa de Correios retida ou atualização de dados</button>
               <button type="button" class="option-btn" data-q="q5" data-val="Outro / Não aplicável">❓ Outro / Não aplicável</button>
             </div>
             <input type="hidden" name="q5" id="q5">
@@ -319,12 +328,12 @@
 
           <!-- Q6: Fator de Convencimento -->
           <div class="question-card" id="card-q6">
-            <label class="question-title">6. Qual foi o principal fator que gerou dúvida ou fez cair?</label>
+            <label class="question-title">6. Qual fator fez você (ou a pessoa) acreditar ou quase acreditar na mensagem?</label>
             <div class="options-grid" style="grid-template-columns: 1fr;">
-              <button type="button" class="option-btn" data-q="q6" data-val="Urgência/Ameaça">⏱️ Senso de urgência ou ameaça (ex: "conta será bloqueada")</button>
-              <button type="button" class="option-btn" data-q="q6" data-val="Ganho financeiro fácil">💰 Proposta vantajosa demais (dinheiro rápido, prêmio)</button>
-              <button type="button" class="option-btn" data-q="q6" data-val="Apelo emocional">❤️ Apelo emocional (filho/amigo em apuros)</button>
-              <button type="button" class="option-btn" data-q="q6" data-val="Semelhança com canais oficiais">🏢 Imitação perfeita de canais oficiais (logo, tom do banco)</button>
+              <button type="button" class="option-btn" data-q="q6" data-val="Urgência/Ameaça">⏱️ Senso de urgência ou ameaça (ex: "sua conta será bloqueada hoje")</button>
+              <button type="button" class="option-btn" data-q="q6" data-val="Ganho financeiro fácil">💰 Proposta extremamente vantajosa (dinheiro rápido, prêmio, desconto)</button>
+              <button type="button" class="option-btn" data-q="q6" data-val="Apelo emocional">❤️ Apelo emocional (ajudar um filho ou conhecido em apuros)</button>
+              <button type="button" class="option-btn" data-q="q6" data-val="Semelhança com canais oficiais">🏢 Imitação perfeita de bancos ou órgãos do governo (logo, voz do atendente)</button>
               <button type="button" class="option-btn" data-q="q6" data-val="Não se aplica">❓ Não se aplica</button>
             </div>
             <input type="hidden" name="q6" id="q6">
@@ -332,9 +341,9 @@
 
           <!-- Q7: Prejuízo Financeiro -->
           <div class="question-card" id="card-q7">
-            <label class="question-title">7. Qual foi a faixa de valor perdido na situação?</label>
+            <label class="question-title">7. Se houve perda financeira, qual foi o valor aproximado?</label>
             <div class="options-grid">
-              <button type="button" class="option-btn" data-q="q7" data-val="Sem prejuízo">💵 Sem prejuízo financeiro</button>
+              <button type="button" class="option-btn" data-q="q7" data-val="Sem prejuízo">💵 Não tive prejuízo financeiro</button>
               <button type="button" class="option-btn" data-q="q7" data-val="Até R$ 100">💸 Até R$ 100</button>
               <button type="button" class="option-btn" data-q="q7" data-val="De R$ 100 a R$ 1.000">💳 De R$ 100 a R$ 1.000</button>
               <button type="button" class="option-btn" data-q="q7" data-val="De R$ 1.000 a R$ 5.000">🏦 De R$ 1.000 a R$ 5.000</button>
@@ -345,58 +354,58 @@
 
           <!-- Q8: Ações Tomadas -->
           <div class="question-card">
-            <label class="question-title">8. Qual foi a principal atitude tomada após a tentativa/golpe?</label>
+            <label class="question-title">8. Qual foi a principal atitude tomada após a ocorrência?</label>
             <div class="options-grid" style="grid-template-columns: 1fr;">
-              <button type="button" class="option-btn" data-q="q8" data-val="Não fiz nada / Vergonha">🤐 Não fiz nada (por vergonha ou achar que não adiantaria)</button>
-              <button type="button" class="option-btn" data-q="q8" data-val="Registrei boletim de ocorrência / Banco">📞 Denunciei oficialmente (boletim de ocorrência ou contatei o banco)</button>
-              <button type="button" class="option-btn" data-q="q8" data-val="Alertei amigos e família">🗣️ Alertei amigos, família ou vizinhos sobre o ocorrido</button>
-              <button type="button" class="option-btn" data-q="q8" data-val="Procurei informações na web">🔍 Busquei na internet o que fazer ou se era golpe</button>
+              <button type="button" class="option-btn" data-q="q8" data-val="Não fiz nada / Vergonha">🤐 Não fiz nada (por vergonha, medo ou desinteresse)</button>
+              <button type="button" class="option-btn" data-q="q8" data-val="Registrei boletim de ocorrência / Banco">📞 Fiz denúncia oficial (boletim de ocorrência, reporte ao banco ou operadora)</button>
+              <button type="button" class="option-btn" data-q="q8" data-val="Alertei amigos e família">🗣️ Compartilhei a história com amigos ou familiares para alertá-los</button>
+              <button type="button" class="option-btn" data-q="q8" data-val="Procurei informações na web">🔍 Busquei na internet ou em órgãos de defesa para saber o que fazer</button>
             </div>
             <input type="hidden" name="q8" id="q8" required>
           </div>
 
           <!-- Q9: Facilidade de Informação -->
           <div class="question-card">
-            <label class="question-title">9. Acha fácil achar orientações claras sobre como se proteger?</label>
+            <label class="question-title">9. Você acha fácil encontrar orientações claras sobre como se proteger de crimes virtuais?</label>
             <div class="options-grid">
-              <button type="button" class="option-btn" data-q="q9" data-val="Muito difícil">❌ Muito difícil (confuso/genérico)</button>
-              <button type="button" class="option-btn" data-q="q9" data-val="Médio">⚠️ Médio (tem alertas, mas difícil aplicar)</button>
-              <button type="button" class="option-btn" data-q="q9" data-val="Fácil">✅ Fácil (sei onde achar e agir)</button>
+              <button type="button" class="option-btn" data-q="q9" data-val="Muito difícil">❌ Muito difícil (são genéricas ou confusas)</button>
+              <button type="button" class="option-btn" data-q="q9" data-val="Médio">⚠️ Médio (existem alertas, mas difíceis de consultar na hora)</button>
+              <button type="button" class="option-btn" data-q="q9" data-val="Fácil">✅ Fácil (sei exatamente o que fazer e onde procurar)</button>
             </div>
             <input type="hidden" name="q9" id="q9" required>
           </div>
 
           <!-- Q10: Sentimento Gerado -->
           <div class="question-card">
-            <label class="question-title">10. Qual sentimento principal um golpe gera na vítima? (Uma palavra)</label>
+            <label class="question-title">10. Em sua opinião, qual é o principal sentimento/emoção gerado por um golpe digital? (Uma palavra)</label>
             <div class="form-group" style="margin-bottom: 0;">
-              <input type="text" id="q10" name="q10" class="form-input inset-border" required placeholder="Ex: Impotência, Medo, Vergonha, Raiva, Frustração, Insegurança">
+              <input type="text" id="q10" name="q10" class="form-input inset-border" required placeholder="Ex: Impotência, Medo, Vergonha, Raiva, Indignação, Insegurança">
             </div>
           </div>
 
           <div style="text-align: right; margin-top: 20px;">
             <button type="submit" class="btn btn-primary outset-border" style="padding: 12px 24px; font-size: 14px;">
-              💾 Salvar Entrevista
+              💾 Enviar Minhas Respostas
             </button>
           </div>
         </form>
       </div>
       <div class="window-statusbar">
-        <span>FIB16 Belém — Guardião da Rede</span>
-        <span>Pesquisa de Opinião e Estatísticas</span>
+        <span>FIB16 Belém — Cidadão na Rede</span>
+        <span>Anonimato e Criptografia Local</span>
       </div>
     </section>
 
-    <!-- DASHBOARD DE RESULTADOS (COM METRICAS E GRÁFICOS) -->
-    <section class="window outset-border" id="dashboard-section">
+    <!-- DASHBOARD DE RESULTADOS (OCULTO POR PADRÃO - PAINEL DO PESQUISADOR) -->
+    <section class="window outset-border" id="dashboard-section" style="display: none; margin-top: 40px;">
       <div class="window-titlebar">
         <div class="titlebar-text">
-          <span>📊 MONITOR_PESQUISA_ESTATISTICAS.EXE</span>
+          <span>📊 MONITOR_PESQUISA_ESTATISTICAS.EXE [PAINEL DO AVALIADOR]</span>
         </div>
       </div>
       <div class="window-body">
-        <h2>Dashboard de Resultados em Tempo Real</h2>
-        <p>Estes dados são gerados dinamicamente baseados nas entrevistas salvas. Perfeito para capturar prints para os slides da apresentação final.</p>
+        <h2>Painel do Pesquisador (Hackathon FIB16)</h2>
+        <p>Estatísticas compiladas em tempo real a partir do banco de dados local para tirar prints e alimentar os slides da apresentação final.</p>
         
         <!-- BARRA DE AÇÕES DOS DADOS -->
         <div class="actions-bar">
@@ -408,30 +417,30 @@
         <div class="dashboard-grid">
           <!-- CARD 1: Total Entrevistados -->
           <div class="metric-card">
-            <span class="metric-label">TOTAL DE ENTREVISTAS</span>
+            <span class="metric-label">TOTAL DE RESPOSTAS</span>
             <div class="metric-value" id="stat-total">0</div>
             <span class="metric-label" style="font-family: var(--font-mono); font-size: 11px;">FIB16 / Belém-PA</span>
           </div>
 
           <!-- CARD 2: % Afetados -->
           <div class="metric-card">
-            <span class="metric-label">% EXPOSTAS A GOLPES (Uso ou Rede)</span>
+            <span class="metric-label">% EXPOSTAS A GOLPES</span>
             <div class="metric-value" id="stat-scam-ratio">0%</div>
             <span class="metric-label" style="font-size: 10px;">Caíram ou sofreram tentativa direta/familiar</span>
           </div>
 
           <!-- CARD 3: Taxa de B.O. ou Denúncia -->
           <div class="metric-card">
-            <span class="metric-label">TAXA DE DENÚNCIA / AÇÃO OFICIAL</span>
+            <span class="metric-label">TAXA DE REAÇÃO OFICIAL</span>
             <div class="metric-value" id="stat-report-ratio">0%</div>
-            <span class="metric-label" style="font-size: 10px;">Vítimas que registraram B.O. ou contataram o banco</span>
+            <span class="metric-label" style="font-size: 10px;">Fizeram B.O. ou acionaram o banco</span>
           </div>
 
           <!-- CARD 4: Letramento Digital Baixo -->
           <div class="metric-card">
             <span class="metric-label">LETRAMENTO DIGITAL BAIXO/MÉDIO</span>
             <div class="metric-value" id="stat-digital-literacy">0%</div>
-            <span class="metric-label" style="font-size: 10px;">Precisam de suporte simplificado e visual</span>
+            <span class="metric-label" style="font-size: 10px;">Precisam de alertas claros e acessíveis</span>
           </div>
         </div>
 
@@ -523,9 +532,16 @@
       </div>
       <div class="window-statusbar">
         <span>Banco de Dados Local (localStorage)</span>
-        <span id="stat-db-status">Online e Atualizado</span>
+        <span id="stat-db-status">Apenas Visualização Interna</span>
       </div>
     </section>
+
+    <!-- GAVETA DISCRETA PARA O PESQUISADOR ATIVAR O DASHBOARD -->
+    <div style="margin-top: 40px; text-align: center; margin-bottom: 24px;">
+      <button class="btn btn-secondary" id="btn-toggle-admin" style="font-size: 11px; padding: 6px 14px; opacity: 0.6; transition: opacity 0.2s;">
+        ⚙️ Painel do Pesquisador (Avaliação do Hackathon)
+      </button>
+    </div>
 
   </main>
 
@@ -583,6 +599,23 @@
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
+      // Toggle da Seção de Pesquisador/Admin
+      const btnToggleAdmin = document.getElementById("btn-toggle-admin");
+      const dashboardSection = document.getElementById("dashboard-section");
+
+      btnToggleAdmin.addEventListener("click", () => {
+        if (dashboardSection.style.display === "none") {
+          dashboardSection.style.display = "block";
+          btnToggleAdmin.textContent = "❌ Fechar Painel do Pesquisador";
+          btnToggleAdmin.style.opacity = "1";
+          dashboardSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          dashboardSection.style.display = "none";
+          btnToggleAdmin.textContent = "⚙️ Painel do Pesquisador (Avaliação do Hackathon)";
+          btnToggleAdmin.style.opacity = "0.6";
+        }
+      });
+
       // Gerenciar seleção dos botões de opções do formulário
       const optionButtons = document.querySelectorAll(".option-btn");
       optionButtons.forEach(btn => {
@@ -609,16 +642,20 @@
             const cardQ7 = document.getElementById("card-q7");
             
             if (val === "Não, nunca passei") {
-              // Preenche automaticamente valores neutros para pular
               document.getElementById("q4").value = "Outro / Não aplicável";
               document.getElementById("q5").value = "Outro / Não aplicável";
               document.getElementById("q6").value = "Não se aplica";
               document.getElementById("q7").value = "Sem prejuízo";
               
-              cardQ4.style.opacity = "0.5";
-              cardQ5.style.opacity = "0.5";
-              cardQ6.style.opacity = "0.5";
-              cardQ7.style.opacity = "0.5";
+              cardQ4.style.opacity = "0.4";
+              cardQ5.style.opacity = "0.4";
+              cardQ6.style.opacity = "0.4";
+              cardQ7.style.opacity = "0.4";
+              
+              // Desmarcar seleções prévias nessas caixas
+              document.querySelectorAll('.option-btn[data-q="q4"], .option-btn[data-q="q5"], .option-btn[data-q="q6"], .option-btn[data-q="q7"]').forEach(b => {
+                b.classList.remove("selected");
+              });
             } else {
               cardQ4.style.opacity = "1";
               cardQ5.style.opacity = "1";
@@ -633,6 +670,10 @@
       let db = JSON.parse(localStorage.getItem("guardiao_pesquisa_dados") || "[]");
       
       const form = document.getElementById("interview-form");
+      const capiGuideBox = document.getElementById("capi-guide-box");
+      const surveyWindow = document.getElementById("survey-window");
+      const thankYouCard = document.getElementById("thank-you-card");
+      
       const statTotal = document.getElementById("stat-total");
       const statScamRatio = document.getElementById("stat-scam-ratio");
       const statReportRatio = document.getElementById("stat-report-ratio");
@@ -650,6 +691,14 @@
       document.getElementById("btn-export-csv").addEventListener("click", exportToCSV);
       document.getElementById("btn-seed-data").addEventListener("click", seedData);
       document.getElementById("btn-clear-db").addEventListener("click", clearDatabase);
+      
+      // Botão responder novamente na tela de sucesso
+      document.getElementById("btn-survey-again").addEventListener("click", () => {
+        thankYouCard.style.display = "none";
+        surveyWindow.style.display = "block";
+        capiGuideBox.style.display = "flex";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
 
       // Submit do Formulário
       form.addEventListener("submit", (e) => {
@@ -668,7 +717,7 @@
         const q10 = document.getElementById("q10").value.trim();
 
         if (!q1 || !q2 || !q3 || !q8 || !q9 || !q10) {
-          alert("Por favor, responda todas as perguntas antes de salvar.");
+          alert("Por favor, responda a todas as perguntas marcadas antes de enviar.");
           return;
         }
 
@@ -691,11 +740,14 @@
         document.getElementById("q8").value = "";
         document.getElementById("q9").value = "";
         
+        // Exibir tela de agradecimento
+        surveyWindow.style.display = "none";
+        capiGuideBox.style.display = "none";
+        thankYouCard.style.display = "block";
+        
         // Re-render
         renderDashboard();
-        
-        // Scroll ate o dashboard para ver o feedback visual
-        document.getElementById("dashboard-section").scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
 
       // Renderizar o dashboard
@@ -838,7 +890,6 @@
       function seedData() {
         if (confirm("Deseja carregar 12 entrevistas de simulação para testar o painel visual? Os dados atuais serão combinados.")) {
           db = [...db, ...DADOS_SIMULADOS_MOCK];
-          // Re-index
           db.forEach((x, idx) => x.id = idx + 1);
           localStorage.setItem("guardiao_pesquisa_dados", JSON.stringify(db));
           renderDashboard();
@@ -863,8 +914,8 @@
 
         const headers = ["ID", "Faixa Etaria", "Letramento Digital", "Situacao Golpe", "Canal Principal", "Tipo de Golpe", "Fator Convencimento", "Prejuizo Financeiro", "Atitude Pos-Golpe", "Facilidade Orientacoes", "Sentimento Principal"];
         
-        let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // BOM para Excel em PT-BR
-        csvContent += headers.join(";") + "\n"; // Usando ponto-e-vírgula por causa do Excel brasileiro
+        let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+        csvContent += headers.join(";") + "\n";
         
         db.forEach(x => {
           const row = [
@@ -889,7 +940,7 @@
         
         const dataAtual = new Date().toISOString().split('T')[0];
         link.setAttribute("download", `pesquisa_guardiao_rede_${dataAtual}.csv`);
-        document.body.appendChild(link); // Required for FF
+        document.body.appendChild(link);
         
         link.click();
         document.body.removeChild(link);

@@ -75,7 +75,7 @@
       </div>
       <div class="capi-bubble">
         <div class="capi-bubble-title">Capi diz:</div>
-        <p style="margin-bottom: 0; color: #000;" id="capi-result-opinion">
+        <p style="margin-bottom: 0;" id="capi-result-opinion">
           "Terminei minha investigação! Analisei as palavras que você usou no relato e os dados do seu perfil. Veja abaixo o laudo oficial com o nível de risco estimado e o diagnóstico."
         </p>
       </div>
@@ -110,9 +110,9 @@
             <span class="risk-badge" id="risk-badge-label">Processando...</span>
 
             <!-- Confirmação do Histórico -->
-            <div class="card-flat" style="background: #FFFBEB; padding: 10px; font-size: 11px; margin: 12px 0; text-align: left; box-shadow: none;">
-              <strong>✓ Salvo no Histórico Público!</strong>
-              <p style="margin-bottom: 0; margin-top: 2px; color: var(--color-text-muted);">Seu caso foi arquivado de forma 100% anônima. Você e outros usuários podem deixar comentários de alerta no histórico.</p>
+            <div class="card-flat" style="background: rgba(0, 245, 212, 0.05); border: 1.5px solid rgba(0, 245, 212, 0.2); padding: 10px; font-size: 11px; margin: 12px 0; text-align: left; box-shadow: none; border-radius: 6px;">
+              <strong style="color: var(--accent-teal);">✓ Salvo no Histórico Público!</strong>
+              <p style="margin-bottom: 0; margin-top: 4px; color: var(--color-text-muted);">Seu caso foi arquivado de forma 100% anônima. Você e outros usuários podem deixar comentários de alerta no histórico.</p>
             </div>
 
             <!-- Resumo do caso -->
@@ -353,8 +353,8 @@
         div.className = `recommendation-card outset-border ${isPriority ? 'priority-high' : ''}`;
         
         div.innerHTML = `
-          <strong>${isPriority ? '🚨 URGENTE: ' : ''}${r.split(':')[0]}</strong>
-          <p style="font-size: 11px; margin-bottom:0; color:#505050;">${r.split(':').slice(1).join(':') || r}</p>
+          <strong style="color: var(--color-text);">${isPriority ? '🚨 URGENTE: ' : ''}${r.split(':')[0]}</strong>
+          <p style="font-size: 11.5px; margin-bottom: 0; margin-top: 4px; color: var(--color-text-muted);">${r.split(':').slice(1).join(':') || r}</p>
         `;
         recommendationsContainer.appendChild(div);
       });
