@@ -9,6 +9,9 @@
 </head>
 <body>
 
+  <!-- LINK DE ACESSIBILIDADE -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
   <!-- HEADER -->
   <header class="app-header outset-border">
     <div class="header-container">
@@ -16,25 +19,31 @@
         <span class="logo-icon" aria-hidden="true">🛡️</span>
         <span class="logo-text">Guardião da Rede</span>
       </a>
-      <nav class="app-nav" aria-label="Navegação Principal">
-        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-        <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
-        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-        <a href="letramento.html" class="nav-link outset-border active" id="nav-letramento">Letramento</a>
-        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
-        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
-      </nav>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
+        <nav class="app-nav" aria-label="Navegação Principal">
+          <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+          <a href="letramento.html" class="nav-link outset-border active" id="nav-letramento">Letramento</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- MARQUEE RETRO -->
-  <div class="marquee-bar inset-border" aria-hidden="true">
-    <marquee scrollamount="4">ℹ️ DICA DA CAPI: Ative a verificação em duas etapas no seu WhatsApp para evitar clonagem de conta! • Desconfie de links recebidos por SMS de supostas taxas aduaneiras.</marquee>
+  <!-- TICKER DE ALERTAS (CSS TICKER) -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">ℹ️ DICA DA CAPI: Ative a verificação em duas etapas no seu WhatsApp para evitar clonagem de conta! • Desconfie de links recebidos por SMS de taxas alfandegárias falsas.</span>
+      <span class="ticker-item">ℹ️ DICA DA CAPI: Ative a verificação em duas etapas no seu WhatsApp para evitar clonagem de conta! • Desconfie de links recebidos por SMS de taxas alfandegárias falsas.</span>
+    </div>
   </div>
 
   <!-- MAIN CONTENT -->
-  <main class="main-content">
+  <main class="main-content boot-hidden" id="main-content">
     
     <!-- CAPI WIDGET -->
     <div class="capi-widget" role="note" aria-label="Mensagem de Capi">
@@ -44,7 +53,7 @@
       <div class="capi-bubble">
         <div class="capi-bubble-title">Capi diz:</div>
         <p style="margin-bottom: 0;">
-          "Olá! O NIC.br e o CGI.br defendem que a internet brasileira deve ser livre, segura e inclusiva. Nesta seção, você aprende a reconhecer armadilhas e entende como o nosso projeto apoia os princípios fundamentais da nossa rede!"
+          "Olá! O NIC.br e o CGI.br defendem que a internet brasileira deve ser segura, livre e inclusiva. Nesta seção, você estuda armadilhas, testa seus conhecimentos no meu quiz interativo e entende nossos princípios!"
         </p>
       </div>
     </div>
@@ -57,18 +66,18 @@
         </div>
       </div>
       <div class="window-body">
-        <h2>Guia de Prevenção a Golpes Virtuais</h2>
-        <p>Estude os métodos mais perigosos aplicados contra cidadãos na internet e aprenda a se proteger:</p>
+        <h2 style="font-size: 16px; margin-bottom: 8px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Guia de Prevenção a Golpes Virtuais</h2>
+        <p style="margin-bottom: 20px;">Estude os métodos mais perigosos aplicados contra cidadãos na internet e aprenda a se proteger:</p>
         
-        <div class="decalogo-grid" style="grid-template-columns: 1fr; gap: 15px;">
+        <div style="display: flex; flex-direction: column; gap: 16px;">
           <!-- CARD VAGAS ONLINE -->
           <article class="card-flat" style="padding: 18px;">
-            <h3 style="color: var(--accent-teal); margin-bottom: 6px;">💼 Falsas Vagas de Emprego Online</h3>
-            <p style="font-size: 13px; margin-bottom: 8px;">
+            <h3 style="color: var(--accent-teal); margin-bottom: 6px; font-family: var(--font-body); font-weight: 800; font-size: 14.5px;">💼 Falsas Vagas de Emprego Online</h3>
+            <p style="font-size: 13px; margin-bottom: 8px; line-height: 1.5;">
               <strong>Como funciona:</strong> Golpistas enviam mensagens oferecendo salários altos por tarefas de meio período em casa (ex: curtir vídeos no YouTube ou avaliar lojas). No início pagam pequenas comissões, mas depois exigem que você faça transferências Pix como depósito de garantia para liberar novos trabalhos.
             </p>
-            <strong style="color: var(--risk-high); font-size: 11.5px; font-family: var(--font-mono); display: block;">✓ COMO SABER SE É FAKE:</strong>
-            <ul style="font-size: 12px; margin-left: 15px; margin-top: 4px; color: var(--color-text-muted);">
+            <strong style="color: var(--risk-high); font-size: 11.5px; font-family: var(--font-mono); display: block; margin-top: 10px;">✓ COMO SABER SE É FAKE:</strong>
+            <ul style="font-size: 12px; margin-left: 15px; margin-top: 4px; color: var(--color-text-muted); line-height: 1.4;">
               <li>Nenhuma empresa legítima exige depósitos ou pagamentos de taxas para liberar salários.</li>
               <li>Desconfie de processos seletivos feitos inteiramente por bots do Telegram ou mensagens de WhatsApp de números estrangeiros.</li>
               <li>A promessa de dinheiro rápido em troca de tarefas extremamente simples é o principal indício de fraude.</li>
@@ -77,12 +86,12 @@
           
           <!-- CARD ENCOMENDAS -->
           <article class="card-flat" style="padding: 18px;">
-            <h3 style="color: var(--accent-teal); margin-bottom: 6px;">📦 Encomendas, Entregas e Taxas do Correio</h3>
-            <p style="font-size: 13px; margin-bottom: 8px;">
+            <h3 style="color: var(--accent-teal); margin-bottom: 6px; font-family: var(--font-body); font-weight: 800; font-size: 14.5px;">📦 Encomendas, Entregas e Taxas do Correio</h3>
+            <p style="font-size: 13px; margin-bottom: 8px; line-height: 1.5;">
               <strong>Como funciona:</strong> Você recebe um SMS ou e-mail com um link idêntico ao site oficial dos Correios, dizendo que sua compra internacional está retida por pendências alfandegárias. Também ocorrem golpes com falsos motoboys de delivery cobrando taxas de reenvio de brindes sob pretexto de maquininha danificada.
             </p>
-            <strong style="color: var(--risk-high); font-size: 11.5px; font-family: var(--font-mono); display: block;">✓ COMO SE PROTEGER:</strong>
-            <ul style="font-size: 12px; margin-left: 15px; margin-top: 4px; color: var(--color-text-muted);">
+            <strong style="color: var(--risk-high); font-size: 11.5px; font-family: var(--font-mono); display: block; margin-top: 10px;">✓ COMO SE PROTEGER:</strong>
+            <ul style="font-size: 12px; margin-left: 15px; margin-top: 4px; color: var(--color-text-muted); line-height: 1.4;">
               <li>Não clique em links de SMS de taxas de rastreio. Acesse manualmente o portal oficial 'Minhas Importações' dos Correios.</li>
               <li>Ao receber entregas presenciais de presentes surpresa que exijam pagamento de taxas, confira o visor da maquininha. Nunca digite senha se a tela estiver apagada, quebrada ou obstruída.</li>
             </ul>
@@ -90,12 +99,12 @@
           
           <!-- CARD IDOSOS / FACIAL -->
           <article class="card-flat" style="padding: 18px;">
-            <h3 style="color: var(--accent-teal); margin-bottom: 6px;">👵 Engenharia contra Idosos & Fraude de Reconhecimento Facial</h3>
-            <p style="font-size: 13px; margin-bottom: 8px;">
+            <h3 style="color: var(--accent-teal); margin-bottom: 6px; font-family: var(--font-body); font-weight: 800; font-size: 14.5px;">👵 Engenharia contra Idosos & Fraude de Reconhecimento Facial</h3>
+            <p style="font-size: 13px; margin-bottom: 8px; line-height: 1.5;">
               <strong>Como funciona:</strong> Falsos gerentes ligam afirmando que a conta bancária do idoso está sob ataque cibernético e que, para cancelar transações suspeitas, ele deve olhar para a câmera do celular em um link enviado via chat. Esse link captura a biometria para autorizar empréstimos ou Pix falsos (o golpe da 'selfie da selfie').
             </p>
-            <strong style="color: var(--risk-high); font-size: 11.5px; font-family: var(--font-mono); display: block;">✓ RECOMENDAÇÃO CRÍTICA:</strong>
-            <ul style="font-size: 12px; margin-left: 15px; margin-top: 4px; color: var(--color-text-muted);">
+            <strong style="color: var(--risk-high); font-size: 11.5px; font-family: var(--font-mono); display: block; margin-top: 10px;">✓ RECOMENDAÇÃO CRÍTICA:</strong>
+            <ul style="font-size: 12px; margin-left: 15px; margin-top: 4px; color: var(--color-text-muted); line-height: 1.4;">
               <li>Bancos de verdade nunca ligam solicitando que você tire selfies para cancelar transações de segurança.</li>
               <li>Se um suposto funcionário te guiar por telefone a acessar a câmera fora do aplicativo oficial do banco, desligue imediatamente.</li>
             </ul>
@@ -104,24 +113,71 @@
       </div>
     </section>
 
+    <!-- JANELA DE QUIZ INTERATIVO -->
+    <section class="window outset-border" id="quiz-window">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>🎯 DESAFIO_VIGILANCIA_DIGITAL.EXE</span>
+        </div>
+      </div>
+      <div class="window-body">
+        <h2 style="font-family: var(--font-body); font-weight: 800; font-size: 16px; margin-bottom: 4px; color: var(--accent-teal);">Desafio da Segurança: Teste seus conhecimentos!</h2>
+        <p style="margin-bottom: 20px;">Responda aos 4 cenários práticos e veja se você está pronto para se defender das armadilhas da rede:</p>
+
+        <div id="quiz-container">
+          <!-- Pergunta Ativa -->
+          <div class="card-flat" id="quiz-question-card" style="padding: 20px; box-shadow: var(--shadow-flat-sm); background: rgba(0,0,0,0.2);">
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-purple); font-weight: bold; margin-bottom: 6px;" id="quiz-question-num">PERGUNTA 1 DE 4</div>
+            <h3 style="font-size: 14.5px; margin-bottom: 14px; line-height: 1.4; font-family: var(--font-body); font-weight: 800;" id="quiz-question-text">Carregando...</h3>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;" id="quiz-options-container">
+              <!-- Opções renderizadas dinamicamente -->
+            </div>
+            
+            <!-- Feedback -->
+            <div id="quiz-feedback-box" class="inset-border" style="display: none; padding: 12px; margin-top: 15px; border-radius: 6px; font-size: 12.5px; line-height: 1.45; overflow: hidden;">
+              <!-- Resposta certa/errada -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Tela de Pontuação Final (inicialmente oculta) -->
+        <div id="quiz-result-card" class="card-flat" style="display: none; padding: 24px; text-align: center; box-shadow: var(--shadow-flat-sm); background: rgba(0,0,0,0.2);">
+          <span style="font-size: 56px; display: block; margin-bottom: 8px;" id="quiz-result-emoji">🥉</span>
+          <h3 style="font-size: 18px; color: var(--accent-teal); font-family: var(--font-body); font-weight: 800; margin-bottom: 6px;" id="quiz-result-badge">Badge do Quiz</h3>
+          <p style="font-size: 13.5px; color: var(--color-text-muted); line-height: 1.5; margin-bottom: 20px;" id="quiz-result-desc">Carregando resultado...</p>
+          
+          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-primary outset-border" id="btn-quiz-share">📤 Compartilhar Pontuação</button>
+            <button class="btn btn-secondary outset-border" id="btn-quiz-restart">🔄 Refazer Quiz</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="window-statusbar">
+        <span>Quiz Interativo de Segurança</span>
+        <span id="quiz-status-bar">Pergunta 1/4</span>
+      </div>
+    </section>
+
     <!-- JANELA DE PRINCÍPIOS DO CGI.br / NIC.br -->
-    <section class="window outset-border">
+    <section class="window outset-border" style="margin-top: 24px;">
       <div class="window-titlebar">
         <div class="titlebar-text">
           <span>🛡️ DECALOGO_PRINCIPIOS_CGIBR.TXT</span>
         </div>
       </div>
       <div class="window-body">
-        <h2>Como o Guardião apoia os Princípios da Internet (CGI.br)</h2>
+        <h2 style="font-size: 16px; margin-bottom: 8px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Como o Guardião apoia os Princípios da Internet (CGI.br)</h2>
         <p style="margin-bottom: 15px;">
           O Decálogo de Princípios do CGI.br estabelece as diretrizes fundamentais para o desenvolvimento e uso da internet no Brasil:
         </p>
 
-        <div class="decalogo-grid">
+        <div class="decalogo-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
           <!-- PRINCIPIO 7 -->
           <div class="decalogo-card">
             <span class="decalogo-num">Princípio 7</span>
-            <h3 style="font-size: 12.5px; margin: 4px 0;">Inviolabilidade e Segurança</h3>
+            <h3 style="font-size: 12.5px; margin: 4px 0; font-family: var(--font-body); font-weight: 800;">Inviolabilidade e Segurança</h3>
             <p style="font-size: 11.5px; color: var(--color-text-muted); margin-bottom: 0;">
               <strong>Nossa Ação:</strong> Fortalecemos a proteção dos cidadãos contra a engenharia social, fornecendo diagnóstico imediato baseado em IA para mitigar o roubo de dados e fraudes cibernéticas.
             </p>
@@ -130,7 +186,7 @@
           <!-- PRINCIPIO 9 -->
           <div class="decalogo-card">
             <span class="decalogo-num">Princípio 9</span>
-            <h3 style="font-size: 12.5px; margin: 4px 0;">Padronização e Interoperabilidade</h3>
+            <h3 style="font-size: 12.5px; margin: 4px 0; font-family: var(--font-body); font-weight: 800;">Padronização e Interoperabilidade</h3>
             <p style="font-size: 11.5px; color: var(--color-text-muted); margin-bottom: 0;">
               <strong>Nossa Ação:</strong> Desenvolvemos em HTML, CSS e JS puros. A plataforma rejeita sistemas proprietários fechados, operando sob padrões globais e abertos.
             </p>
@@ -139,7 +195,7 @@
           <!-- PRINCIPIO 1 -->
           <div class="decalogo-card">
             <span class="decalogo-num">Princípio 1</span>
-            <h3 style="font-size: 12.5px; margin: 4px 0;">Direitos e Privacidade</h3>
+            <h3 style="font-size: 12.5px; margin: 4px 0; font-family: var(--font-body); font-weight: 800;">Direitos e Privacidade</h3>
             <p style="font-size: 11.5px; color: var(--color-text-muted); margin-bottom: 0;">
               <strong>Nossa Ação:</strong> O direito ao relato e discussão comunitária é 100% anônimo. Não exigimos rastreamento cadastral, defendendo a privacidade das vítimas.
             </p>
@@ -148,52 +204,25 @@
           <!-- PRINCIPIO 3 -->
           <div class="decalogo-card">
             <span class="decalogo-num">Princípio 3</span>
-            <h3 style="font-size: 12.5px; margin: 4px 0;">Universalidade e Inclusão</h3>
+            <h3 style="font-size: 12.5px; margin: 4px 0; font-family: var(--font-body); font-weight: 800;">Universalidade e Inclusão</h3>
             <p style="font-size: 11.5px; color: var(--color-text-muted); margin-bottom: 0;">
               <strong>Nossa Ação:</strong> A interface neo-retrô limpa resgata layouts estruturados de fácil navegação, aliando design responsivo, alto contraste e leveza para redes instáveis.
             </p>
           </div>
         </div>
 
-        <div class="card-flat" style="background: var(--bg-desktop); padding: 12px; margin-top: 15px; border-left: 5px solid var(--accent-teal); box-shadow: none;">
-          <strong style="color: var(--accent-teal); font-size: 12px; font-family: var(--font-mono);">🔒 Filosofia de Software Livre & Criptografia:</strong>
-          <p style="font-size: 12px; margin-bottom: 0; margin-top: 4px; color: var(--color-text-muted);">
+        <div class="card-flat" style="background: var(--bg-desktop); padding: 14px; margin-top: 20px; border-left: 5px solid var(--accent-teal); box-shadow: none; border-radius: 8px;">
+          <strong style="color: var(--accent-teal); font-size: 12px; font-family: var(--font-mono); text-transform: uppercase;">🔒 Filosofia de Software Livre & Criptografia:</strong>
+          <p style="font-size: 12px; margin-bottom: 0; margin-top: 6px; color: var(--color-text-muted); line-height: 1.5;">
             Nosso MVP é construído para ser auditável. Nossa visão futura de arquitetura aberta engloba:
             <br>1. <strong>Criptografia Local (Web Crypto API):</strong> Hashing dos relatos de forma ponta a ponta, de modo que somente auditores credenciados descriptografem os textos.
-            <br>2. <strong>Bancos Descentralizados (IPFS/OrbitDB):</strong> Salvamento do histórico comunitário em redes P2P redundantes e imunes à censura corporativa centralizada de provedores de nuvem.
+            <br>2. <strong>Bancos Descentralizados (IPFS/OrbitDB):</strong> Salvamento do histórico comunitário em redes P2P redundantes e imunes à censura corporativa centralizada.
           </p>
         </div>
       </div>
     </section>
 
   </main>
-
-  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
-  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
-    <div class="window outset-border modal-card">
-      <div class="window-titlebar">
-        <div class="titlebar-text">
-          <span>⚙️ CONFIGURACOES_IA.EXE</span>
-        </div>
-        <div class="titlebar-controls">
-          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
-        </div>
-      </div>
-      <div class="window-body">
-        <p style="margin-bottom: 10px;">
-          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
-        </p>
-        <div class="form-group">
-          <label for="gemini-key-input" class="form-label">API Key:</label>
-          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
-        </div>
-        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
-          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
-          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
@@ -203,6 +232,209 @@
     </div>
   </footer>
 
+  <script src="js/components.js"></script>
   <script src="js/api.js"></script>
+  <script>
+    const QUIZ_PERGUNTAS = [
+      {
+        question: "Um motoboy entrega um presente surpresa na sua casa e pede R$ 5,90 de taxa de entrega na maquininha, mas o visor dela está apagado ou quebrado. O que fazer?",
+        options: [
+          { text: "Aproximar o cartão rapidamente para resolver logo e receber o presente", isCorrect: false },
+          { text: "Recusar a entrega ou exigir outra forma de pagamento / maquininha com visor visível", isCorrect: true },
+          { text: "Fazer Pix no QR code do celular dele, sem verificar o destinatário", isCorrect: false }
+        ],
+        explanation: "Correto! Maquininhas com visor borrado, apagado ou obstruído são usadas por criminosos de delivery para digitar valores astronômicos (como R$ 5.900,00) no lugar da taxa pequena informada verbalmente."
+      },
+      {
+        question: "Você recebe um SMS de alerta dos Correios dizendo que uma encomenda internacional foi taxada pela alfândega e contém um link encurtado para pagar uma taxa no Pix. Qual a melhor atitude?",
+        options: [
+          { text: "Clicar no link imediatamente e realizar o pagamento do Pix para liberar o produto", isCorrect: false },
+          { text: "Ignorar o SMS e aguardar o carteiro ir entregar na sua casa mesmo assim", isCorrect: false },
+          { text: "Não clicar no link. Copiar o código de rastreamento e consultar diretamente no portal Minhas Importações oficial dos Correios", isCorrect: true }
+        ],
+        explanation: "Perfeito! Golpistas fazem envios em massa de falsos alertas de encomendas. O link leva a sites clonados para roubar Pix. A consulta direta no portal oficial é o único método 100% seguro."
+      },
+      {
+        question: "Uma suposta central de segurança do seu banco liga avisando de um Pix agendado de R$ 3.800 em outro estado e pede para você fazer uma transferência de segurança para cancelar. O que fazer?",
+        options: [
+          { text: "Desligar na hora e ligar para o telefone oficial impresso atrás do seu cartão bancário", isCorrect: true },
+          { text: "Seguir as orientações da central telefônica para garantir o estorno do valor", isCorrect: false },
+          { text: "Enviar fotos de documentos e selfies no chat para cancelar o Pix agendado", isCorrect: false }
+        ],
+        explanation: "Exatamente! Bancos de verdade nunca solicitam transferências financeiras (nem mesmo Pix de segurança) ou dados sigilosos para cancelar transações suspeitas de contas."
+      },
+      {
+        question: "Um story no Instagram de um conhecido que você segue anuncia uma tabela de investimentos em criptoativos garantindo retorno de 300% em 24 horas. Qual o procedimento mais prudente?",
+        options: [
+          { text: "Investir o valor mínimo logo para testar se funciona mesmo", isCorrect: false },
+          { text: "Entrar em contato com o conhecido por outro canal (ligação ou WhatsApp) para confirmar se o perfil dele não foi hackeado", isCorrect: true },
+          { text: "Indicar a postagem para parentes e amigos participarem do investimento também", isCorrect: false }
+        ],
+        explanation: "Correto! Invasões de perfis de redes sociais para promoção de esquemas falsos (como investimento Pix e robôs) são diários. Sempre confirme a identidade da pessoa por canais alternativos!"
+      }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      let qIdx = 0;
+      let score = 0;
+      let answered = false;
+
+      const qCard = document.getElementById("quiz-question-card");
+      const rCard = document.getElementById("quiz-result-card");
+      
+      const qNum = document.getElementById("quiz-question-num");
+      const qText = document.getElementById("quiz-question-text");
+      const optsContainer = document.getElementById("quiz-options-container");
+      const fbBox = document.getElementById("quiz-feedback-box");
+      const quizStatus = document.getElementById("quiz-status-bar");
+
+      const btnRestart = document.getElementById("btn-quiz-restart");
+      const btnShare = document.getElementById("btn-quiz-share");
+
+      function loadQuestion() {
+        answered = false;
+        fbBox.style.display = "none";
+        
+        const q = QUIZ_PERGUNTAS[qIdx];
+        qNum.textContent = `PERGUNTA ${qIdx + 1} DE ${QUIZ_PERGUNTAS.length}`;
+        qText.textContent = q.question;
+        quizStatus.textContent = `Pergunta ${qIdx + 1}/${QUIZ_PERGUNTAS.length}`;
+        
+        optsContainer.innerHTML = "";
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.style.width = "100%";
+          btn.style.padding = "14px";
+          btn.style.fontSize = "13px";
+          btn.innerHTML = `<span style="font-family: var(--font-mono); color: var(--accent-purple); margin-right: 8px;">[${String.fromCharCode(65 + idx)}]</span> ${opt.text}`;
+          
+          btn.addEventListener("click", () => {
+            if (answered) return;
+            selectOption(btn, opt);
+          });
+          
+          optsContainer.appendChild(btn);
+        });
+      }
+
+      function selectOption(selectedBtn, option) {
+        answered = true;
+        
+        // Colore opções
+        const buttons = optsContainer.querySelectorAll(".option-btn");
+        buttons.forEach((btn, idx) => {
+          const opt = QUIZ_PERGUNTAS[qIdx].options[idx];
+          btn.style.transition = "background-color 0.2s, color 0.2s";
+          if (opt.isCorrect) {
+            btn.style.background = "rgba(16, 185, 129, 0.25)";
+            btn.style.borderColor = "var(--risk-low)";
+            btn.style.color = "var(--color-text)";
+            btn.innerHTML = `✅ ${btn.innerHTML}`;
+          } else {
+            if (btn === selectedBtn) {
+              btn.style.background = "rgba(239, 68, 68, 0.25)";
+              btn.style.borderColor = "var(--risk-high)";
+              btn.style.color = "var(--color-text)";
+              btn.innerHTML = `❌ ${btn.innerHTML}`;
+            } else {
+              btn.style.opacity = "0.5";
+            }
+          }
+        });
+
+        if (option.isCorrect) {
+          score++;
+          fbBox.className = "inset-border";
+          fbBox.style.background = "rgba(16, 185, 129, 0.05)";
+          fbBox.style.borderColor = "rgba(16, 185, 129, 0.2)";
+          fbBox.style.borderLeft = "4px solid var(--risk-low)";
+          fbBox.innerHTML = `<strong style="color: var(--risk-low);">Parabéns! Resposta Correta.</strong><br>${QUIZ_PERGUNTAS[qIdx].explanation}`;
+        } else {
+          fbBox.className = "inset-border";
+          fbBox.style.background = "rgba(239, 68, 68, 0.05)";
+          fbBox.style.borderColor = "rgba(239, 68, 68, 0.2)";
+          fbBox.style.borderLeft = "4px solid var(--risk-high)";
+          fbBox.innerHTML = `<strong style="color: var(--risk-high);">Resposta Incorreta.</strong><br>${QUIZ_PERGUNTAS[qIdx].explanation}`;
+        }
+        fbBox.style.display = "block";
+
+        // Cria botão próximo
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "btn btn-primary outset-border";
+        nextBtn.style.marginTop = "15px";
+        nextBtn.style.float = "right";
+        nextBtn.textContent = qIdx + 1 === QUIZ_PERGUNTAS.length ? "Finalizar Desafio >>" : "Próxima Pergunta >>";
+        nextBtn.addEventListener("click", () => {
+          qIdx++;
+          if (qIdx < QUIZ_PERGUNTAS.length) {
+            loadQuestion();
+          } else {
+            showResults();
+          }
+        });
+        fbBox.appendChild(nextBtn);
+      }
+
+      function showResults() {
+        qCard.style.display = "none";
+        rCard.style.display = "block";
+        quizStatus.textContent = "Desafio Concluído";
+        
+        let badge = "";
+        let desc = "";
+        let emoji = "";
+
+        if (score === 4) {
+          emoji = "🥇";
+          badge = "Guardião Expert";
+          desc = `Incrível! Você acertou todas as ${score} de ${QUIZ_PERGUNTAS.length} perguntas. Seu letramento digital é impecável e você está altamente preparado para se defender na rede!`;
+        } else if (score === 3) {
+          emoji = "🥈";
+          badge = "Vigilante Digital";
+          desc = `Muito bom! Você acertou ${score} de ${QUIZ_PERGUNTAS.length} perguntas. Tem excelentes noções de segurança, mas ainda convém atentar-se a detalhes pontuais.`;
+        } else {
+          emoji = "🥉";
+          badge = "Aprendiz de Segurança";
+          desc = `Você acertou ${score} de ${QUIZ_PERGUNTAS.length} perguntas. Recomendamos estudar com atenção os guias de prevenção para não cair nas armadilhas mais comuns.`;
+        }
+
+        document.getElementById("quiz-result-emoji").textContent = emoji;
+        document.getElementById("quiz-result-badge").textContent = `${badge} (${score}/${QUIZ_PERGUNTAS.length})`;
+        document.getElementById("quiz-result-desc").textContent = desc;
+      }
+
+      btnRestart.addEventListener("click", () => {
+        qIdx = 0;
+        score = 0;
+        rCard.style.display = "none";
+        qCard.style.display = "block";
+        loadQuestion();
+      });
+
+      btnShare.addEventListener("click", () => {
+        let badgeName = "Aprendiz";
+        if (score === 4) badgeName = "Guardião Expert";
+        if (score === 3) badgeName = "Vigilante Digital";
+        
+        const textToShare = `🎯 DESAFIO DO LETRAMENTO DIGITAL\n\nAcabei de testar meus conhecimentos de segurança contra golpes virtuais no Guardião da Rede!\n\nMinha pontuação: ${score}/${QUIZ_PERGUNTAS.length}\nNível Conquistado: ${badgeName}\n\nFaça o teste você também e proteja sua família!`;
+        
+        if (navigator.share) {
+          navigator.share({
+            title: `Meu Nível de Segurança Digital`,
+            text: textToShare,
+            url: window.location.href
+          }).catch(err => console.log(err));
+        } else {
+          navigator.clipboard.writeText(textToShare).then(() => {
+            showToast("Resultado copiado para a área de transferência!", "success");
+          });
+        }
+      });
+
+      // Inicializa
+      loadQuestion();
+    });
+  </script>
 </body>
 </html>

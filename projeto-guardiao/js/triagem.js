@@ -10,8 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const relatoDescricao = localStorage.getItem("guardiao_relato_descricao");
 
   if (!relatoTitulo || !relatoDescricao) {
-    alert("Por favor, preencha o formulário de relato primeiro.");
-    window.location.href = "relato.html";
+    showToast("Por favor, preencha o relato de suspeita primeiro.", "error");
+    setTimeout(() => {
+      window.location.href = "relato.html";
+    }, 1500);
     return;
   }
 
@@ -62,13 +64,33 @@ document.addEventListener("DOMContentLoaded", () => {
       const field = btn.getAttribute("data-field");
       const value = btn.getAttribute("data-value");
 
+      // Limpa seleções anteriores do mesmo passo
+      const currentStepEl = steps[currentStep - 1];
+      currentStepEl.querySelectorAll(".triage-option-btn").forEach(b => {
+        b.style.background = "";
+        b.style.color = "";
+      });
+
+      // Aplica cor de clique instantânea e efeito 2D pressionado
+      btn.style.background = "var(--accent-teal)";
+      btn.style.color = "#000";
+      btn.style.borderColor = "var(--color-border)";
+      btn.style.transform = "scale(0.95)";
+      
+      // Adiciona shimmer temporário na barra de progresso
+      progressFill.classList.add("wizard-shimmer");
+
       triagemDados[field] = value;
 
-      if (currentStep < totalSteps) {
-        avancarPasso();
-      } else {
-        concluirTriagem();
-      }
+      setTimeout(() => {
+        btn.style.transform = "";
+        progressFill.classList.remove("wizard-shimmer");
+        if (currentStep < totalSteps) {
+          avancarPasso();
+        } else {
+          concluirTriagem();
+        }
+      }, 350);
     });
   });
 
@@ -114,9 +136,25 @@ document.addEventListener("DOMContentLoaded", () => {
     wizardStatus.textContent = `Passo ${currentStep}/${totalSteps}`;
 
     if (capiText && CAPI_FALAS[currentStep]) {
-      capiText.textContent = CAPI_FALAS[currentStep];
+      capiText.style.opacity = 0;
+      capiText.style.transition = "opacity 0.15s ease";
+      setTimeout(() => {
+        capiText.textContent = CAPI_FALAS[currentStep];
+        capiText.style.opacity = 1;
+      }, 150);
     }
   }
+
+  // Mensagens rotativas do loader
+  const loaderMessages = [
+    "🔍 Cruzando padrões de golpes conhecidos...",
+    "🧠 Consultando base de dados comunitária...",
+    "⚡ Processando fatores de riscos demográficos...",
+    "📡 Executando motores neurais de segurança...",
+    "🤖 Formatando laudo e recomendações personalizadas..."
+  ];
+  let msgIdx = 0;
+  let msgInterval = null;
 
   async function concluirTriagem() {
     triageCard.style.display = "none";
@@ -125,8 +163,22 @@ document.addEventListener("DOMContentLoaded", () => {
     triageLoader.style.display = "flex";
     wizardStatus.textContent = "Processando...";
 
+    const loaderMsgEl = triageLoader.querySelector("p");
+    if (loaderMsgEl) {
+      loaderMsgEl.textContent = loaderMessages[0];
+      msgInterval = setInterval(() => {
+        msgIdx = (msgIdx + 1) % loaderMessages.length;
+        loaderMsgEl.style.opacity = 0;
+        loaderMsgEl.style.transition = "opacity 0.2s ease";
+        setTimeout(() => {
+          loaderMsgEl.textContent = loaderMessages[msgIdx];
+          loaderMsgEl.style.opacity = 1;
+        }, 200);
+      }, 1400);
+    }
+
     if (capiText) {
-      capiText.textContent = "Aguarde um instante! Estou abrindo meus arquivos confidenciais de segurança para analisar as evidências do caso...";
+      capiText.textContent = "Aguarde um instante! Estou analisando os dados semânticos do seu relato...";
     }
 
     try {
@@ -161,9 +213,10 @@ document.addEventListener("DOMContentLoaded", () => {
       reportsDB.unshift(novoDossie);
       localStorage.setItem("guardiao_reports_database", JSON.stringify(reportsDB));
 
+      clearInterval(msgInterval);
       setTimeout(() => {
         window.location.href = "resultado.html";
-      }, 1800);
+      }, 1000);
 
     } catch (err) {
       console.error("Erro durante processamento da triagem:", err);
@@ -191,6 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
       reportsDB.unshift(novoDossie);
       localStorage.setItem("guardiao_reports_database", JSON.stringify(reportsDB));
 
+      clearInterval(msgInterval);
       window.location.href = "resultado.html";
     }
   }

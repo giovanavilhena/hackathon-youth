@@ -41,6 +41,9 @@
 </head>
 <body>
 
+  <!-- LINK DE ACESSIBILIDADE -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
   <!-- HEADER -->
   <header class="app-header outset-border">
     <div class="header-container">
@@ -48,25 +51,31 @@
         <span class="logo-icon" aria-hidden="true">🛡️</span>
         <span class="logo-text">Guardião da Rede</span>
       </a>
-      <nav class="app-nav" aria-label="Navegação Principal">
-        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-        <a href="relato.html" class="nav-link outset-border active" id="nav-relato">Relatar Suspeita</a>
-        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
-        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
-        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
-      </nav>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
+        <nav class="app-nav" aria-label="Navegação Principal">
+          <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+          <a href="relato.html" class="nav-link outset-border active" id="nav-relato">Relatar Suspeita</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- MARQUEE RETRO -->
-  <div class="marquee-bar inset-border" aria-hidden="true">
-    <marquee scrollamount="4">📋 LAUDO EMITIDO: Sua análise foi computada com sucesso. Você pode salvar ou imprimir este laudo técnico para consulta.</marquee>
+  <!-- TICKER DE ALERTAS (CSS TICKER) -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">📋 LAUDO EMITIDO: Sua análise foi computada com sucesso. Você pode salvar, imprimir ou compartilhar este laudo técnico.</span>
+      <span class="ticker-item">📋 LAUDO EMITIDO: Sua análise foi computada com sucesso. Você pode salvar, imprimir ou compartilhar este laudo técnico.</span>
+    </div>
   </div>
 
   <!-- MAIN CONTENT -->
-  <main class="main-content">
+  <main class="main-content boot-hidden" id="main-content">
     
     <!-- CAPI WIDGET INVESTIGATIVO -->
     <div class="capi-widget" role="note" aria-label="Opinião de Capi">
@@ -130,6 +139,9 @@
             <button class="btn btn-secondary outset-border" id="btn-imprimir" style="width: 100%; margin-top: 12px; border-radius: 6px;">
               🖨️ Imprimir Laudo
             </button>
+            <button class="btn btn-primary outset-border" id="btn-compartilhar" style="width: 100%; margin-top: 8px; border-radius: 6px;">
+              📤 Compartilhar Alerta
+            </button>
           </div>
 
           <!-- DIREITA: ANÁLISE DETALHADA -->
@@ -162,7 +174,7 @@
             <section class="review-actions-section outset-border card-flat" id="review-section" style="padding: 14px; display: flex; align-items: center; justify-content: space-between; box-shadow: none; border-radius: 6px;">
               <div>
                 <h3 style="font-size: 12px; margin-bottom: 2px;">A análise errou o diagnóstico?</h3>
-                <p style="font-size: 11px; margin-bottom: 0; color: var(--color-text-muted);">Você pode pedir para nosso comitê de segurança do NIC.br revisar o caso.</p>
+                <p style="font-size: 11px; margin-bottom: 0; color: var(--color-text-muted);">Você pode pedir para nosso comitê de segurança revisar o caso.</p>
               </div>
               <button class="btn btn-secondary outset-border" id="btn-request-review" style="font-size: 11.5px; border-radius: 6px;">Pedir Revisão</button>
             </section>
@@ -203,33 +215,6 @@
 
   </main>
 
-  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
-  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
-    <div class="window outset-border modal-card">
-      <div class="window-titlebar">
-        <div class="titlebar-text">
-          <span>⚙️ CONFIGURACOES_IA.EXE</span>
-        </div>
-        <div class="titlebar-controls">
-          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
-        </div>
-      </div>
-      <div class="window-body">
-        <p style="margin-bottom: 10px;">
-          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
-        </p>
-        <div class="form-group">
-          <label for="gemini-key-input" class="form-label">API Key:</label>
-          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
-        </div>
-        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
-          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
-          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
     <div class="footer-container">
@@ -238,6 +223,7 @@
     </div>
   </footer>
 
+  <script src="js/components.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const relatoTitulo = localStorage.getItem("guardiao_relato_titulo") || "Sem Título";
@@ -246,8 +232,10 @@
       const analiseRaw = localStorage.getItem("guardiao_resultado_analise");
 
       if (!analiseRaw) {
-        alert("Nenhum laudo de análise encontrado. Faça um novo relato.");
-        window.location.href = "relato.html";
+        showToast("Nenhum laudo de análise encontrado. Faça um novo relato.", "error");
+        setTimeout(() => {
+          window.location.href = "relato.html";
+        }, 1500);
         return;
       }
 
@@ -279,7 +267,7 @@
           currentVal++;
           percentEl.textContent = `${currentVal}%`;
         }
-      }, 15);
+      }, 12);
 
       const circunferencia = 439.82;
       const offset = circunferencia - (circunferencia * risco) / 100;
@@ -326,7 +314,7 @@
       const caracs = analise.caracteristicas || [];
       if (caracs.length === 0) {
         indicatorsList.innerHTML = `
-          <li class="analysis-indicator-item outset-border" style="background:#FFF;">
+          <li class="analysis-indicator-item outset-border" style="background:var(--bg-desktop); border-color: rgba(255,255,255,0.08);">
             <strong>✓ Nenhum sinal suspeito clássico detectado</strong>
           </li>
         `;
@@ -334,7 +322,8 @@
         caracs.forEach(c => {
           const li = document.createElement("li");
           li.className = "analysis-indicator-item outset-border";
-          li.style.background = "#FFF";
+          li.style.background = "var(--bg-desktop)";
+          li.style.borderColor = "rgba(255,255,255,0.08)";
           li.innerHTML = `
             <strong>• ${c.nome}:</strong> ${c.descricao}
           `;
@@ -364,7 +353,26 @@
         window.print();
       });
 
-      // Ticket
+      // Compartilhar
+      document.getElementById("btn-compartilhar").addEventListener("click", () => {
+        const textToShare = `⚠️ ALERTA DO GUARDIÃO DA REDE\n\nCaso: ${relatoTitulo}\nDiagnóstico provável: ${analise.areaProvavel}\nNível de Risco: ${nivel} (${risco}%)\n\nRecomendações de Proteção:\n- ${recs.slice(0, 2).map(r => r.split(':')[0]).join('\n- ')}\n\nAnalise suspeitas de golpes no Guardião da Rede.`;
+        
+        if (navigator.share) {
+          navigator.share({
+            title: `Guardião da Rede - Alerta de Golpe`,
+            text: textToShare,
+            url: window.location.href
+          }).catch(err => console.log("Erro ao compartilhar:", err));
+        } else {
+          navigator.clipboard.writeText(textToShare).then(() => {
+            showToast("Alerta copiado para a área de transferência!", "success");
+          }).catch(err => {
+            showToast("Não foi possível copiar o alerta automaticamente.", "error");
+          });
+        }
+      });
+
+      // Ticket de Revisão
       const btnRequestReview = document.getElementById("btn-request-review");
       const reviewSection = document.getElementById("review-section");
       const reviewFormCard = document.getElementById("review-form-card");
@@ -382,9 +390,9 @@
       });
 
       btnSubmitReview.addEventListener("click", () => {
-        alert("Obrigado! Ticket de revisão enviado com sucesso ao comitê técnico do NIC.br/Cidadão na Rede.");
+        showToast("Ticket enviado para avaliação técnica do comitê.", "success");
         reviewFormCard.style.display = "none";
-        reviewSection.innerHTML = `<strong style="color: var(--risk-low); text-align:center; width:100%; display:block;">✓ Ticket Enviado para Revisores do NIC.br</strong>`;
+        reviewSection.innerHTML = `<strong style="color: var(--risk-low); text-align:center; width:100%; display:block; font-size:12px;">✓ Solicitado com sucesso aos revisores!</strong>`;
         reviewSection.style.display = "flex";
       });
     });

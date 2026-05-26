@@ -9,6 +9,9 @@
 </head>
 <body>
 
+  <!-- LINK DE ACESSIBILIDADE -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
   <!-- HEADER -->
   <header class="app-header outset-border">
     <div class="header-container">
@@ -16,25 +19,31 @@
         <span class="logo-icon" aria-hidden="true">🛡️</span>
         <span class="logo-text">Guardião da Rede</span>
       </a>
-      <nav class="app-nav" aria-label="Navegação Principal">
-        <a href="index.html" class="nav-link outset-border active" id="nav-home">Início</a>
-        <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
-        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
-        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
-        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
-      </nav>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
+        <nav class="app-nav" aria-label="Navegação Principal">
+          <a href="index.html" class="nav-link outset-border active" id="nav-home">Início</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- MARQUEE TICKER -->
-  <div class="marquee-bar inset-border" aria-hidden="true">
-    <marquee scrollamount="4">🚨 ALERTA DA CAPI: Aumento de golpes de falsas vagas de emprego com tarefas no Telegram e Pix de garantia! • Nunca faça depósitos para trabalhar!</marquee>
+  <!-- TICKER DE ALERTAS (CSS TICKER) -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">🚨 ALERTA DA CAPI: Aumento de golpes de falsas vagas de emprego com tarefas no Telegram e Pix de garantia! • Nunca faça depósitos para trabalhar!</span>
+      <span class="ticker-item">🚨 ALERTA DA CAPI: Aumento de golpes de falsas vagas de emprego com tarefas no Telegram e Pix de garantia! • Nunca faça depósitos para trabalhar!</span>
+    </div>
   </div>
 
   <!-- MAIN CONTENT -->
-  <main class="main-content">
+  <main class="main-content boot-hidden" id="main-content">
     
     <!-- CAPI WIDGET -->
     <div class="capi-widget" role="note" aria-label="Mensagem de Capi">
@@ -44,12 +53,12 @@
       <div class="capi-bubble">
         <div class="capi-bubble-title">Capi diz:</div>
         <p style="margin-bottom: 0;">
-          "Bem-vindo ao Guardião da Rede! Se você recebeu alguma mensagem estranha, proposta de trabalho suspeita ou e-mail que parece ser um golpe, eu posso te ajudar a investigar de graça e de forma anônima!"
+          "Bem-vindo ao Guardião da Rede! Se você recebeu alguma mensagem estranha, propostas de investimentos irreais ou e-mails suspeitos, clique em mim para ver dicas ou faça uma investigação anônima!"
         </p>
       </div>
     </div>
 
-    <!-- JANELA HERO DE APRESENTAÇÃO -->
+    <!-- JANELA HERO DE APRESENTAÇÃO DE TRÊS COLUNAS -->
     <section class="window outset-border" aria-label="Apresentação do Projeto">
       <div class="window-titlebar">
         <div class="titlebar-text">
@@ -57,15 +66,16 @@
         </div>
       </div>
       <div class="window-body">
-        <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
-          <div style="flex: 2; min-width: 280px;">
-            <h1 style="color: var(--accent-teal); font-family: var(--font-mono); font-size: 26px; margin-bottom: 10px;">
-              Sua defesa contra os perigos virtuais
+        <div class="hero-layout">
+          <!-- Coluna 1: Textos e CTAs -->
+          <div class="hero-text-col">
+            <h1 class="hero-title">
+              Sua defesa contra as fraudes digitais
             </h1>
             <p>
-              Golpes como falso Pix no WhatsApp, propostas enganosas de vagas de emprego remoto e engenharia social bancária estão cada vez mais sofisticados. O <strong>Guardião da Rede</strong> é uma plataforma comunitária cooperativa onde qualquer cidadão relata tentativas de fraudes anonimamente para obter na hora o nível de risco estimado e orientações de segurança personalizadas.
+              Golpes como falso Pix no WhatsApp, propostas enganosas de vagas de trabalho remoto e engenharia social bancária estão cada vez mais sofisticados. O <strong>Guardião da Rede</strong> é uma plataforma comunitária cooperativa onde qualquer cidadão relata tentativas de fraudes anonimamente para obter na hora o nível de risco estimado e orientações de segurança personalizadas.
             </p>
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <div class="hero-cta-group">
               <a href="relato.html" class="btn btn-primary">
                 ⚡ Analisar Relato Anônimo
               </a>
@@ -75,17 +85,94 @@
             </div>
           </div>
           
-          <div style="flex: 1; min-width: 140px; text-align: center;" aria-hidden="true">
-            <div class="card-flat" style="display: inline-block; padding: 20px; box-shadow: var(--shadow-flat-sm);">
-              <span style="font-size: 48px; display: block; line-height: 1; margin-bottom: 4px;">🛡️</span>
-              <strong style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-teal);">VER_2.0.CAB</strong>
+          <!-- Coluna 2: Contador de estatísticas ao vivo -->
+          <div class="stats-widget">
+            <div class="stats-widget-title">📡 Rede Ativa Agora</div>
+            <div class="stat-item">
+              <span class="stat-num" id="stat-count-relatos">0</span>
+              <span class="stat-desc">Relatos registrados no banco</span>
             </div>
+            <div class="stat-item">
+              <span class="stat-num" id="stat-count-pesquisa">0</span>
+              <span class="stat-desc">Pesquisas de campo coletadas</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num" id="stat-count-keywords">48</span>
+              <span class="stat-desc">Termos sob monitoramento</span>
+            </div>
+          </div>
+
+          <!-- Coluna 3: Escudo com scanning animado -->
+          <div class="svg-scan-container" aria-hidden="true">
+            <svg class="svg-scanner" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+              <path class="shield-svg-path" d="M50 10 L85 25 C85 65, 75 90, 50 110 C25 90, 15 65, 15 25 Z" />
+              <path d="M38 58 L46 66 L62 48" stroke="var(--accent-teal)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              <line class="scanner-beam" x1="10" y1="0" x2="90" y2="0" />
+            </svg>
           </div>
         </div>
       </div>
       <div class="window-statusbar">
         <span>Pronto para Diagnóstico Comunitário</span>
         <span>NIC.br & CGI.br — Princípios Apoiados</span>
+      </div>
+    </section>
+
+    <!-- JANELA DE CONSOLE DO TERMINAL INTERATIVO HACKER -->
+    <section class="window outset-border" aria-label="Console do Guardião">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>🖥️ CONSOLE_DE_VARREDURA_HEURISTICA.SH</span>
+        </div>
+      </div>
+      <div class="window-body" style="padding: 12px;">
+        <p style="font-size: 13px; margin-bottom: 12px; padding-left: 4px;">
+          Execute varreduras locais rápidas em chaves Pix, mensagens recebidas ou links suspeitos usando nossa ferramenta de terminal simulado:
+        </p>
+        
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+            </div>
+            <div class="terminal-title">GUARDIAN_SHELL_V2.1</div>
+            <div style="font-size: 10px; opacity: 0.6; font-family: var(--font-mono);">TTY1</div>
+          </div>
+          <div class="terminal-body" id="terminal-console-body">
+            <!-- Linhas de log escritas dinamicamente -->
+          </div>
+          <div class="terminal-input-line" style="margin-top: 10px; padding: 12px 14px 4px 14px;">
+            <span class="terminal-prompt" style="font-family: var(--font-mono); margin-right: 6px;">capi@guardiao:~$</span>
+            <input type="text" id="terminal-console-input" class="terminal-input" placeholder="Digite help, status, logs ou scan <texto>..." autocomplete="off">
+          </div>
+        </div>
+      </div>
+      <div class="window-statusbar">
+        <span>Terminal estático local seguro</span>
+        <span>Modo Heurístico Rápido</span>
+      </div>
+    </section>
+
+    <!-- JANELA DE ALERTAS RECENTES -->
+    <section class="window outset-border" aria-label="Alertas recentes da comunidade">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span>📡 ALERTAS_RECENTES.TXT</span>
+        </div>
+      </div>
+      <div class="window-body">
+        <h2 style="font-size: 16px; margin-bottom: 4px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Radar Comunitário Recente</h2>
+        <p>Abaixo estão as últimas tentativas de golpes registradas pela nossa comunidade para manter você alerta.</p>
+        
+        <div class="alerts-recent-grid" id="alerts-recent-container">
+          <!-- Relatos recentes renderizados via JS -->
+        </div>
+      </div>
+      <div class="window-statusbar">
+        <span>Atualizado em tempo real localmente</span>
+        <span>Compartilhe para salvar vidas</span>
       </div>
     </section>
 
@@ -97,7 +184,7 @@
         </div>
       </div>
       <div class="window-body">
-        <h2 style="font-size: 16px; margin-bottom: 12px;">Os Três Pilares da Plataforma</h2>
+        <h2 style="font-size: 16px; margin-bottom: 12px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Os Três Pilares da Plataforma</h2>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
           <!-- PILAR 1 -->
@@ -132,33 +219,6 @@
 
   </main>
 
-  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
-  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
-    <div class="window outset-border modal-card">
-      <div class="window-titlebar">
-        <div class="titlebar-text">
-          <span>⚙️ CONFIGURACOES_IA.EXE</span>
-        </div>
-        <div class="titlebar-controls">
-          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
-        </div>
-      </div>
-      <div class="window-body">
-        <p style="margin-bottom: 10px;">
-          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
-        </p>
-        <div class="form-group">
-          <label for="gemini-key-input" class="form-label">API Key:</label>
-          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
-        </div>
-        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
-          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
-          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
     <div class="footer-container">
@@ -167,6 +227,87 @@
     </div>
   </footer>
 
+  <script src="js/components.js"></script>
   <script src="js/api.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Carregar contadores
+      const reportsDb = JSON.parse(localStorage.getItem("guardiao_reports_database") || "[]");
+      const surveyDb = JSON.parse(localStorage.getItem("guardiao_pesquisa_dados") || "[]");
+      
+      const totalRelatosReal = reportsDb.length + 8; // 8 base simulados
+      const totalPesquisasReal = surveyDb.length + 12; // 12 base simulados
+      const totalKeywords = 48; // Total de keywords cadastradas no classificador
+      
+      // Animação CountUp
+      function animateValue(id, start, end, duration) {
+        if (start === end) {
+          const obj = document.getElementById(id);
+          if (obj) obj.textContent = end;
+          return;
+        }
+        const range = end - start;
+        let current = start;
+        const increment = end > start ? 1 : -1;
+        const stepTime = Math.abs(Math.floor(duration / range));
+        const obj = document.getElementById(id);
+        if (!obj) return;
+        
+        const timer = setInterval(() => {
+          current += increment;
+          obj.textContent = current;
+          if (current == end) {
+            clearInterval(timer);
+            // Efeito final de bounce sutil
+            obj.style.transform = "scale(1.2)";
+            obj.style.transition = "transform 0.15s ease-out";
+            setTimeout(() => {
+              obj.style.transform = "scale(1)";
+            }, 150);
+          }
+        }, Math.max(stepTime, 20));
+      }
+      
+      animateValue("stat-count-relatos", 0, totalRelatosReal, 1200);
+      animateValue("stat-count-pesquisa", 0, totalPesquisasReal, 1200);
+      animateValue("stat-count-keywords", 0, totalKeywords, 1200);
+      
+      // 2. Renderizar Alertas Recentes
+      const recentContainer = document.getElementById("alerts-recent-container");
+      if (recentContainer) {
+        let alerts = [];
+        
+        // Se houver relatos salvos, pega os mais recentes
+        if (reportsDb.length > 0) {
+          alerts = reportsDb.slice(-3).reverse().map(r => ({
+            titulo: r.titulo || "Suspeita de Golpe",
+            tipo: r.classificacao?.areaProvavel || "Indeterminado",
+            data: new Date(r.timestamp || Date.now()).toLocaleDateString('pt-BR')
+          }));
+        }
+        
+        // Se faltar relatos para preencher 3, usa mocks realistas
+        const fallbackAlerts = [
+          { titulo: "Falsa cobrança de taxa alfandegária dos Correios", tipo: "Links Falsos (Phishing)", data: "Hoje" },
+          { titulo: "Tentativa de Pix urgente fingindo ser familiar", tipo: "WhatsApp / Telegram", data: "Ontem" },
+          { titulo: "Ligações de falsa central bancária simulando segurança", tipo: "Engenharia Social", data: "Há 2 dias" }
+        ];
+        
+        while (alerts.length < 3 && fallbackAlerts.length > 0) {
+          alerts.push(fallbackAlerts.shift());
+        }
+        
+        recentContainer.innerHTML = alerts.slice(0, 3).map(a => `
+          <div class="alert-recent-card inset-border">
+            <h4 style="font-size: 13.5px; color: var(--accent-teal); font-family: var(--font-mono); margin-bottom: 6px;">${a.titulo}</h4>
+            <div style="font-size: 11px; display: flex; justify-content: space-between; color: var(--color-text-muted); font-family: var(--font-mono);">
+              <span>🏷️ ${a.tipo}</span>
+              <span>📅 ${a.data}</span>
+            </div>
+          </div>
+        `).join("");
+      }
+    });
+  </script>
 </body>
 </html>

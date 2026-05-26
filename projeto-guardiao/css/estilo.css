@@ -1,42 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 /* ==============================================================================
-   DESIGN SYSTEM NEO-BRUTALIST CYBER GLASSMORPHISM (HIGH-END TECH & PREMIUM)
+   DESIGN SYSTEM CYBER-BRUTALIST HACKER (HIGH-CONTRAST & PREMIUM TECH)
    ============================================================================== */
 :root {
-  /* Cores Principais - Cyber Tech Escuro */
-  --bg-desktop: #070B16;      /* Fundo espacial profundo */
-  --bg-card: rgba(20, 27, 45, 0.65); /* Fundo de card de vidro escuro */
-  --color-border: #000000;     /* Borda preta grossa clássica do neo-brutalismo */
-  --color-text: #F8FAFC;       /* Texto principal claro (Slate 50) */
-  --color-text-muted: #94A3B8; /* Texto secundário (Slate 400) */
+  /* Cores Principais - Cyber Tech Escuro Premium */
+  --bg-desktop: #080C14;      /* Fundo ultra-escuro de alta densidade */
+  --bg-card: #131D30;         /* Fundo sólido de alto contraste (cinza-azul escuro) */
+  --color-border: #00F5D4;     /* Borda Teal Neon brilhante por padrão */
+  --color-text: #FFFFFF;       /* Texto principal branco puro para contraste absoluto */
+  --color-text-muted: #38BDF8; /* Texto secundário azul celeste claro */
   
   /* Cores de Destaque Neon */
   --accent-teal: #00F5D4;      /* Cyber teal neon */
   --accent-purple: #A855F7;    /* Roxo neon para foco secundário */
-  --accent-light: rgba(0, 245, 212, 0.1); /* Fundo sutil teal */
-  --accent-purple-light: rgba(168, 85, 247, 0.15); /* Fundo sutil roxo */
+  --accent-light: rgba(0, 245, 212, 0.12); /* Fundo sutil teal */
+  --accent-purple-light: rgba(168, 85, 247, 0.2); /* Fundo sutil roxo */
   
   /* Status de Risco (Neon Vibrante) */
   --risk-low: #10B981;         /* Verde esmeralda */
-  --risk-low-bg: rgba(16, 185, 129, 0.15);
+  --risk-low-bg: rgba(16, 185, 129, 0.25);
   --risk-medium: #F59E0B;      /* Amarelo âmbar */
-  --risk-medium-bg: rgba(245, 158, 11, 0.15);
+  --risk-medium-bg: rgba(245, 158, 11, 0.25);
   --risk-high: #EF4444;        /* Vermelho vibrante */
-  --risk-high-bg: rgba(239, 68, 68, 0.2);
+  --risk-high-bg: rgba(239, 68, 68, 0.3);
   
   /* Fontes Premium */
-  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Share Tech Mono', monospace;
+  --font-body: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', monospace;
   
-  /* Sombra Plana 2D Neo-Brutalista (Offset Preto Puro) */
-  --shadow-flat: 4px 4px 0px #000000;
-  --shadow-flat-sm: 2px 2px 0px #000000;
-  --shadow-flat-lg: 6px 6px 0px #000000;
-  --shadow-glow: 0 0 15px rgba(0, 245, 212, 0.25);
+  /* Sombra Plana 2D Neo-Brutalista Neon (Offset Roxo Neon) */
+  --shadow-flat: 4px 4px 0px var(--accent-purple);
+  --shadow-flat-sm: 2px 2px 0px var(--accent-purple);
+  --shadow-flat-lg: 6px 6px 0px var(--accent-purple);
+  --shadow-glow: 0 0 20px rgba(0, 245, 212, 0.4);
   
   --transition-normal: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 
 /* Reset Geral */
 * {
@@ -123,7 +124,7 @@ a:hover {
    HEADER & NAVIGATION (GLASS DESIGN COMPACT)
    ============================================================================== */
 .app-header {
-  background: rgba(11, 15, 28, 0.8);
+  background: rgba(8, 12, 20, 0.95);
   backdrop-filter: blur(16px);
   border-bottom: 2px solid var(--color-border);
   position: sticky;
@@ -247,9 +248,7 @@ a:hover {
    ESTRUTURA DE JANELA (WINDOW CYBER DESIGN)
    ============================================================================== */
 .window {
-  background: rgba(13, 19, 36, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: var(--bg-card);
   border: 2px solid var(--color-border);
   border-radius: 14px;
   box-shadow: var(--shadow-flat);
@@ -1115,3 +1114,521 @@ p {
   font-weight: 600;
   color: var(--color-text-muted);
 }
+
+/* ==============================================================================
+   TOAST SYSTEM (MODERN FLOATING NOTIFICATIONS)
+   ============================================================================== */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid var(--color-border);
+  border-left: 6px solid var(--accent-teal);
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-flat);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  transform: translateX(120%);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 350px;
+}
+
+.toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast.success {
+  border-left-color: var(--accent-teal);
+}
+
+.toast.error {
+  border-left-color: var(--risk-high);
+}
+
+.toast.warning {
+  border-left-color: var(--risk-medium);
+}
+
+.toast.info {
+  border-left-color: var(--accent-purple);
+}
+
+/* ==============================================================================
+   CSS TICKER (REPLACING DEPRECATED MARQUEE)
+   ============================================================================== */
+.ticker-wrap {
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg-card);
+  border-top: 1.5px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+  padding: 8px 0;
+}
+
+.ticker-track {
+  display: flex;
+  white-space: nowrap;
+  width: max-content;
+  animation: ticker-scroll 35s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+.ticker-item {
+  display: inline-block;
+  padding: 0 40px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--accent-teal);
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ==============================================================================
+   HAMBURGER MENU & MOBILE NAV
+   ============================================================================= */
+.hamburger-btn {
+  display: none;
+  background: var(--bg-card);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 18px;
+  transition: var(--transition-normal);
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  width: 44px;
+}
+
+.hamburger-btn:hover {
+  background: var(--accent-light);
+  border-color: var(--accent-teal);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-flat-sm);
+}
+
+@media (max-width: 900px) {
+  .hamburger-btn {
+    display: flex;
+  }
+  
+  .app-nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 24px;
+    right: 24px;
+    background: rgba(7, 11, 22, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 20px;
+    gap: 12px;
+    z-index: 999;
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-flat-lg);
+  }
+  
+  .app-nav.open {
+    display: flex;
+  }
+  
+  .app-nav .nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+  }
+
+  .app-nav .btn-settings {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+  }
+}
+
+/* ==============================================================================
+   FADE-UP SCROLL ANIMATION (INTERSECTION OBSERVER)
+   ============================================================================== */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), 
+              transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Boot Sequence */
+.boot-hidden {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.boot-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ==============================================================================
+   ACCESSIBILITY & UTILITIES
+   ============================================================================== */
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 16px;
+  background: var(--accent-teal);
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-family: var(--font-mono);
+  text-decoration: none;
+  z-index: 10000;
+  border: 2px solid var(--color-border);
+  box-shadow: var(--shadow-flat-sm);
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 16px;
+  outline: none;
+}
+
+.border-error {
+  border-color: var(--risk-high) !important;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3) !important;
+}
+
+.field-error-msg {
+  color: var(--risk-high);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: bold;
+  margin-top: 4px;
+  display: block;
+}
+
+/* ==============================================================================
+   LANDING PAGE HERO & WIDGETS
+   ============================================================================== */
+.hero-layout {
+  display: grid;
+  grid-template-columns: 2.2fr 1.3fr 1.1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+@media (max-width: 992px) {
+  .hero-layout {
+    grid-template-columns: 1.5fr 1fr;
+  }
+  .svg-scan-container {
+    display: none !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero-layout {
+    grid-template-columns: 1fr;
+  }
+  .svg-scan-container {
+    display: none !important;
+  }
+}
+
+.hero-text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hero-title {
+  color: var(--accent-teal);
+  font-family: var(--font-body);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.hero-cta-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stats-widget {
+  background: rgba(10, 15, 30, 0.6);
+  border: 1.5px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-flat-sm);
+}
+
+.stats-widget-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-purple);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+  padding-bottom: 6px;
+  font-weight: bold;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-num {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent-teal);
+  line-height: 1.1;
+}
+
+.stat-desc {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.svg-scan-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 10px;
+}
+
+.svg-scanner {
+  width: 100%;
+  max-width: 130px;
+  height: auto;
+}
+
+/* Animação do Scanner */
+@keyframes scan-line {
+  0% {
+    transform: translateY(15px);
+  }
+  50% {
+    transform: translateY(105px);
+  }
+  100% {
+    transform: translateY(15px);
+  }
+}
+
+.scanner-beam {
+  animation: scan-line 3s ease-in-out infinite;
+  stroke: var(--accent-teal);
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 4px var(--accent-teal));
+}
+
+@keyframes pulse-shield {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(0, 245, 212, 0.15));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(0, 245, 212, 0.4));
+  }
+}
+
+.shield-svg-path {
+  animation: pulse-shield 4s ease-in-out infinite;
+  fill: rgba(0, 245, 212, 0.03);
+  stroke: var(--accent-teal);
+  stroke-width: 2px;
+}
+
+/* Alertas Recentes Seção */
+.alerts-recent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.alert-recent-card {
+  padding: 16px;
+  border-left: 4px solid var(--accent-teal);
+  background: var(--bg-card);
+  border-radius: 8px;
+}
+
+/* ==============================================================================
+   CONSOLE DE TERMINAL INTERATIVO HACKER (WIDGET DISRUPTIVO)
+   ============================================================================== */
+.terminal-window {
+  background: #050811;
+  border: 2px solid var(--accent-teal);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 245, 212, 0.15), var(--shadow-flat);
+  overflow: hidden;
+  font-family: var(--font-mono);
+  margin-top: 24px;
+}
+
+.terminal-header {
+  background: rgba(0, 245, 212, 0.05);
+  border-bottom: 2px solid var(--color-border);
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red { background: var(--risk-high); }
+.terminal-dot.yellow { background: var(--risk-medium); }
+.terminal-dot.green { background: var(--risk-low); }
+
+.terminal-title {
+  color: var(--accent-teal);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.terminal-body {
+  padding: 18px;
+  min-height: 250px;
+  max-height: 350px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #38BDF8; /* Contraste alto */
+}
+
+.terminal-log-line {
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.terminal-log-line.system {
+  color: var(--accent-purple);
+}
+
+.terminal-log-line.success {
+  color: var(--risk-low);
+}
+
+.terminal-log-line.error {
+  color: var(--risk-high);
+}
+
+.terminal-log-line.user {
+  color: #FFF;
+}
+
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  border-top: 1px solid rgba(0, 245, 212, 0.15);
+  padding-top: 10px;
+}
+
+.terminal-prompt {
+  color: var(--accent-teal);
+  font-weight: bold;
+}
+
+.terminal-input {
+  background: transparent;
+  border: none;
+  color: #FFF;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  width: 100%;
+  outline: none;
+}
+
+.terminal-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Micro-interação da Capi Hover e Animações */
+.capi-widget {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.capi-widget:hover {
+  transform: scale(1.01);
+}
+
+.capi-widget:hover .capi-pixel-img {
+  animation: capi-bounce 0.4s ease infinite alternate;
+}
+
+@keyframes capi-bounce {
+  from {
+    transform: translateY(0) scale(1.05);
+  }
+  to {
+    transform: translateY(-6px) scale(1.05);
+  }
+}
+
+
+
+

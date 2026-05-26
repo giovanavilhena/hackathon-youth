@@ -9,6 +9,9 @@
 </head>
 <body>
 
+  <!-- LINK DE ACESSIBILIDADE -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
   <!-- HEADER -->
   <header class="app-header outset-border">
     <div class="header-container">
@@ -16,25 +19,31 @@
         <span class="logo-icon" aria-hidden="true">🛡️</span>
         <span class="logo-text">Guardião da Rede</span>
       </a>
-      <nav class="app-nav" aria-label="Navegação Principal">
-        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-        <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
-        <a href="historico.html" class="nav-link outset-border active" id="nav-historico">Histórico Público</a>
-        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
-        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
-        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
-      </nav>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
+        <nav class="app-nav" aria-label="Navegação Principal">
+          <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
+          <a href="historico.html" class="nav-link outset-border active" id="nav-historico">Histórico Público</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- MARQUEE TICKER -->
-  <div class="marquee-bar inset-border" aria-hidden="true">
-    <marquee scrollamount="4">🚨 CROWDREPORT: Vigilância coletiva ativa. Cada relato anônimo ajuda a blindar a comunidade contra o crime virtual! • Comente e ajude as vítimas.</marquee>
+  <!-- TICKER DE ALERTAS (CSS TICKER) -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">🚨 CROWDREPORT: Vigilância coletiva ativa. Cada relato anônimo ajuda a blindar a comunidade contra o crime virtual! • Comente e ajude as vítimas.</span>
+      <span class="ticker-item">🚨 CROWDREPORT: Vigilância coletiva ativa. Cada relato anônimo ajuda a blindar a comunidade contra o crime virtual! • Comente e ajude as vítimas.</span>
+    </div>
   </div>
 
   <!-- MAIN CONTENT -->
-  <main class="main-content">
+  <main class="main-content boot-hidden" id="main-content">
     
     <!-- CAPI MASCOTE WIDGET -->
     <div class="capi-widget" role="note" aria-label="Mensagem de Capi">
@@ -58,22 +67,45 @@
       </div>
 
       <div class="window-body">
-        <h2 style="font-size: 16px; margin-bottom: 5px;">Banco de Relatos Comunitários</h2>
-        <p style="margin-bottom: 12px;">Consulte relatos anonimizados reais e compartilhe observações com outros usuários:</p>
-
-        <!-- FILTROS E BUSCA -->
-        <div class="search-filter-bar inset-border">
-          <input type="text" id="search-history" class="search-input inset-border" 
-                 placeholder="Busque por termos (ex: vaga, Pix, banco, Correios, WhatsApp, selfie)...">
-          
-          <div style="font-size: 11px; color: var(--color-text-muted);">
-            * Digite termos chave para filtrar os dossiês comunitários em tempo real.
+        <h2 style="font-size: 16px; margin-bottom: 8px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Banco de Relatos Comunitários</h2>
+        
+        <!-- Resumo do Banco Comunitário -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
+          <div class="card-flat" style="padding: 12px; text-align: center; box-shadow: var(--shadow-flat-sm); background: rgba(0,0,0,0.2);">
+            <div style="font-size: 10px; color: var(--color-text-muted); font-weight: bold; text-transform: uppercase;">Total de Casos</div>
+            <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--accent-teal);" id="stat-total-relatos">0</div>
+          </div>
+          <div class="card-flat" style="padding: 12px; text-align: center; box-shadow: var(--shadow-flat-sm); background: rgba(0,0,0,0.2);">
+            <div style="font-size: 10px; color: var(--color-text-muted); font-weight: bold; text-transform: uppercase;">Canal mais Usado</div>
+            <div style="font-family: var(--font-body); font-size: 13px; font-weight: 800; color: var(--accent-purple); margin-top: 6px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" id="stat-canal-comum">Carregando...</div>
+          </div>
+          <div class="card-flat" style="padding: 12px; text-align: center; box-shadow: var(--shadow-flat-sm); background: rgba(0,0,0,0.2);">
+            <div style="font-size: 10px; color: var(--color-text-muted); font-weight: bold; text-transform: uppercase;">Perfil mais Alvo</div>
+            <div style="font-family: var(--font-body); font-size: 13px; font-weight: 800; color: var(--risk-high); margin-top: 6px;" id="stat-perfil-comum">Carregando...</div>
           </div>
         </div>
 
-        <!-- LISTAGEM DE DOSSIÊS -->
-        <div id="history-container" style="display: flex; flex-direction: column; gap: 15px;">
+        <p style="margin-bottom: 12px;">Consulte relatos anonimizados reais e compartilhe observações com outros usuários:</p>
+
+        <!-- FILTROS E BUSCA -->
+        <div class="search-filter-bar inset-border" style="margin-bottom: 20px;">
+          <input type="text" id="search-history" class="search-input inset-border" 
+                 placeholder="Busque por termos (ex: vaga, Pix, banco, Correios, WhatsApp, SMS)..." aria-label="Pesquisar relatos">
+          
+          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 6px;">
+            * Digite termos chave para filtrar os relatos comunitários em tempo real.
+          </div>
+        </div>
+
+        <!-- LISTAGEM DE DOSSIÊS (ACCESSIBILITY: ARIA-LIVE) -->
+        <div id="history-container" style="display: flex; flex-direction: column; gap: 15px;" aria-live="polite" aria-atomic="false">
           <!-- Inserido dinamicamente via JS -->
+        </div>
+
+        <!-- CONTROLE DE PAGINAÇÃO -->
+        <div id="pagination-controls" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+          <button id="btn-load-more" class="btn btn-secondary outset-border" style="display: none; font-size: 12px; padding: 10px 18px;">📂 Ver Mais Relatos</button>
+          <button id="btn-load-less" class="btn btn-secondary outset-border" style="display: none; font-size: 12px; padding: 10px 18px;">📁 Recolher Lista</button>
         </div>
 
       </div>
@@ -86,33 +118,6 @@
 
   </main>
 
-  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
-  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
-    <div class="window outset-border modal-card">
-      <div class="window-titlebar">
-        <div class="titlebar-text">
-          <span>⚙️ CONFIGURACOES_IA.EXE</span>
-        </div>
-        <div class="titlebar-controls">
-          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
-        </div>
-      </div>
-      <div class="window-body">
-        <p style="margin-bottom: 10px;">
-          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
-        </p>
-        <div class="form-group">
-          <label for="gemini-key-input" class="form-label">API Key:</label>
-          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
-        </div>
-        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
-          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
-          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
     <div class="footer-container">
@@ -121,112 +126,112 @@
     </div>
   </footer>
 
-  <script src="js/api.js"></script>
+  <script src="js/components.js"></script>
   <script>
-    // Banco de dados inicial de relatos contendo 8 dossiês detalhados
+    // Repositório de casos simulados iniciais realistas
     const GOLPES_REPOSITORIO_MOCK = [
       {
         id: "report-1",
-        data: "2026-05-25",
-        titulo: "WhatsApp falso de familiar pedindo Pix urgente",
-        descricao: "Um número de celular estranho me mandou mensagem com a foto do meu filho. Disse que o celular antigo dele tinha quebrado, que ele estava usando esse número temporário e precisava de R$ 2.450 para pagar um conserto imediato via Pix.",
+        data: "2026-05-26",
+        titulo: "Falso Pix para Parente no WhatsApp",
+        descricao: "Recebi mensagens de um número desconhecido usando a foto do meu filho no WhatsApp. Dizia que o celular dele tinha quebrado e precisava de um Pix urgente de R$ 1.850,00 para pagar uma conta que vencia hoje. Eu quase fiz, mas resolvi ligar no número antigo dele e ele confirmou que era golpe.",
         triagem: { idade: "60+", regiao: "Norte", familiaridade: "Baixo", canal: "WhatsApp", exposicaoDados: "Nenhum" },
         analise: {
-          risco: 100,
+          risco: 95,
           nivel: "ALTO",
-          areaProvavel: "Fraudes em WhatsApp e Aplicativos de Mensagens",
-          explicacao: "Este é o golpe clássico do Falso Familiar / Novo Número. Os criminosos usam fotos obtidas em redes sociais para fingir urgência familiar financeira."
+          areaProvavel: "Fraude em Aplicativos de Mensagens (WhatsApp)",
+          explicacao: "Golpe clássico de engenharia social com personificação de familiar (Falso Parente). Os golpistas exercem forte pressão psicológica de urgência se aproveitando de laços afetivos."
         },
         comentarios: [
-          { autor: "Anônimo", data: "2026-05-25 18:20", texto: "Isso aconteceu com a minha tia! Eles são muito rápidos. Sempre liguem para conferir antes de fazer o Pix!" }
+          { autor: "Anônimo", data: "2026-05-26 10:15", texto: "Aconteceu o mesmo com a minha mãe semana passada! O segredo é sempre ligar para o número antigo por voz antes de transferir qualquer valor." }
         ]
       },
       {
         id: "report-2",
-        data: "2026-05-24",
-        titulo: "Falsa central telefônica de banco pedindo transferência",
-        descricao: "Recebi a ligação de um número parecido com o 0800 do meu banco. Um robô avisou sobre uma transferência suspeita de R$ 3.800 nas Lojas Americanas e me transferiu para uma atendente. Ela me disse para fazer um Pix com o meu saldo para uma conta de segurança temporária para anular a transação.",
-        triagem: { idade: "60+", regiao: "Sudeste", familiaridade: "Baixo", canal: "Ligação / SMS", exposicaoDados: "Nenhum" },
+        data: "2026-05-25",
+        titulo: "Vaga de emprego remota no Telegram com microtarefas",
+        descricao: "Recebi um SMS com uma proposta para ganhar de R$ 500 a R$ 2.000 por dia trabalhando de casa, apenas avaliando hotéis e dando curtidas em vídeos. No Telegram, eles pagaram R$ 15,00 pelas primeiras tarefas, mas depois começaram a pedir depósitos de garantia (Pix de recarga) para liberar tarefas maiores. Depositei R$ 150,00 e sumiram com o dinheiro.",
+        triagem: { idade: "16-29", regiao: "Nordeste", familiaridade: "Médio", canal: "Ligação / SMS", exposicaoDados: "Nenhum" },
         analise: {
-          risco: 95,
+          risco: 88,
           nivel: "ALTO",
-          areaProvavel: "Engenharia Social Bancária / Reconhecimento Facial",
-          explicacao: "Golpe da Falsa Central Bancária. Golpistas usam técnicas de falsa autoridade e urgência para induzir a vítima a transferir valores voluntariamente."
+          areaProvavel: "Golpe de Falsa Vaga de Emprego (Tarefa Pago/Pix)",
+          explicacao: "Estelionato financeiro de ganho fácil estruturado de forma piramidal. A promessa de ganhos elevados com tarefas banais é usada para extorquir microdepósitos crescentes."
         },
         comentarios: [
-          { autor: "Anônimo", data: "2026-05-24 21:12", texto: "Quase caí nesse ontem. Desliguei e liguei no número do cartão. A central verdadeira me informou que era golpe." }
+          { autor: "Anônimo", data: "2026-05-25 14:02", texto: "Caí nesse também. Perdi R$ 300. Eles pagam a primeira de R$ 10 ou R$ 15 só para ganhar a nossa confiança. Não caiam!" }
         ]
       },
       {
         id: "report-3",
         data: "2026-05-24",
-        titulo: "Falsa Vaga de Emprego Remoto - Curtir Vídeos no TikTok",
-        descricao: "Recebi mensagem no WhatsApp oferecendo vaga de meio período para curtir vídeos no TikTok e ganhar de R$ 100 a R$ 800 por dia. Me mandaram para um grupo no Telegram. No começo pagaram R$ 10 pelas primeiras tarefas, mas depois exigiram que eu fizesse depósitos Pix de garantia (chamados de tarefas de investimento) para liberar comissões maiores. Perdi R$ 1.500.",
-        triagem: { idade: "16-29", regiao: "Sudeste", familiaridade: "Alto", canal: "WhatsApp", exposicaoDados: "Nenhum" },
+        titulo: "Site de compras de eletrônicos clonado (Preço muito baixo)",
+        descricao: "Vi um anúncio patrocinado no Instagram de uma TV de 55 polegadas da Samsung por R$ 999,00. O site parecia idêntico ao da Magazine Luiza. Comprei no Pix e, depois que paguei, o e-mail de confirmação veio de uma conta do Gmail estranha e o código de rastreamento não existe.",
+        triagem: { idade: "30-59", regiao: "Sudeste", familiaridade: "Médio", canal: "Rede Social / Chat de Vendas", exposicaoDados: "Nenhum" },
         analise: {
-          risco: 100,
+          risco: 92,
           nivel: "ALTO",
-          areaProvavel: "Vagas Online Falsas / Relacionamento e Investimento",
-          explicacao: "Golpe clássico de Tarefa Online ou Click Farm. Criminosos pagam pequenos valores no início para ganhar confiança e depois exigem depósitos crescentes de garantia."
+          areaProvavel: "E-commerce Falso e Páginas Clonadas",
+          explicacao: "Phishing e fraude comercial através de patrocínio malicioso em rede social. O preço muito abaixo do mercado (TV por R$ 999) é a isca para capturar pagamentos instantâneos via Pix."
         },
         comentarios: [
-          { autor: "Anônimo", data: "2026-05-24 22:15", texto: "Eles pagam R$ 10 ou R$ 15 nas primeiras tarefas de verdade só para induzir a gente a depositar quantias altas depois! Fujam disso!" }
+          { autor: "Anônimo", data: "2026-05-24 19:40", texto: "Sempre verifiquem o link no navegador! Se o anúncio diz Magazine Luiza mas o endereço é 'promocoes-magalu-tv.top', é golpe." }
         ]
       },
       {
         id: "report-4",
         data: "2026-05-23",
-        titulo: "Taxa de reenvio de presente cobrada por motoboy",
-        descricao: "Um motoboy veio na minha casa entregar um presente surpresa de aniversário (um perfume). Disse que eu só precisava pagar R$ 5,90 de taxa de entrega na maquininha dele. O visor estava todo borrado. Quando passei o cartão de crédito, chegou a notificação no celular de que a cobrança foi de R$ 5.900,00.",
-        triagem: { idade: "30-59", regiao: "Sul", familiaridade: "Médio", canal: "Outro", exposicaoDados: "Nenhum" },
+        titulo: "Ligação de Falsa Central de Segurança de Banco",
+        descricao: "Ligaram no meu celular dizendo que eram da central de segurança do Banco do Brasil. A atendente tinha uma voz robótica idêntica a do banco e conhecia meu nome completo. Disse que havia uma transação suspeita de R$ 4.500,00 agendada para outra cidade e, para cancelar, eu precisava fazer um Pix de 'estorno de segurança' para uma chave que ela indicou. Fiquei nervosa e fiz.",
+        triagem: { idade: "60+", regiao: "Sul", familiaridade: "Baixo", canal: "Ligação / SMS", exposicaoDados: "Nenhum" },
         analise: {
-          risco: 90,
+          risco: 96,
           nivel: "ALTO",
-          areaProvavel: "Comércio Eletrônico Fraudulento (Falsas Vendas)",
-          explicacao: "Golpe da Maquininha Adulterada ou do Presente Falso. Criminosos inventam uma entrega gratuita e forçam a cobrança de um valor altíssimo cobrindo o visor."
+          areaProvavel: "Engenharia Social e Falsa Central de Banco",
+          explicacao: "Golpe da falsa central bancária com spoofing ou engenharia social ativa. Golpistas induzem a vítima ao pânico financeiro simulando procedimentos formais para desviar fundos."
         },
         comentarios: [
-          { autor: "Anônimo", data: "2026-05-23 23:45", texto: "Nunca passe cartão em maquininhas com visor quebrado. Se for presente surpresa, recuse!" }
+          { autor: "Anônimo", data: "2026-05-23 21:12", texto: "Bancos NUNCA pedem transferências para cancelar fraudes. Desligue e ligue você mesmo para o número atrás do seu cartão físico." }
         ]
       },
       {
         id: "report-5",
         data: "2026-05-22",
-        titulo: "Ligação do banco exigindo selfie facial de segurança",
-        descricao: "Ligaram para o celular do meu avô dizendo ser do suporte técnico da Caixa. Falaram que a conta dele seria bloqueada por suspeita de fraude e pediram para ele abrir um link enviado por SMS que ativava a câmera do celular para validação facial. Ele tirou a selfie e, horas depois, vimos que contrataram um empréstimo consignado de R$ 12.000 em nome dele.",
-        triagem: { idade: "60+", regiao: "Norte", familiaridade: "Baixo", canal: "Ligação / SMS", exposicaoDados: "Nenhum" },
+        titulo: "Mensagem suspeita de investimento em Cripto no Instagram",
+        descricao: "Um perfil de um conhecido do Instagram postou nos stories sobre um investimento garantido que dobrava de valor em 3 dias usando inteligência artificial e robôs de criptomoeda. Mandei direct, ele me passou as instruções para transferir R$ 500 no Pix. Depois descobri que o perfil desse conhecido tinha sido hackeado.",
+        triagem: { idade: "16-29", regiao: "Centro-Oeste", familiaridade: "Alto", canal: "Rede Social / Chat de Vendas", exposicaoDados: "Nenhum" },
         analise: {
-          risco: 95,
+          risco: 85,
           nivel: "ALTO",
-          areaProvavel: "Engenharia Social Bancária / Reconhecimento Facial",
-          explicacao: "Fraude do Empréstimo por Validação Facial (Selfie da Selfie). Criminosos guiam a vítima idosa a fazer o reconhecimento facial em um link falso, coletando a biometria necessária para autorizar empréstimos bancários e saques em canais digitais."
+          areaProvavel: "Estelionato por Perfil Hackeado (Investimento Falso)",
+          explicacao: "Esquema fraudulento de criptoativo distribuído via sequestro de contas sociais. A reputação do dono da conta hackeada é usada para enganar sua rede de amigos."
         },
         comentarios: [
-          { autor: "Anônimo", data: "2026-05-22 19:10", texto: "Bancos reais não ligam solicitando selfies. Protejam os idosos da família!" }
+          { autor: "Anônimo", data: "2026-05-23 09:30", texto: "Tentaram aplicar comigo. O perfil do meu dentista começou a postar sobre cripto do nada. Liguei para o consultório e confirmaram que foi invadido." }
         ]
       },
       {
         id: "report-6",
         data: "2026-05-21",
-        titulo: "E-mail com falso laudo de câncer e pedido de tratamento",
-        descricao: "Recebi um e-mail com a logomarca de um laboratório famoso de exames clínicos dizendo que o resultado do meu laudo de biópsia estava pronto e indicava tumor maligno grave. Dizia para eu clicar no link com urgência para agendar consulta oncológica ou comprar o medicamento preventivo imediato por R$ 350 no Pix.",
-        triagem: { idade: "30-59", regiao: "Centro-Oeste", familiaridade: "Alto", canal: "E-mail", exposicaoDados: "Nenhum" },
+        titulo: "Compra de produto usada em chat com Pix de frete adiantado",
+        descricao: "Estava comprando um videogame usado na OLX. O vendedor disse que fazia por um valor excelente se eu pagasse o frete de R$ 80,00 adiantado pelo Pix e o restante na entrega. Fiz o Pix do frete e o vendedor me bloqueou e apagou o anúncio.",
+        triagem: { idade: "30-59", regiao: "Norte", familiaridade: "Médio", canal: "Rede Social / Chat de Vendas", exposicaoDados: "Nenhum" },
         analise: {
-          risco: 85,
+          risco: 78,
           nivel: "ALTO",
-          areaProvavel: "Phishing e Captura de Dados Pessoais",
-          explicacao: "Phishing de Resultados de Exames Clínicos com Pressão Psicológica. Golpistas utilizam diagnósticos graves falsos para induzir desespero e forçar o pagamento rápido de tratamentos inexistentes."
+          areaProvavel: "Fraude de Pagamento Antecipado em Classificados",
+          explicacao: "Golpe clássico de frete ou sinal antecipado em plataformas de vendas. Golpistas usam chats internos para capturar pequenos valores de sinal sem possuir o item anunciado."
         },
         comentarios: [
-          { autor: "Anônimo", data: "2026-05-21 15:40", texto: "Terrível usar a saúde das pessoas para roubar dinheiro. Sempre chequem no site oficial do laboratório." }
+          { autor: "Anônimo", data: "2026-05-21 16:55", texto: "NUNCA façam pagamentos fora dos sistemas de garantia das plataformas (Mercado Pago, OLX Pay, etc.)." }
         ]
       },
       {
         id: "report-7",
         data: "2026-05-20",
-        titulo: "Falsas custas de processo de penhora de bens por WhatsApp",
-        descricao: "Uma pessoa me mandou mensagem no WhatsApp com foto de terno, dizendo ser Oficial de Justiça e anexou um documento que parecia do Tribunal de Justiça do Pará, dizendo que minha empresa MEI tinha um processo de penhora de bens por dívida de R$ 900. Disse que se eu pagasse R$ 350 via Pix como conciliação imediata, ele cancelava o mandado judicial.",
-        triagem: { idade: "30-59", regiao: "Norte", familiaridade: "Médio", canal: "WhatsApp", exposicaoDados: "MEI" },
+        titulo: "Notificação de Falso Processo Judicial de MEI",
+        descricao: "Recebi um e-mail com a logo do Tribunal de Justiça e o brasão oficial da república dizendo que meu CNPJ MEI estava sendo intimado em um processo de cobrança de custas de sindicato e que eu devia fazer um acordo online pagando R$ 249,00 de custas cartorárias no Pix anexado, sob pena de suspensão imediata da minha empresa.",
+        triagem: { idade: "30-59", regiao: "Sul", familiaridade: "Alto", canal: "E-mail", exposicaoDados: "MEI" },
         analise: {
           risco: 100,
           nivel: "ALTO",
@@ -266,11 +271,65 @@
       const container = document.getElementById("history-container");
       const searchBar = document.getElementById("search-history");
       const statusRight = document.getElementById("status-right");
+      
+      const loadMoreBtn = document.getElementById("btn-load-more");
+      const loadLessBtn = document.getElementById("btn-load-less");
+      
+      let itemsToShow = 5;
 
+      // Executa estatísticas e inicialização
+      renderStats();
       renderHistory();
 
-      searchBar.addEventListener("input", renderHistory);
+      searchBar.addEventListener("input", () => {
+        itemsToShow = 5; // Reseta paginação ao pesquisar
+        renderHistory();
+      });
 
+      loadMoreBtn.addEventListener("click", () => {
+        itemsToShow += 5;
+        renderHistory();
+      });
+
+      loadLessBtn.addEventListener("click", () => {
+        itemsToShow = 5;
+        renderHistory();
+        searchBar.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // 1. Renderizador de Estatísticas do Banco Comunitário
+      function renderStats() {
+        const total = reports.length;
+        document.getElementById("stat-total-relatos").textContent = total;
+        
+        // Calcula canal mais comum (moda)
+        const canais = {};
+        reports.forEach(r => {
+          if (r.triagem && r.triagem.canal) {
+            canais[r.triagem.canal] = (canais[r.triagem.canal] || 0) + 1;
+          }
+        });
+        const sortedCanais = Object.entries(canais).sort((a,b) => b[1] - a[1]);
+        const canalMaisComum = sortedCanais.length > 0 ? sortedCanais[0][0] : "Nenhum";
+        document.getElementById("stat-canal-comum").textContent = canalMaisComum;
+        
+        // Calcula faixa etária mais afetada (moda)
+        const idades = {};
+        reports.forEach(r => {
+          if (r.triagem && r.triagem.idade) {
+            let idadeLabel = r.triagem.idade;
+            if (idadeLabel === "16-29" || idadeLabel === "18 a 29") idadeLabel = "18 a 29 anos";
+            if (idadeLabel === "30-59" || idadeLabel === "30 a 59") idadeLabel = "30 a 59 anos";
+            if (idadeLabel === "60+" || idadeLabel === "60+ (Idoso)") idadeLabel = "60+ anos";
+            idades[idadeLabel] = (idades[idadeLabel] || 0) + 1;
+          }
+        });
+        const sortedIdades = Object.entries(idades).sort((a,b) => b[1] - a[1]);
+        const idadeMaisComum = sortedIdades.length > 0 ? sortedIdades[0][0] : "Nenhum";
+        document.getElementById("stat-perfil-comum").textContent = idadeMaisComum;
+      }
+
+      // 2. Renderizador da Lista de Dossiês com Paginação
       function renderHistory() {
         const query = searchBar.value.trim().toLowerCase();
         container.innerHTML = "";
@@ -290,127 +349,143 @@
               Nenhum relato encontrado correspondente à pesquisa.
             </div>
           `;
+          loadMoreBtn.style.display = "none";
+          loadLessBtn.style.display = "none";
           return;
         }
 
-        filtered.forEach(r => {
+        // Slice de paginação
+        const paginated = filtered.slice(0, itemsToShow);
+
+        paginated.forEach(r => {
           const win = document.createElement("article");
-          win.className = "window outset-border";
+          win.className = "window outset-border fade-up";
 
           let colorBadge = "var(--risk-low)";
           if (r.analise.nivel === "MÉDIO") colorBadge = "var(--risk-medium)";
           if (r.analise.nivel === "ALTO") colorBadge = "var(--risk-high)";
 
           win.innerHTML = `
-            <div class="window-titlebar" style="background: #1E293B;">
+            <div class="window-titlebar" style="background: rgba(30, 41, 59, 0.4);">
               <div class="titlebar-text">
                 <span>📁 DOSSIE_CASO_${r.id.toUpperCase()}.TXT</span>
               </div>
-              <span style="font-size: 10px; background: ${colorBadge}; color: #FFF; padding: 2px 6px; font-weight: bold; border-radius: 20px;">
+              <span style="font-size: 10px; background: ${colorBadge}; color: #000; padding: 2px 8px; font-weight: bold; border-radius: 20px;">
                 ${r.analise.nivel} RISCO
               </span>
             </div>
             
             <div class="window-body">
-              <h3 style="margin-bottom: 5px; color: var(--accent-teal); font-family: var(--font-mono);">${r.titulo}</h3>
-              <div style="font-size: 11px; color: var(--color-text-muted); margin-bottom: 8px;">
+              <h3 style="margin-bottom: 6px; color: var(--accent-teal); font-family: var(--font-body); font-weight: 800; font-size: 15px;">${r.titulo}</h3>
+              <div style="font-size: 11px; color: var(--color-text-muted); margin-bottom: 10px; font-family: var(--font-mono);">
                 <strong>Data:</strong> ${r.data} | 
                 <strong>Canal:</strong> ${r.triagem.canal} | 
                 <strong>Perfil:</strong> ${r.triagem.idade} (${r.triagem.regiao}) |
                 <strong>Exposição:</strong> ${r.triagem.exposicaoDados || "Nenhuma"}
               </div>
               
-              <div class="card-flat" style="padding: 12px; font-size: 13px; margin-bottom: 10px; box-shadow: none;">
-                <strong>Relato do Caso:</strong><br>
-                ${r.descricao}
+              <div class="card-flat" style="padding: 14px; font-size: 13px; margin-bottom: 12px; box-shadow: none; background: rgba(0,0,0,0.2);">
+                <strong style="color: var(--color-text-muted); font-size: 11px; text-transform: uppercase;">Relato Anônimo:</strong><br>
+                <p style="margin-top: 4px; line-height: 1.5;">${r.descricao}</p>
               </div>
 
               <!-- Diagnóstico do Laudo -->
-              <div style="background: var(--bg-desktop); padding: 10px; border: 1.5px solid var(--color-border); border-radius: 6px; margin-bottom: 10px; font-size: 12px;">
-                <strong style="color: var(--risk-high);">⚠️ Diagnóstico do Guardião:</strong> ${r.analise.explicacao}
+              <div style="background: var(--bg-desktop); padding: 12px; border: 1.5px solid var(--color-border); border-radius: 8px; margin-bottom: 15px; font-size: 12px;">
+                <strong style="color: var(--risk-high); font-family: var(--font-mono);">⚠️ Diagnóstico do Guardião:</strong> ${r.analise.explicacao}
               </div>
 
-              ${r.imagem ? `
-                <div style="margin-bottom: 10px; background: #FFF; padding: 6px; border: 1.5px solid var(--color-border); max-width: 250px; border-radius: 6px;">
-                  <span style="font-size: 10px; font-weight: bold; display: block; color: var(--accent-teal);">Evidência:</span>
-                  <a href="${r.imagem}" target="_blank">
-                    <img src="${r.imagem}" alt="Evidência" style="max-width: 100%; max-height: 100px; display: block; margin: 4px 0; border-radius: 4px;">
-                  </a>
+              <!-- Comentários -->
+              <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;">
+                <h4 style="font-size: 11px; font-family: var(--font-mono); color: var(--accent-purple); margin-bottom: 8px;">🗣️ COMENTARIOS_COMUNITARIOS (${r.comentarios.length})</h4>
+                <div class="comments-list" id="comments-${r.id}" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+                  ${r.comentarios.map(c => `
+                    <div class="card-flat" style="padding: 10px; font-size: 11.5px; box-shadow: none; background: rgba(255,255,255,0.02);">
+                      <div style="display:flex; justify-content:space-between; font-weight:bold; color:var(--accent-teal); margin-bottom: 4px; font-family:var(--font-mono); font-size:10px;">
+                        <span>👤 ${c.autor}</span>
+                        <span>📅 ${c.data}</span>
+                      </div>
+                      <p style="margin-bottom:0; line-height:1.4;">${c.texto}</p>
+                    </div>
+                  `).join("")}
                 </div>
-              ` : ''}
 
-              <!-- SEÇÃO DE COMENTÁRIOS -->
-              <div class="comments-section">
-                <strong style="font-size: 11px; display: block; margin-bottom: 6px; color: var(--accent-teal);">💬 Discussão Comunitária (Anônima):</strong>
-                
-                <ul class="comments-list" id="comments-list-${r.id}">
-                  ${r.comentarios && r.comentarios.length > 0 
-                    ? r.comentarios.map(c => `
-                        <li class="comment-item">
-                          <span class="comment-meta">[${c.autor} - ${c.data}]:</span>
-                          <span>${c.texto}</span>
-                        </li>
-                      `).join('')
-                    : `<li class="comment-item" style="color: var(--color-text-muted); text-align: center; border: none;">Nenhum comentário. Alerte a comunidade!</li>`
-                  }
-                </ul>
-
-                <!-- Envio de Comentário -->
-                <div style="display: flex; gap: 6px; margin-top: 6px;">
-                  <input type="text" id="comment-input-${r.id}" class="form-input" style="font-size: 12px; padding: 6px;" placeholder="Adicione observações ou alertas sobre este golpe de forma anônima...">
-                  <button class="btn btn-primary btn-send-comment" data-id="${r.id}" style="padding: 6px 14px; font-size: 12px; border-radius: 6px;">Enviar</button>
+                <!-- Formulário de Comentário -->
+                <div style="display: flex; gap: 6px; margin-top: 8px;">
+                  <input type="text" id="input-comment-${r.id}" class="form-input inset-border" style="font-size: 11.5px; padding: 6px 10px;" placeholder="Deixe um alerta ou dica útil de segurança de forma anônima...">
+                  <button class="btn btn-primary outset-border btn-add-comment" data-report-id="${r.id}" style="font-size: 11.5px; padding: 6px 14px;">Comentar</button>
                 </div>
               </div>
-
+            </div>
+            <div class="window-statusbar">
+              <span>Caso público anonimizado</span>
+              <span>NIC.br & CGI.br</span>
             </div>
           `;
           container.appendChild(win);
         });
 
-        // Evento nos botões de comentários
-        const sendButtons = document.querySelectorAll(".btn-send-comment");
-        sendButtons.forEach(btn => {
-          btn.addEventListener("click", () => {
-            const id = btn.getAttribute("data-id");
-            const input = document.getElementById(`comment-input-${id}`);
-            const commentText = input.value.trim();
+        // Configura exibição dos botões de controle de paginação
+        if (filtered.length > itemsToShow) {
+          loadMoreBtn.style.display = "block";
+        } else {
+          loadMoreBtn.style.display = "none";
+        }
 
-            if (!commentText) {
-              alert("Por favor, digite seu comentário.");
+        if (itemsToShow > 5) {
+          loadLessBtn.style.display = "block";
+        } else {
+          loadLessBtn.style.display = "none";
+        }
+
+        // Reatribui eventos para os novos botões de comentário criados
+        document.querySelectorAll(".btn-add-comment").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const reportId = btn.getAttribute("data-report-id");
+            const input = document.getElementById(`input-comment-${reportId}`);
+            const text = input.value.trim();
+
+            if (!text) {
+              showToast("Por favor, digite um comentário antes de enviar.", "warning");
               return;
             }
 
-            const reportIdx = reports.findIndex(rep => rep.id === id);
-            if (reportIdx !== -1) {
+            const targetReport = reports.find(x => x.id === reportId);
+            if (targetReport) {
               const now = new Date();
-              const dateStr = now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0].substring(0, 5);
+              const dateStr = now.toISOString().replace('T', ' ').slice(0, 16);
               
-              const newComment = {
+              targetReport.comentarios.push({
                 autor: "Anônimo",
                 data: dateStr,
-                texto: commentText
-              };
-
-              if (!reports[reportIdx].comentarios) {
-                reports[reportIdx].comentarios = [];
-              }
-              reports[reportIdx].comentarios.push(newComment);
+                texto: text
+              });
 
               localStorage.setItem("guardiao_reports_database", JSON.stringify(reports));
+              
+              // Limpa e atualiza
               input.value = "";
-
-              const commentsList = document.getElementById(`comments-list-${id}`);
-              commentsList.innerHTML = reports[reportIdx].comentarios.map(c => `
-                <li class="comment-item">
-                  <span class="comment-meta">[${c.autor} - ${c.data}]:</span>
-                  <span>${c.texto}</span>
-                </li>
-              `).join('');
+              showToast("Comentário anônimo publicado no mural!", "success");
+              renderHistory();
             }
           });
         });
+
+        // Trigger das animações fade-up para os novos elementos criados na paginação
+        if (typeof window.IntersectionObserver === "function") {
+          const newFades = container.querySelectorAll(".fade-up:not(.visible)");
+          const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                obs.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.01 });
+          newFades.forEach(el => observer.observe(el));
+        }
       }
     });
   </script>
+  <script src="js/api.js"></script>
 </body>
 </html>

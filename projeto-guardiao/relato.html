@@ -9,6 +9,9 @@
 </head>
 <body>
 
+  <!-- LINK DE ACESSIBILIDADE -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
   <!-- HEADER -->
   <header class="app-header outset-border">
     <div class="header-container">
@@ -16,25 +19,31 @@
         <span class="logo-icon" aria-hidden="true">🛡️</span>
         <span class="logo-text">Guardião da Rede</span>
       </a>
-      <nav class="app-nav" aria-label="Navegação Principal">
-        <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-        <a href="relato.html" class="nav-link outset-border active" id="nav-relato">Relatar Suspeita</a>
-        <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-        <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-        <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
-        <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
-        <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
-      </nav>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
+        <nav class="app-nav" aria-label="Navegação Principal">
+          <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
+          <a href="relato.html" class="nav-link outset-border active" id="nav-relato">Relatar Suspeita</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Letramento</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- MARQUEE RETRO -->
-  <div class="marquee-bar inset-border" aria-hidden="true">
-    <marquee scrollamount="4">🔒 SEGURANÇA: Criptografia e anonimato garantidos. Não solicitamos senhas, tokens ou dados de cartões de crédito. Denuncie com segurança!</marquee>
+  <!-- TICKER DE ALERTAS (CSS TICKER) -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">🔒 SEGURANÇA: Criptografia e anonimato garantidos. Não solicitamos senhas, tokens ou dados de cartões de crédito. Relate com segurança!</span>
+      <span class="ticker-item">🔒 SEGURANÇA: Criptografia e anonimato garantidos. Não solicitamos senhas, tokens ou dados de cartões de crédito. Relate com segurança!</span>
+    </div>
   </div>
 
   <!-- MAIN CONTENT -->
-  <main class="main-content" style="max-width: 650px;">
+  <main class="main-content boot-hidden" id="main-content" style="max-width: 650px;">
     
     <!-- CAPI WIDGET -->
     <div class="capi-widget" role="note" aria-label="Instrução da Capi">
@@ -67,6 +76,7 @@
             <label for="titulo-relato" class="form-label">Título da denúncia:</label>
             <input type="text" id="titulo-relato" class="form-input inset-border" required 
                    placeholder="Ex: Recebi SMS falso cobrando taxa de rastreio de encomenda">
+            <span class="field-error-msg" id="error-titulo" style="display: none;"></span>
           </div>
 
           <!-- DESCRIÇÃO -->
@@ -74,6 +84,7 @@
             <label for="descricao-relato" class="form-label">O que aconteceu? (Descrição detalhada):</label>
             <textarea id="descricao-relato" class="form-textarea inset-border" required
                       placeholder="Descreva a situação: como entraram em contato? O que disseram? Pediram dinheiro, dados ou fotos? Enviaram algum link?"></textarea>
+            <span class="field-error-msg" id="error-descricao" style="display: none;"></span>
           </div>
 
           <!-- UPLOAD DE PRINT -->
@@ -112,33 +123,6 @@
 
   </main>
 
-  <!-- CONFIGURATION MODAL (IA SETTINGS) -->
-  <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
-    <div class="window outset-border modal-card">
-      <div class="window-titlebar">
-        <div class="titlebar-text">
-          <span>⚙️ CONFIGURACOES_IA.EXE</span>
-        </div>
-        <div class="titlebar-controls">
-          <button class="win-btn" id="btn-close-settings" aria-label="Fechar">&times;</button>
-        </div>
-      </div>
-      <div class="window-body">
-        <p style="margin-bottom: 10px;">
-          Insira sua API Key do <strong>Google Gemini</strong> para análises inteligentes avançadas. Chave salva localmente no navegador.
-        </p>
-        <div class="form-group">
-          <label for="gemini-key-input" class="form-label">API Key:</label>
-          <input type="password" id="gemini-key-input" class="form-input inset-border" placeholder="AIzaSy...">
-        </div>
-        <div style="display: flex; justify-content: flex-end; gap: 4px; margin-top: 15px;">
-          <button class="btn btn-secondary outset-border" id="btn-clear-settings">Limpar</button>
-          <button class="btn btn-primary outset-border" id="btn-save-settings">Salvar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
     <div class="footer-container">
@@ -147,6 +131,7 @@
     </div>
   </footer>
 
+  <script src="js/components.js"></script>
   <script src="js/api.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -156,6 +141,11 @@
       const previewImg = document.getElementById("preview-img");
       const btnRemove = document.getElementById("btn-remove");
       const form = document.getElementById("relato-form");
+      
+      const tituloInput = document.getElementById("titulo-relato");
+      const descricaoInput = document.getElementById("descricao-relato");
+      const errorTitulo = document.getElementById("error-titulo");
+      const errorDescricao = document.getElementById("error-descricao");
       
       let base64Image = "";
 
@@ -201,7 +191,7 @@
 
       function processFile(file) {
         if (!file.type.startsWith("image/")) {
-          alert("Por favor, selecione apenas arquivos de imagem.");
+          showToast("Por favor, selecione apenas arquivos de imagem.", "error");
           return;
         }
 
@@ -211,18 +201,52 @@
           previewImg.src = base64Image;
           uploadZone.style.display = "none";
           previewBox.style.display = "block";
+          showToast("Imagem de evidência anexada com sucesso!", "success");
         };
         reader.readAsDataURL(file);
       }
 
+      // Remover avisos de erro ao focar nos campos novamente
+      tituloInput.addEventListener("input", () => {
+        tituloInput.classList.remove("border-error");
+        errorTitulo.style.display = "none";
+      });
+
+      descricaoInput.addEventListener("input", () => {
+        descricaoInput.classList.remove("border-error");
+        errorDescricao.style.display = "none";
+      });
+
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         
-        const titulo = document.getElementById("titulo-relato").value.trim();
-        const descricao = document.getElementById("descricao-relato").value.trim();
+        const titulo = tituloInput.value.trim();
+        const descricao = descricaoInput.value.trim();
+        let isValid = true;
 
-        if (!titulo || !descricao) {
-          alert("Por favor, preencha todos os campos obrigatórios.");
+        if (!titulo) {
+          tituloInput.classList.add("border-error");
+          errorTitulo.textContent = "Campo obrigatório. Dê um título resumido ao seu relato.";
+          errorTitulo.style.display = "block";
+          isValid = false;
+        }
+
+        if (!descricao) {
+          descricaoInput.classList.add("border-error");
+          errorDescricao.textContent = "Campo obrigatório. Descreva os detalhes do caso para análise.";
+          errorDescricao.style.display = "block";
+          isValid = false;
+        }
+
+        if (descricao && descricao.length < 20) {
+          descricaoInput.classList.add("border-error");
+          errorDescricao.textContent = "Por favor, elabore um pouco mais (mínimo 20 caracteres) para podermos analisar.";
+          errorDescricao.style.display = "block";
+          isValid = false;
+        }
+
+        if (!isValid) {
+          showToast("Por favor, corrija os erros do formulário antes de prosseguir.", "warning");
           return;
         }
 
@@ -230,7 +254,10 @@
         localStorage.setItem("guardiao_relato_descricao", descricao);
         localStorage.setItem("guardiao_relato_imagem", base64Image);
 
-        window.location.href = "triagem.html";
+        showToast("Relato registrado temporariamente. Redirecionando para triagem...", "success");
+        setTimeout(() => {
+          window.location.href = "triagem.html";
+        }, 1200);
       });
     });
   </script>
