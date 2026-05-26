@@ -164,3 +164,66 @@ EXEMPLO DE FORMATO DE RETORNO (DEVE SER APENAS O JSON):
     return analisarRelatoLocal(titulo, descricao, triagem);
   }
 }
+
+// ==============================================================================
+// MASCOTE CAPI INTERATIVA — EASTER EGG E DICAS DINÂMICAS DE SEGURANÇA
+// ==============================================================================
+const DICAS_CAPI = [
+  "Desconfie de links recebidos via SMS fingindo ser de taxas alfandegárias de encomendas. Rastreie no site oficial dos Correios!",
+  "Ative a verificação em duas etapas no seu WhatsApp e nas redes sociais para blindar sua conta contra clonagens.",
+  "Bancos de verdade nunca ligam pedindo suas senhas, códigos de token SMS ou transferências para 'contas de segurança'.",
+  "O Pix não possui estorno garantido imediato. Em caso de golpe, acione na hora o MED (Mecanismo Especial de Devolução) no seu app bancário.",
+  "Desconfie de vagas que pagam comissões por curtir vídeos ou avaliar produtos, especialmente se pedirem depósitos em dinheiro.",
+  "Antes de fazer um Pix de urgência para um parente com número novo no WhatsApp, ligue e fale com a pessoa por voz para confirmar.",
+  "Cuidado com a 'Selfie da Selfie': Nunca tire fotos do rosto fora de aplicativos oficiais se solicitado por supostos funcionários em ligação.",
+  "Sites do governo brasileiro e da justiça terminam sempre com '.gov.br' ou '.jus.br'. Desconfie de links encurtados ou estranhos.",
+  "O anonimato dos relatos no Guardião da Rede protege as vítimas da vergonha social e ajuda a proteger toda a comunidade em tempo real.",
+  "Se um comprador pedir para migrar a negociação da OLX ou Mercado Livre para o WhatsApp particular, desconfie: é o início de um golpe comum."
+];
+
+document.addEventListener("DOMContentLoaded", () => {
+  const capiWidget = document.querySelector(".capi-widget");
+  if (capiWidget) {
+    const capiImg = capiWidget.querySelector(".capi-pixel-img");
+    const capiBubbleText = capiWidget.querySelector(".capi-bubble p");
+
+    // Remove inline style que forçaria texto preto
+    if (capiBubbleText) {
+      capiBubbleText.style.color = "";
+    }
+
+    capiWidget.addEventListener("click", () => {
+      // Evita alterar o texto dinâmico essencial nas páginas de triagem e resultado
+      const isTriagePage = window.location.pathname.includes("triagem.html");
+      const isResultPage = window.location.pathname.includes("resultado.html");
+      
+      if (capiBubbleText && !isTriagePage && !isResultPage) {
+        // Efeito de animação na imagem
+        if (capiImg) {
+          capiImg.style.transition = "transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+          capiImg.style.transform = "scale(1.2) rotate(10deg)";
+          setTimeout(() => {
+            capiImg.style.transform = "scale(1) rotate(0deg)";
+          }, 500);
+        }
+
+        // Escolhe uma dica aleatória diferente da atual
+        let novaDica = "";
+        do {
+          const randIdx = Math.floor(Math.random() * DICAS_CAPI.length);
+          novaDica = DICAS_CAPI[randIdx];
+        } while (novaDica === capiBubbleText.textContent);
+
+        // Aplica efeito fade ao trocar o texto
+        capiBubbleText.style.opacity = 0;
+        capiBubbleText.style.transition = "opacity 0.2s ease";
+        
+        setTimeout(() => {
+          capiBubbleText.innerHTML = `<strong>Dica da Capi:</strong> "${novaDica}"`;
+          capiBubbleText.style.opacity = 1;
+        }, 200);
+      }
+    });
+  }
+});
+
