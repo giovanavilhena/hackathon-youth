@@ -2792,7 +2792,7 @@ body.light-theme .app-footer {
   }
 }
 
-/* Light mode: fix dark rgba(0,0,0,x) backgrounds that become invisible on white */
+/* Light mode: fix dark rgba backgrounds */
 body.light-theme .scam-header {
   background: #e2e8f0;
   color: var(--accent-teal);
@@ -2808,9 +2808,47 @@ body.light-theme .no-results.card-flat {
   background: #f8fafc;
 }
 
-/* historico.html inline rgba(0,0,0,0.2) stat cards */
 body.light-theme .card-flat {
   background: #ffffff;
+}
+
+body.light-theme .search-filter-bar {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
+}
+
+body.light-theme .search-input {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+body.light-theme .search-input::placeholder {
+  color: #94a3b8;
+}
+
+body.light-theme .search-input:focus {
+  background: #ffffff;
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 8px rgba(0,107,90,0.15);
+}
+
+body.light-theme .filter-chip {
+  background: #ffffff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+body.light-theme .filter-chip:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+body.light-theme .filter-chip.active {
+  background: var(--accent-purple);
+  color: #ffffff;
+  border-color: var(--accent-purple);
 }
 
 
