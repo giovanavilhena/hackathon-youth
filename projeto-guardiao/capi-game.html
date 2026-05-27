@@ -139,6 +139,7 @@ let highScore  = parseInt(localStorage.getItem('capi-hiscore') || '0');
 
 let capiX     = W / 2;
 let capiAnim  = 0;         // subtle bob
+let tutorialTimer = 0;     // in-game hint countdown
 
 let cards      = [];
 let particles  = [];
@@ -193,7 +194,7 @@ function getTouchX(e) {
 function startGame() {
   state = 'playing'; score = 0; lives = 3; level = 1; caught = 0;
   frameCount = 0; capiX = W / 2; cards = []; particles = []; feedbacks = [];
-  flashAlpha = 0; shakeAmt = 0;
+  flashAlpha = 0; shakeAmt = 0; tutorialTimer = 260;
 }
 
 // ─── SPAWN ───────────────────────────────────────────────────────
@@ -287,6 +288,7 @@ function update() {
 
   // Level: every 12 scams caught
   level = 1 + Math.floor(caught / 12);
+  if (tutorialTimer > 0) tutorialTimer--;
 
   // Update cards
   for (let i = cards.length - 1; i >= 0; i--) {
@@ -528,24 +530,56 @@ function drawMenu() {
     ctx.fillText('🦫', W/2, H/2 + 44); ctx.textAlign = 'left';
   }
 
-  // Instructions box
-  const bx = W/2 - 220, by = H/2 + 56, bw = 440, bh = 72;
-  drawRoundRect(bx, by, bw, bh, 8, 'rgba(0,245,212,0.04)', 'rgba(0,245,212,0.15)', 1);
+  // Instructions box — 2 columns: SCAM side | LEGIT side
+  const bx = W/2 - 238, by = H/2 + 52, bw = 476, bh = 118;
+  drawRoundRect(bx, by, bw, bh, 10, 'rgba(6,12,26,0.7)', 'rgba(0,245,212,0.18)', 1.5);
 
-  text('← →  mover a Capi', bx + 20, by + 22, '12px monospace', 'rgba(226,232,240,0.6)');
-  text('⬛ VERMELHO — GOLPE: intercepte!',  bx + 20, by + 40, '12px monospace', '#fca5a5');
-  text('⬛ VERDE — LEGÍTIMO: esquive!',      bx + 20, by + 58, '12px monospace', '#86efac');
+  // Controls row
+  ctx.fillStyle = 'rgba(226,232,240,0.45)';
+  ctx.font = '10.5px monospace'; ctx.textAlign = 'center';
+  ctx.fillText('CONTROLES: ← →  ou  A D  para mover   |   3 vidas 🛡️', W/2, by + 18);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(bx + 16, by + 26); ctx.lineTo(bx + bw - 16, by + 26); ctx.stroke();
+
+  // Left column: scam
+  const col1 = bx + 20, col2 = bx + bw / 2 + 10;
+
+  // Scam header
+  ctx.fillStyle = '#ef4444'; ctx.font = 'bold 11px monospace'; ctx.textAlign = 'left';
+  ctx.fillText('🔴  CARD VERMELHO = GOLPE', col1, by + 44);
+  ctx.fillStyle = '#fca5a5'; ctx.font = '10.5px monospace';
+  ctx.fillText('→ posicione a Capi embaixo', col1 + 8, by + 60);
+  ctx.fillText('→ golpe interceptado = +pontos', col1 + 8, by + 76);
+  ctx.fillStyle = '#f97316'; ctx.font = '10px monospace';
+  ctx.fillText('✗ golpe escapou pelo fundo = -1 vida', col1 + 8, by + 92);
+
+  // Vertical divider
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+  ctx.beginPath(); ctx.moveTo(bx + bw/2, by + 30); ctx.lineTo(bx + bw/2, by + bh - 8); ctx.stroke();
+
+  // Legit header
+  ctx.fillStyle = '#22c55e'; ctx.font = 'bold 11px monospace';
+  ctx.fillText('🟢  CARD VERDE = LEGÍTIMO', col2, by + 44);
+  ctx.fillStyle = '#86efac'; ctx.font = '10.5px monospace';
+  ctx.fillText('→ NÃO é golpe — esquive!', col2 + 8, by + 60);
+  ctx.fillText('→ passar = sem penalidade', col2 + 8, by + 76);
+  ctx.fillStyle = '#f97316'; ctx.font = '10px monospace';
+  ctx.fillText('✗ tocar = falso alarme = -1 vida', col2 + 8, by + 92);
+
+  ctx.textAlign = 'left';
 
   // Pulsing CTA
   const pulse = 0.65 + 0.35 * Math.sin(Date.now() / 420);
   ctx.globalAlpha = pulse;
   ctx.shadowColor = '#00f5d4'; ctx.shadowBlur = 8;
-  text('[ ENTER / CLIQUE / TOQUE PARA JOGAR ]', W/2, H/2 + 155,
+  text('[ ENTER / CLIQUE / TOQUE PARA JOGAR ]', W/2, by + bh + 22,
        'bold 14px monospace', '#00f5d4', 'center');
   ctx.shadowBlur = 0; ctx.globalAlpha = 1;
 
   if (highScore > 0) {
-    text(`Recorde: ${highScore} pts`, W/2, H/2 + 178, '12px monospace', '#a855f7', 'center');
+    text(`Recorde: ${highScore} pts`, W/2, by + bh + 44, '12px monospace', '#a855f7', 'center');
   }
 }
 
@@ -624,6 +658,21 @@ function draw() {
     if (flashAlpha > 0) {
       ctx.fillStyle = `rgba(239,68,68,${flashAlpha})`;
       ctx.fillRect(0, 0, W, H);
+    }
+
+    // In-game tutorial hint
+    if (tutorialTimer > 0) {
+      const alpha = Math.min(1, tutorialTimer / 50) * Math.min(1, tutorialTimer / 50);
+      ctx.globalAlpha = alpha * 0.82;
+      ctx.fillStyle = 'rgba(6,12,26,0.7)';
+      ctx.beginPath();
+      ctx.roundRect(W/2 - 250, H - 46, 500, 30, 6);
+      ctx.fill();
+      ctx.globalAlpha = alpha * 0.82;
+      ctx.font = '11.5px monospace'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#00f5d4';
+      ctx.fillText('🔴 Fique embaixo do card VERMELHO para interceptar o golpe', W/2, H - 26);
+      ctx.globalAlpha = 1; ctx.textAlign = 'left';
     }
 
     if (state === 'paused') drawPause();

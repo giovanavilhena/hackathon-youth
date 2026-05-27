@@ -3,1646 +3,693 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CapiSafe — Missão Detectiva Capi: Jogo educativo de identificação de golpes virtuais.">
-  <title>Missão Detectiva Capi — CapiSafe</title>
+  <meta name="description" content="Capi Detecta — jogo arcade educativo do CapiSafe. Intercepte golpes digitais reais e proteja o Brasil!">
+  <title>Capi Detecta — Jogo Arcade | CapiSafe</title>
   <link rel="icon" type="image/png" href="imagens/capi_detective.png">
-  <link rel="stylesheet" href="css/estilo.css">
   <style>
-    /* ===== ESTILOS DO JOGO ===== */
-    .game-hud {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    .hud-card {
-      background: var(--bg-card);
-      border: 1.5px solid var(--color-border);
-      border-radius: 8px;
-      padding: 12px;
-      text-align: center;
-    }
-    .hud-label {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      color: var(--color-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-    }
-    .hud-value {
-      font-family: var(--font-mono);
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--accent-teal);
-    }
-    .hud-value.timer-danger { color: var(--risk-high); animation: pulse-text 0.5s ease-in-out infinite alternate; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    @keyframes pulse-text {
-      from { opacity: 1; }
-      to { opacity: 0.5; }
-    }
-
-    /* Timer bar */
-    .timer-bar-wrap {
-      background: rgba(255,255,255,0.07);
-      border-radius: 4px;
-      height: 6px;
-      margin-bottom: 20px;
-      overflow: hidden;
-    }
-    .timer-bar-fill {
-      height: 100%;
-      border-radius: 4px;
-      background: var(--accent-teal);
-      transition: width 0.9s linear, background 0.5s;
-    }
-
-    /* Cenário/Tela do Jogo */
-    .scenario-stage {
-      background: rgba(0,0,0,0.3);
-      border: 1.5px solid var(--color-border);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      min-height: 200px;
-    }
-    .scenario-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--accent-purple);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
-
-    /* Mock de WhatsApp */
-    .mock-wpp {
-      background: #0B141A;
-      border-radius: 10px;
-      padding: 14px;
-      max-width: 380px;
-      margin: 0 auto;
-    }
-    .mock-wpp-header {
+    body {
+      background: #0a0f1e;
       display: flex;
-      align-items: center;
-      gap: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding-bottom: 10px;
-      margin-bottom: 12px;
-    }
-    .mock-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #25D366;
-      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-    .mock-contact-name {
-      font-weight: 700;
-      font-size: 13px;
-      color: #E9EDEF;
-    }
-    .mock-contact-status {
-      font-size: 11px;
-      color: #8696A0;
-    }
-    .mock-bubble {
-      background: #202C33;
-      border-radius: 0 8px 8px 8px;
-      padding: 10px 12px;
-      max-width: 85%;
-      margin-bottom: 6px;
-      position: relative;
-    }
-    .mock-bubble.sent {
-      background: #005C4B;
-      border-radius: 8px 0 8px 8px;
-      margin-left: auto;
-    }
-    .mock-bubble-text {
-      color: #E9EDEF;
-      font-size: 13px;
-      line-height: 1.4;
-      font-family: system-ui, sans-serif;
-    }
-    .mock-bubble-time {
-      font-size: 10px;
-      color: #8696A0;
-      text-align: right;
-      margin-top: 4px;
-    }
-    .mock-bubble-link {
-      color: #53BDEB;
-      text-decoration: underline;
-      font-size: 12px;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
     }
 
-    /* Mock de SMS */
-    .mock-sms {
-      background: #1C1C1E;
+    #game-canvas {
+      display: block;
+      border: 2px solid rgba(0,245,212,0.4);
       border-radius: 10px;
-      padding: 14px;
-      max-width: 380px;
-      margin: 0 auto;
-    }
-    .mock-sms-header {
-      font-size: 11px;
-      color: #8E8E93;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    .mock-sms-bubble {
-      background: #3A3A3C;
-      border-radius: 16px 16px 16px 4px;
-      padding: 10px 14px;
-      max-width: 80%;
-      color: #FFFFFF;
-      font-size: 13px;
-      line-height: 1.4;
-      font-family: system-ui, sans-serif;
-      margin-bottom: 6px;
-    }
-    .mock-sms-time {
-      font-size: 10px;
-      color: #636366;
-      margin-top: 6px;
+      box-shadow: 0 0 60px rgba(0,245,212,0.15), 0 0 120px rgba(168,85,247,0.08);
+      max-width: calc(100vw - 16px);
+      max-height: calc(100vh - 16px);
+      cursor: none;
+      image-rendering: pixelated;
     }
 
-    /* Mock de Email */
-    .mock-email {
-      background: #FAFAF8;
-      border-radius: 10px;
-      padding: 16px;
-      max-width: 420px;
-      margin: 0 auto;
-      color: #1a1a1a;
-    }
-    .mock-email-header {
-      border-bottom: 1px solid #E0E0E0;
-      padding-bottom: 12px;
-      margin-bottom: 12px;
-    }
-    .mock-email-from {
-      font-size: 12px;
-      color: #555;
-      margin-bottom: 2px;
-    }
-    .mock-email-from strong {
-      color: #1a1a1a;
-    }
-    .mock-email-subject {
-      font-size: 14px;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin-top: 6px;
-    }
-    .mock-email-body {
-      font-size: 12.5px;
-      line-height: 1.6;
-      color: #333;
-    }
-    .mock-email-btn {
-      display: inline-block;
-      background: #007AFF;
-      color: #fff !important;
-      padding: 8px 18px;
-      border-radius: 6px;
+    .back-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      color: #00f5d4;
       text-decoration: none;
       font-size: 12px;
-      font-weight: 700;
-      margin-top: 10px;
-    }
-    .mock-email-btn.red-btn { background: #DC3545; }
-
-    /* Mock de Browser/Site */
-    .mock-browser {
-      background: #F1F3F4;
-      border-radius: 10px;
-      overflow: hidden;
-      max-width: 420px;
-      margin: 0 auto;
-    }
-    .mock-browser-bar {
-      background: #3C4043;
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .mock-browser-dots { display: flex; gap: 5px; }
-    .mock-browser-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-    }
-    .mock-browser-url {
-      background: #202124;
-      color: #E8EAED;
       font-family: monospace;
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 12px;
-      flex: 1;
-      overflow: hidden;
-      white-space: nowrap;
+      background: rgba(0,0,0,0.5);
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,245,212,0.25);
+      transition: all 0.15s;
+      z-index: 10;
     }
-    .mock-browser-body {
-      background: #fff;
-      padding: 16px;
-      color: #1a1a1a;
+    .back-link:hover {
+      background: rgba(0,245,212,0.1);
+      border-color: rgba(0,245,212,0.5);
     }
-
-    /* Botões de ação do jogo */
-    .game-actions {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-      margin-top: 20px;
-    }
-    .btn-golpe {
-      background: rgba(239, 68, 68, 0.15);
-      border: 2px solid var(--risk-high);
-      color: var(--risk-high);
-      padding: 16px;
-      border-radius: 8px;
-      font-family: var(--font-mono);
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      letter-spacing: 1px;
-    }
-    .btn-golpe:hover { background: rgba(239, 68, 68, 0.3); transform: scale(1.02); }
-    .btn-legitimo {
-      background: rgba(16, 185, 129, 0.15);
-      border: 2px solid var(--risk-low);
-      color: var(--risk-low);
-      padding: 16px;
-      border-radius: 8px;
-      font-family: var(--font-mono);
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      letter-spacing: 1px;
-    }
-    .btn-legitimo:hover { background: rgba(16, 185, 129, 0.3); transform: scale(1.02); }
-    .btn-golpe:disabled, .btn-legitimo:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-    /* Feedback de resposta */
-    .feedback-panel {
-      border-radius: 10px;
-      padding: 16px;
-      margin-top: 16px;
-      display: none;
-      animation: slideDown 0.25s ease;
-    }
-    .feedback-panel.correct {
-      background: rgba(16, 185, 129, 0.08);
-      border: 2px solid var(--risk-low);
-      border-left: 5px solid var(--risk-low);
-    }
-    .feedback-panel.wrong {
-      background: rgba(239, 68, 68, 0.08);
-      border: 2px solid var(--risk-high);
-      border-left: 5px solid var(--risk-high);
-    }
-    .feedback-panel.timeout {
-      background: rgba(245, 158, 11, 0.08);
-      border: 2px solid var(--risk-medium);
-      border-left: 5px solid var(--risk-medium);
-    }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .feedback-title {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-    .feedback-explain {
-      font-size: 12.5px;
-      line-height: 1.5;
-      color: var(--color-text-muted);
-    }
-    .feedback-clues {
-      margin-top: 10px;
-      padding-left: 14px;
-    }
-    .feedback-clues li {
-      font-size: 11.5px;
-      color: var(--color-text-muted);
-      margin-bottom: 4px;
-      line-height: 1.4;
-    }
-    .btn-next {
-      margin-top: 12px;
-      float: right;
-    }
-
-    /* Resultado Final */
-    .result-screen {
-      display: none;
-      text-align: center;
-      padding: 20px;
-      animation: slideDown 0.35s ease;
-    }
-    .result-badge-emoji { font-size: 64px; display: block; margin-bottom: 12px; }
-    .result-badge-title {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--accent-teal);
-      font-family: var(--font-body);
-      margin-bottom: 8px;
-    }
-    .result-score-breakdown {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin: 16px 0;
-    }
-    .result-score-item {
-      background: var(--bg-card);
-      border: 1.5px solid var(--color-border);
-      border-radius: 8px;
-      padding: 10px 18px;
-      font-family: var(--font-mono);
-      font-size: 13px;
-    }
-    .result-score-item span {
-      display: block;
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--accent-teal);
-    }
-
-    /* Progresso de níveis */
-    .level-badge {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 20px;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-    .level-easy { background: rgba(16, 185, 129, 0.2); color: var(--risk-low); border: 1px solid var(--risk-low); }
-    .level-medium { background: rgba(245, 158, 11, 0.2); color: var(--risk-medium); border: 1px solid var(--risk-medium); }
-    .level-hard { background: rgba(239, 68, 68, 0.2); color: var(--risk-high); border: 1px solid var(--risk-high); }
-
-    /* Indicador de rodada */
-    .round-dots {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-    .round-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      border: 1.5px solid rgba(255,255,255,0.2);
-      transition: all 0.2s;
-    }
-    .round-dot.current { border-color: var(--accent-teal); background: var(--accent-teal); box-shadow: 0 0 8px rgba(0,245,212,0.5); }
-    .round-dot.done-correct { background: var(--risk-low); border-color: var(--risk-low); }
-    .round-dot.done-wrong { background: var(--risk-high); border-color: var(--risk-high); }
-    .round-dot.done-timeout { background: var(--risk-medium); border-color: var(--risk-medium); }
   </style>
 </head>
 <body>
-  <!-- SVG Icon Sprite (injected per-page for immediate render) -->
-  <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
-    <defs>
-      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
-      <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
-      <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
-      <symbol id="i-gamepad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></symbol>
-      <symbol id="i-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 8.5a13 13 0 0 1 21 0"/><path d="M5 12a9 9 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/></symbol>
-      <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
-      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
-      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
-      <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></symbol>
-      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
-      <symbol id="i-graduation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
-      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
-      <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></symbol>
-      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
-      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
-      <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
-      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
-      <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></symbol>
-      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
-      <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
-    </defs>
-  </svg>
-
-
-  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
-
-  <header class="app-header outset-border">
-    <div class="header-container">
-      <a href="index.html" class="logo-link">
-        <img src="imagens/capi_detective.png" alt="Logo CapiSafe" class="logo-img">
-        <span class="logo-text">CapiSafe</span>
-      </a>
-      <div style="display: flex; gap: 8px; align-items: center;">
-        <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
-        <nav class="app-nav" aria-label="Navegação Principal">
-          <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Capi, é golpe?</a>
-          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário</a>
-          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico</a>
-          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Capi, anota aí</a>
-          <a href="jogo.html" class="nav-link outset-border active" id="nav-jogo"><svg class="nav-icon" aria-hidden="true"><use href="#i-gamepad"/></svg> Jogo</a>
-          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
-          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
-          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA"><svg class="nav-icon" aria-hidden="true"><use href="#i-settings"/></svg></button>
-          <button class="btn-settings outset-border" id="btn-theme-toggle" title="Alternar tema" aria-label="Alternar tema claro/escuro"><svg class="nav-icon" aria-hidden="true"><use href="#i-moon"/></svg></button>
-        </nav>
-      </div>
-    </div>
-  </header>
-
-  <div class="ticker-wrap" aria-hidden="true">
-    <div class="ticker-track">
-      <span class="ticker-item">🎮 MISSÃO DETECTIVA CAPI: Você consegue identificar os golpes antes que a vítima caia? • 8 cenários reais te aguardam! • Quanto mais rápido, mais pontos!</span>
-      <span class="ticker-item">🎮 MISSÃO DETECTIVA CAPI: Você consegue identificar os golpes antes que a vítima caia? • 8 cenários reais te aguardam! • Quanto mais rápido, mais pontos!</span>
-    </div>
-  </div>
-
-  <main class="main-content boot-hidden" id="main-content">
-
-    <!-- CAPI WIDGET -->
-    <div class="capi-widget" role="note" aria-label="Mensagem de Capi">
-      <div class="capi-img-container outset-border">
-        <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
-      </div>
-      <div class="capi-bubble">
-        <div class="capi-bubble-title">Capi diz:</div>
-        <p style="margin-bottom: 0;">
-          "Prepare-se, Detetive! Vou te mostrar mensagens reais que chegam no celular das pessoas. Você precisa decidir rápido: é GOLPE ou é LEGÍTIMO? Cada segundo conta e cada acerto vale pontos!"
-        </p>
-      </div>
-    </div>
-
-    <!-- JANELA DO JOGO -->
-    <section class="window outset-border" id="game-window">
-      <div class="window-titlebar">
-        <div class="titlebar-text">
-          <span>🕵️ MISSAO_DETECTIVA_CAPI.EXE</span>
-        </div>
-      </div>
-      <div class="window-body">
-
-        <!-- TELA DE INÍCIO -->
-        <div id="intro-screen" style="text-align: center; padding: 20px;">
-          <div style="font-size: 56px; margin-bottom: 12px;">🕵️</div>
-          <h2 style="font-size: 20px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal); margin-bottom: 8px;">Missão Detectiva Capi</h2>
-          <p style="color: var(--color-text-muted); font-size: 13.5px; line-height: 1.6; max-width: 500px; margin: 0 auto 20px;">
-            Você receberá <strong style="color: var(--color-text);">10 cenários</strong> de mensagens, e-mails e sites exatamente como aparecem para as vítimas. Sua missão: identificar golpes antes que seja tarde demais!
-          </p>
-
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; max-width: 500px; margin: 0 auto 24px;">
-            <div class="card-flat" style="padding: 14px; text-align: center; box-shadow: none;">
-              <div style="font-size: 22px; margin-bottom: 4px;">⏱️</div>
-              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-muted);">15 segundos por rodada</div>
-            </div>
-            <div class="card-flat" style="padding: 14px; text-align: center; box-shadow: none;">
-              <div style="font-size: 22px; margin-bottom: 4px;">⚡</div>
-              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-muted);">Bônus por velocidade</div>
-            </div>
-            <div class="card-flat" style="padding: 14px; text-align: center; box-shadow: none;">
-              <div style="font-size: 22px; margin-bottom: 4px;">🎯</div>
-              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-muted);">3 níveis de dificuldade</div>
-            </div>
-          </div>
-
-          <button class="btn btn-primary" id="btn-start-game" style="font-size: 15px; padding: 14px 32px;">
-            ▶ Iniciar Missão
-          </button>
-        </div>
-
-        <!-- TELA DO JOGO (oculta inicialmente) -->
-        <div id="game-screen" style="display: none;">
-          <!-- HUD -->
-          <div class="game-hud" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px;">
-            <div class="hud-card">
-              <div class="hud-label">Rodada</div>
-              <div class="hud-value" id="hud-round">1/14</div>
-            </div>
-            <div class="hud-card">
-              <div class="hud-label">Pontos</div>
-              <div class="hud-value" id="hud-score">0</div>
-            </div>
-            <div class="hud-card">
-              <div class="hud-label">Vidas</div>
-              <div class="hud-value" id="hud-lives" style="font-size: 14px;">❤️❤️❤️</div>
-            </div>
-            <div class="hud-card">
-              <div class="hud-label">Combo</div>
-              <div class="hud-value" id="hud-streak">—</div>
-            </div>
-            <div class="hud-card">
-              <div class="hud-label">Tempo</div>
-              <div class="hud-value" id="hud-timer">20</div>
-            </div>
-          </div>
-
-          <!-- Barra de tempo -->
-          <div class="timer-bar-wrap">
-            <div class="timer-bar-fill" id="timer-bar" style="width: 100%;"></div>
-          </div>
-
-          <!-- Indicador de rodadas -->
-          <div class="round-dots" id="round-dots"></div>
-
-          <!-- Label do nível e tipo de mídia -->
-          <div style="margin-bottom: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-            <span class="level-badge" id="level-badge">Fácil</span>
-            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--color-text-muted);" id="media-label">📱 Mensagem WhatsApp</span>
-          </div>
-
-          <!-- Cenário -->
-          <div class="scenario-stage" id="scenario-container">
-            <!-- Conteúdo do cenário renderizado por JS -->
-          </div>
-
-          <!-- Pergunta -->
-          <p style="font-size: 13.5px; font-weight: 700; color: var(--color-text); text-align: center; margin-bottom: 4px;" id="game-question">
-            Esta mensagem é um golpe ou legítima?
-          </p>
-
-          <!-- Botões de ação dinâmicos -->
-          <div class="game-actions" id="game-options-container">
-            <!-- Injetados dinamicamente via JS -->
-          </div>
-
-          <!-- Painel de feedback -->
-          <div class="feedback-panel" id="feedback-panel">
-            <div class="feedback-title" id="feedback-title"></div>
-            <div class="feedback-explain" id="feedback-explain"></div>
-            <ul class="feedback-clues" id="feedback-clues"></ul>
-            <button class="btn btn-primary btn-next outset-border" id="btn-next" style="font-size: 12px; padding: 8px 18px;">
-              Próximo →
-            </button>
-            <div style="clear: both;"></div>
-          </div>
-        </div>
-
-        <!-- TELA DE RESULTADO FINAL (oculta inicialmente) -->
-        <div class="result-screen" id="result-screen">
-          <span class="result-badge-emoji" id="result-emoji">🏅</span>
-          <h2 class="result-badge-title" id="result-badge">Aprendiz em Treinamento</h2>
-          <p style="color: var(--color-text-muted); font-size: 13.5px; line-height: 1.6; max-width: 440px; margin: 0 auto 16px;" id="result-desc">Carregando...</p>
-
-          <div class="result-score-breakdown">
-            <div class="result-score-item">
-              <span id="res-acertos">0</span>
-              Acertos
-            </div>
-            <div class="result-score-item">
-              <span id="res-pontos">0</span>
-              Pontos
-            </div>
-            <div class="result-score-item">
-              <span id="res-tempo">0s</span>
-              Tempo médio
-            </div>
-          </div>
-
-          <!-- Ranking de dicas perdidas -->
-          <div id="result-missed" style="margin-bottom: 20px; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto;"></div>
-
-          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-            <button class="btn btn-primary outset-border" id="btn-share-result">📤 Compartilhar Resultado</button>
-            <button class="btn btn-secondary outset-border" id="btn-play-again">🔄 Jogar Novamente</button>
-            <a href="letramento.html" class="btn btn-secondary outset-border" style="text-decoration: none;">📚 Estudar Mais</a>
-          </div>
-        </div>
-
-        <!-- TELA DE GAME OVER (oculta inicialmente) -->
-        <div class="result-screen" id="game-over-screen" style="display: none;">
-          <span class="result-badge-emoji">🚨</span>
-          <h2 class="result-badge-title" style="color: var(--risk-high);">Fim de Jogo!</h2>
-          <p style="color: var(--color-text-muted); font-size: 13.5px; line-height: 1.6; max-width: 440px; margin: 0 auto 16px;">
-            Você esgotou todas as suas vidas. A segurança digital requer atenção aos detalhes de cada golpe. Estude na nossa academia e tente de novo!
-          </p>
-
-          <div class="result-score-breakdown">
-            <div class="result-score-item">
-              <span id="go-rodada">0</span>
-              Rodada
-            </div>
-            <div class="result-score-item">
-              <span id="go-pontos">0</span>
-              Pontos
-            </div>
-            <div class="result-score-item">
-              <span id="go-acertos">0</span>
-              Acertos
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-            <button class="btn btn-primary outset-border" id="btn-retry">🔄 Tentar Novamente</button>
-            <a href="letramento.html" class="btn btn-secondary outset-border" style="text-decoration: none;">📚 Estudar na Academia</a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- INSTRUÇÃO / CONTEXTO EDUCATIVO -->
-    <section class="window outset-border" id="info-section">
-      <div class="window-titlebar">
-        <div class="titlebar-text"><span>📋 SOBRE_O_JOGO.TXT</span></div>
-      </div>
-      <div class="window-body">
-        <h2 style="font-size: 15px; margin-bottom: 10px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Como funciona a Missão Detectiva Capi</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
-          <div class="card-flat" style="padding: 14px; box-shadow: none;">
-            <div style="font-size: 20px; margin-bottom: 6px;">🟢 Nível Fácil</div>
-            <p style="font-size: 12px; color: var(--color-text-muted);">Rodadas 1-3. Golpes clássicos com sinais óbvios: urgência exagerada, erros ortográficos, links suspeitos.</p>
-          </div>
-          <div class="card-flat" style="padding: 14px; box-shadow: none;">
-            <div style="font-size: 20px; margin-bottom: 6px;">🟡 Nível Médio</div>
-            <p style="font-size: 12px; color: var(--color-text-muted);">Rodadas 4-6. Golpes sofisticados que imitam comunicações reais de bancos e empresas conhecidas.</p>
-          </div>
-          <div class="card-flat" style="padding: 14px; box-shadow: none;">
-            <div style="font-size: 20px; margin-bottom: 6px;">🔴 Nível Expert</div>
-            <p style="font-size: 12px; color: var(--color-text-muted);">Rodadas 7-8. Inclui mensagens legítimas reais — não caia na armadilha de classificar tudo como golpe!</p>
-          </div>
-        </div>
-        <div style="margin-top: 14px; padding: 12px; background: var(--bg-desktop); border-left: 4px solid var(--accent-teal); border-radius: 6px; font-size: 12px; color: var(--color-text-muted);">
-          <strong style="color: var(--accent-teal);">💡 Fonte dos cenários:</strong> Todos os cenários são baseados em golpes documentados pelo CERT.br, NIC.br e relatórios da Febraban. As mensagens são reconstituições didáticas para fins educativos.
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="app-footer outset-border">
-    <div class="footer-container">
-      <div style="display:flex;align-items:center;gap:8px;"><img src="imagens/capi_detective.png" alt="" aria-hidden="true" style="width:18px;height:18px;object-fit:contain;image-rendering:pixelated;opacity:0.8;"> CapiSafe</div>
-      <div>Segurança Digital</div>
-    </div>
-  </footer>
-
-  <script src="js/components.js"></script>
-  <script src="js/api.js"></script>
-  <script>
-    // =====================================================================
-    // BANCO DE CENÁRIOS DO JOGO — 8 rodadas (5 golpes + 3 legítimas)
-    // =====================================================================
-    const SCENARIOS = [
-      // ====== NÍVEL FÁCIL (SPOT-THE-SCAM) ======
-      {
-        id: 1,
-        level: "easy",
-        levelLabel: "Fácil",
-        mediaLabel: "📱 Mensagem WhatsApp",
-        questionText: "Esta mensagem é um golpe ou legítima?",
-        maxTime: 20,
-        options: [
-          { text: "🚨 É GOLPE!", isCorrect: true },
-          { text: "✅ É LEGÍTIMO", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="mock-wpp">
-            <div class="mock-wpp-header">
-              <div class="mock-avatar">👤</div>
-              <div>
-                <div class="mock-contact-name">+55 11 9 8731-4422</div>
-                <div class="mock-contact-status">online</div>
-              </div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text">Oi mãe! Esse é meu número novo, pode salvar? Tô sem crédito no antigo 😅</div>
-              <div class="mock-bubble-time">14:32 ✓✓</div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text">Preciso muito da sua ajuda! Preciso pagar uma conta urgente de R$<strong>1.200</strong> hoje senão vence. Pode me fazer um Pix? Depois eu te pago quando chegar em casa 🙏</div>
-              <div class="mock-bubble-time">14:34 ✓✓</div>
-            </div>
-          </div>`,
-        feedback: {
-          title: "🚨 CORRETO — É um GOLPE!",
-          explain: "Este é o clássico Golpe do Falso Familiar. O criminoso usa um número desconhecido fingindo ser seu filho/a, criando urgência financeira para extorquir dinheiro via Pix.",
-          clues: [
-            "Número completamente desconhecido pedindo para ser salvo",
-            "Urgência artificial: 'conta vence hoje'",
-            "Pede dinheiro logo no primeiro contato",
-            "A regra de ouro: sempre ligue para o número ANTIGO do familiar antes de qualquer transferência"
-          ]
-        }
-      },
-      {
-        id: 2,
-        level: "easy",
-        levelLabel: "Fácil",
-        mediaLabel: "💬 SMS Recebido",
-        questionText: "Esta mensagem é um golpe ou legítima?",
-        maxTime: 20,
-        options: [
-          { text: "🚨 É GOLPE!", isCorrect: true },
-          { text: "✅ É LEGÍTIMO", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="mock-sms">
-            <div class="mock-sms-header">SMS • Correios Brasil • Hoje</div>
-            <div class="mock-sms-bubble">
-              Ola! Sua encomenda (#BR47291034) está RETIDA na alfandega. Taxa de liberacao: R$43,80. Pague agora para nao perder: <span style="color: #58B4F8; text-decoration: underline;">correios-liberacao.net/pagar</span>
-            </div>
-            <div class="mock-sms-time">Recebido: 10:17</div>
-          </div>`,
-        feedback: {
-          title: "🚨 CORRETO — É um GOLPE!",
-          explain: "Phishing dos Correios por SMS. Golpistas enviam milhões dessas mensagens por dia para capturar pagamentos Pix. O site é falso e rouba seus dados.",
-          clues: [
-            "Link 'correios-liberacao.net' não é domínio oficial (correto seria correios.com.br)",
-            "Os Correios NUNCA enviam cobrança por SMS com link de pagamento",
-            "O código de rastreio não corresponde ao padrão real dos Correios",
-            "Verifique sempre no portal oficial 'Minhas Importações' dos Correios"
-          ]
-        }
-      },
-      {
-        id: 3,
-        level: "easy",
-        levelLabel: "Fácil",
-        mediaLabel: "📧 E-mail Recebido",
-        questionText: "Esta mensagem é um golpe ou legítima?",
-        maxTime: 20,
-        options: [
-          { text: "🚨 É GOLPE!", isCorrect: true },
-          { text: "✅ É LEGÍTIMO", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="mock-email">
-            <div class="mock-email-header">
-              <div class="mock-email-from">De: <strong>seguranca@bradesco-verificacao.info</strong></div>
-              <div class="mock-email-from">Para: <span style="color:#555">voce@email.com</span></div>
-              <div class="mock-email-subject">⚠️ ATENÇÃO: Sua conta foi temporariamente bloqueada</div>
-            </div>
-            <div class="mock-email-body">
-              <p>Prezado(a) cliente,</p>
-              <p style="margin:8px 0">Identificamos uma tentativa de acesso suspeito na sua conta. Para sua segurança, <strong>bloqueamos preventivamente</strong> suas transações.</p>
-              <p style="margin:8px 0">Para desbloquear, você deve confirmar seus dados em até <strong>24 horas</strong>, caso contrário sua conta será encerrada permanentemente.</p>
-              <a href="#" class="mock-email-btn red-btn" onclick="return false">🔓 DESBLOQUEAR AGORA</a>
-              <p style="margin-top:12px; font-size:11px; color:#888">Banco Bradesco S.A. — © 2026</p>
-            </div>
-          </div>`,
-        feedback: {
-          title: "🚨 CORRETO — É um GOLPE!",
-          explain: "Phishing por e-mail fingindo ser do Bradesco. O endereço do remetente usa um domínio falso (@bradesco-verificacao.info) e pressiona a vítima com urgência de 24h.",
-          clues: [
-            "Domínio do remetente é 'bradesco-verificacao.info', não 'bradesco.com.br'",
-            "Bancos reais nunca bloqueiam sua conta por e-mail pedindo que você clique num botão",
-            "Ameaça de encerramento em 24h = pressão clássica de golpe",
-            "Sempre acesse o internet banking digitando o endereço manualmente no navegador"
-          ]
-        }
-      },
-
-      // ====== NÍVEL MÉDIO (SPOT-THE-SCAM) ======
-      {
-        id: 4,
-        level: "medium",
-        levelLabel: "Médio",
-        mediaLabel: "📱 Mensagem WhatsApp",
-        questionText: "Esta mensagem é um golpe ou legítima?",
-        maxTime: 20,
-        options: [
-          { text: "🚨 É GOLPE!", isCorrect: false },
-          { text: "✅ É LEGÍTIMO", isCorrect: true }
-        ],
-        renderHTML: () => `
-          <div class="mock-wpp">
-            <div class="mock-wpp-header">
-              <div class="mock-avatar">🙂</div>
-              <div>
-                <div class="mock-contact-name">Carla - Prima</div>
-                <div class="mock-contact-status">online agora</div>
-              </div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text">Oi! Lembra do churrasco no sábado na casa da tia Marta? Você vem né?</div>
-              <div class="mock-bubble-time">09:45 ✓✓</div>
-            </div>
-            <div class="mock-bubble sent">
-              <div class="mock-bubble-text">Oi Carla! Vou sim! Posso levar o que?</div>
-              <div class="mock-bubble-time">09:50 ✓✓</div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text">Traz uma farofa e um refrigerante! 😁 Vai começar às 14h. Ah, manda o pix da tua parte da carne — R$25 pra rachar com os outros?</div>
-              <div class="mock-bubble-time">09:51 ✓✓</div>
-            </div>
-          </div>`,
-        feedback: {
-          title: "✅ CORRETO — É LEGÍTIMO!",
-          explain: "Esta é uma conversa familiar genuína. O número é de um contato salvo (Prima Carla), o contexto faz sentido, não há urgência artificial e o valor é razoável para o contexto.",
-          clues: [
-            "O número é de um contato salvo com nome conhecido",
-            "O contexto conversacional é natural e progressive",
-            "Valor pequeno (R$25) para um contexto social plausível",
-            "Não há pressão de 'agora ou nunca', link suspeito ou urgência criada artificialmente"
-          ]
-        }
-      },
-      {
-        id: 5,
-        level: "medium",
-        levelLabel: "Médio",
-        mediaLabel: "🌐 Site no Navegador",
-        questionText: "Esta mensagem é um golpe ou legítima?",
-        maxTime: 20,
-        options: [
-          { text: "🚨 É GOLPE!", isCorrect: true },
-          { text: "✅ É LEGÍTIMO", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="mock-browser">
-            <div class="mock-browser-bar">
-              <div class="mock-browser-dots">
-                <div class="mock-browser-dot" style="background:#FF5F57"></div>
-                <div class="mock-browser-dot" style="background:#FEBC2E"></div>
-                <div class="mock-browser-dot" style="background:#28C840"></div>
-              </div>
-              <div class="mock-browser-url">🔒 magalu-promocoes-especiais.shop/tv-55</div>
-            </div>
-            <div class="mock-browser-body">
-              <div style="background:#E30613; color:#fff; padding:6px 12px; font-weight:700; font-size:13px; margin-bottom:10px; border-radius:4px;">MAGAZINE LUÍZA — LIQUIDAÇÃO RELÂMPAGO</div>
-              <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
-                <div style="background:#eee; width:70px; height:70px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:28px;">📺</div>
-                <div>
-                  <div style="font-weight:700; font-size:14px;">Smart TV 4K Samsung 55" QLED</div>
-                  <div style="color:#888; text-decoration:line-through; font-size:12px;">R$ 3.799,00</div>
-                  <div style="color:#E30613; font-size:20px; font-weight:800;">R$ 899,00 no Pix</div>
-                </div>
-              </div>
-              <div style="background:#FFF3CD; padding:8px; border-radius:4px; font-size:11px; color:#856404; margin-bottom:8px;">⚡ Apenas 3 unidades restantes! Oferta expira em: 00:12:47</div>
-              <a href="#" onclick="return false" style="display:block; background:#E30613; color:#fff; text-align:center; padding:10px; border-radius:6px; text-decoration:none; font-weight:700;">COMPRAR AGORA — PIX SOMENTE</a>
-            </div>
-          </div>`,
-        feedback: {
-          title: "🚨 CORRETO — É um GOLPE!",
-          explain: "Loja virtual falsa se passando pela Magazine Luíza. O domínio revela a fraude: o site real é 'magazineluiza.com.br', não 'magalu-promocoes-especiais.shop'.",
-          clues: [
-            "Domínio suspeito: 'magalu-promocoes-especiais.shop' não é o site oficial",
-            "Preço absurdo: TV 4K 55' por R$ 899 (desconto de ~76% sem justificativa)",
-            "Aceita apenas Pix — sem cartão, boleto ou parcelamento",
-            "Contador de urgência artificial para pressionar a compra impulsiva"
-          ]
-        }
-      },
-      {
-        id: 6,
-        level: "medium",
-        levelLabel: "Médio",
-        mediaLabel: "📞 Ligação + WhatsApp",
-        questionText: "Esta mensagem é um golpe ou legítima?",
-        maxTime: 20,
-        options: [
-          { text: "🚨 É GOLPE!", isCorrect: true },
-          { text: "✅ É LEGÍTIMO", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="mock-wpp">
-            <div class="mock-wpp-header">
-              <div class="mock-avatar" style="background:#1a73e8; font-size:14px; font-weight:700; color:#fff;">BB</div>
-              <div>
-                <div class="mock-contact-name">Banco do Brasil — Central 0800</div>
-                <div class="mock-contact-status">Mensagem automática</div>
-              </div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text">📲 <strong>Banco do Brasil — Alerta de Segurança</strong><br><br>Detectamos uma tentativa de Pix no valor de <strong>R$ 4.750,00</strong> para uma conta em Manaus/AM.<br><br>Para CANCELAR esta operação, clique abaixo e confirme sua identidade com selfie no link seguro:</div>
-              <div class="mock-bubble-time">16:03 ✓✓</div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text"><span class="mock-bubble-link">bb-seguranca-cancelar-pix.com/verificar/4750</span><br><br>⏰ Você tem <strong>10 minutos</strong> para cancelar ou a transação será efetivada.</div>
-              <div class="mock-bubble-time">16:03 ✓✓</div>
-            </div>
-          </div>`,
-        feedback: {
-          title: "🚨 CORRETO — É um GOLPE!",
-          explain: "Golpe da falsa central bancária via WhatsApp. O Banco do Brasil nunca envia links de cancelamento de Pix por WhatsApp, nem pede selfie por link externo.",
-          clues: [
-            "Bancos reais nunca enviam links de segurança por WhatsApp",
-            "O link 'bb-seguranca-cancelar-pix.com' é falso (domínio não é bb.com.br)",
-            "Pressão de tempo de 10 minutos — tática clássica de urgência artificial",
-            "Em caso de dúvida, desligue e ligue diretamente no 0800 impresso no seu cartão"
-          ]
-        }
-      },
-      {
-        id: 7,
-        level: "medium",
-        levelLabel: "Médio",
-        mediaLabel: "📱 WhatsApp + Áudio clone",
-        questionText: "Esta mensagem é um golpe ou legítima?",
-        maxTime: 20,
-        options: [
-          { text: "🚨 É GOLPE!", isCorrect: true },
-          { text: "✅ É LEGÍTIMO", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="mock-wpp">
-            <div class="mock-wpp-header">
-              <div class="mock-avatar">👤</div>
-              <div>
-                <div class="mock-contact-name">+55 21 9 7643-8812</div>
-                <div class="mock-contact-status">online</div>
-              </div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text">Oi pai, esse é meu número novo. O antigo caiu n'água 😭</div>
-              <div class="mock-bubble-time">19:02 ✓✓</div>
-            </div>
-            <div class="mock-bubble" style="display:flex; align-items:center; gap:8px; background:#202C33; border-radius:0 8px 8px 8px; padding:10px 14px; max-width:85%;">
-              <span style="font-size:22px;">🎤</span>
-              <div style="flex:1;">
-                <div style="background:rgba(0,245,212,0.2); height:28px; border-radius:4px; position:relative; overflow:hidden;">
-                  <div style="position:absolute; inset:0; background: repeating-linear-gradient(90deg, rgba(0,245,212,0.4) 0 2px, transparent 2px 5px); opacity:0.7;"></div>
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-top:4px; font-size:10px; color:#8696A0;">
-                  <span>▶</span><span>0:08</span>
-                </div>
-              </div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text">Pai preciso de um favor urgente. Tenho uma dívida de R$<strong>1.500</strong> que vence hoje à meia-noite ou vão cortar meu serviço. Pode me fazer um Pix antes das 23h? 🙏</div>
-              <div class="mock-bubble-time">19:05 ✓✓</div>
-            </div>
-          </div>`,
-        feedback: {
-          title: "🚨 CORRETO — É um GOLPE de Deepfake de Voz!",
-          explain: "Este golpe usa IA para clonar a voz de um familiar real. Com apenas 3–10 segundos de áudio de redes sociais, criminosos geram um áudio convincente. Relatado pela Kaspersky em 2024: casos multiplicaram 4x no Brasil.",
-          clues: [
-            "Número desconhecido com 'celular novo' — clássico do Golpe do Falso Familiar",
-            "Áudio de voz pode ser gerado por IA com apenas segundos de amostra",
-            "Urgência extrema com prazo (meia-noite) — pressão para impedir raciocínio",
-            "A defesa: ligue para o número antigo do familiar antes de qualquer transferência"
-          ]
-        }
-      },
-      {
-        id: 8,
-        level: "medium",
-        levelLabel: "Médio",
-        mediaLabel: "📱 Mensagem WhatsApp",
-        questionText: "Esta mensagem é um golpe ou legítima?",
-        maxTime: 20,
-        options: [
-          { text: "🚨 É GOLPE!", isCorrect: true },
-          { text: "✅ É LEGÍTIMO", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="mock-wpp">
-            <div class="mock-wpp-header">
-              <div class="mock-avatar">💸</div>
-              <div>
-                <div class="mock-contact-name">+55 11 9 5544-3312</div>
-                <div class="mock-contact-status">online</div>
-              </div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text">Olá, boa tarde! Me chamo Rodrigo. Acabei de fazer um Pix de R$ <strong>850,00</strong> por engano para seu número. Meu banco confirmou que foi para o seu CPF.</div>
-              <div class="mock-bubble-time">15:44 ✓✓</div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text">Pode me devolver por favor? Minha filha está internada e esse dinheiro é para pagar o remédio dela. Fico te agradecendo demais 🙏😢</div>
-              <div class="mock-bubble-time">15:45 ✓✓</div>
-            </div>
-            <div class="mock-bubble">
-              <div class="mock-bubble-text">Minha chave Pix: <strong>rodrigo.s.silva1987@gmail.com</strong></div>
-              <div class="mock-bubble-time">15:45 ✓✓</div>
-            </div>
-          </div>`,
-        feedback: {
-          title: "🚨 CORRETO — É o Golpe do Pix Errado!",
-          explain: "O 'Pix errado' é documentado pelo Banco Central e CERT.br como golpe crescente. O dinheiro vem de uma conta de terceiro enganado. Se você devolver direto, o banco do terceiro ainda vai estornar, e você perde o valor.",
-          clues: [
-            "Nenhum banco confirma CPF de destinatário por WhatsApp — isso não existe",
-            "Urgência emocional (filha internada) é manipulação clássica",
-            "A ação correta: contatar SEU banco e relatar o Pix recebido via canal oficial",
-            "O Banco Central tem mecanismo de devolução regulamentado (MED) — não devolva manualmente"
-          ]
-        }
-      },
-
-      // ====== NÍVEL EXPERT (SPOT-THE-SCAM) ======
-      {
-        id: 9,
-        level: "hard",
-        levelLabel: "Expert",
-        mediaLabel: "💬 SMS Recebido",
-        questionText: "Esta mensagem é um golpe ou legítima?",
-        maxTime: 20,
-        options: [
-          { text: "🚨 É GOLPE!", isCorrect: false },
-          { text: "✅ É LEGÍTIMO", isCorrect: true }
-        ],
-        renderHTML: () => `
-          <div class="mock-sms">
-            <div class="mock-sms-header">SMS • Nubank • Hoje</div>
-            <div class="mock-sms-bubble">
-              Compra no cartão Nubank aprovada: R$127,50 em Supermercado Extra em 26/05/2026 às 14:22h. Não reconhece? Acesse o app.
-            </div>
-            <div class="mock-sms-time">Recebido: 14:22</div>
-          </div>`,
-        feedback: {
-          title: "✅ CORRETO — É LEGÍTIMO!",
-          explain: "Esta é uma notificação legítima do Nubank. A mensagem NÃO inclui links, NÃO pede dados, NÃO cria urgência e APENAS informa uma transação — exatamente como bancos sérios comunicam.",
-          clues: [
-            "Sem links suspeitos — SMS só informa, não pede ação urgente",
-            "Orienta a ir ao APP (não a um link externo)",
-            "Informações específicas: valor, estabelecimento, horário exato",
-            "Mensagens legítimas de banco INFORMAM — não pedem senha, selfie ou transferência"
-          ]
-        }
-      },
-      {
-        id: 10,
-        level: "hard",
-        levelLabel: "Expert",
-        mediaLabel: "📧 E-mail Recebido",
-        questionText: "Esta mensagem é um golpe ou legítima?",
-        maxTime: 20,
-        options: [
-          { text: "🚨 É GOLPE!", isCorrect: true },
-          { text: "✅ É LEGÍTIMO", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="mock-email">
-            <div class="mock-email-header">
-              <div class="mock-email-from">De: <strong>noreply@receita.fazenda.gov.br-restituicao.com</strong></div>
-              <div class="mock-email-from">Para: <span style="color:#555">contribuinte@email.com</span></div>
-              <div class="mock-email-subject">🏛️ Receita Federal — Restituição IR 2026 disponível: R$ 1.847,30</div>
-            </div>
-            <div class="mock-email-body">
-              <p style="font-size:11px; color:#888; margin-bottom:10px;">[Receita Federal do Brasil — Serviço ao Cidadão]</p>
-              <p>Prezado(a) Contribuinte,</p>
-              <p style="margin:8px 0">Sua restituição do Imposto de Renda 2026 no valor de <strong>R$ 1.847,30</strong> está disponível para resgate. Para receber, é necessário atualizar sua conta bancária no sistema da Receita Federal.</p>
-              <p style="margin:8px 0">Prazo para resgate: <strong>48 horas</strong></p>
-              <a href="#" onclick="return false" class="mock-email-btn">📋 Atualizar dados bancários</a>
-              <p style="margin-top:12px; font-size:10px; color:#aaa">Ministério da Fazenda — Receita Federal do Brasil © 2026</p>
-            </div>
-          </div>`,
-        feedback: {
-          title: "🚨 CORRETO — É um GOLPE!",
-          explain: "Phishing sofisticado da Falsa Receita Federal. O domínio do remetente parece legítimo à primeira vista, mas usa um truque: 'receita.fazenda.gov.br-restituicao.com' — o domínio real começa em '.com', não em 'gov.br'.",
-          clues: [
-            "TRUQUE do domínio: 'receita.fazenda.gov.br-restituicao.com' — leia a partir do último ponto antes do '/', o domínio real é 'restituicao.com', não 'gov.br'",
-            "A Receita Federal comunica restituições pelo portal e-CAC (ecac.receita.fazenda.gov.br), nunca por e-mail pedindo dados bancários",
-            "Prazo de 48h para resgate — pressão artificial de urgência",
-            "Valores específicos (R$ 1.847,30) são usados para parecer mais real"
-          ]
-        }
-      },
-
-      // ====== MULTIPLA ESCOLHA AVANÇADA (SUPER CAPI) ======
-      {
-        id: 11,
-        level: "medium",
-        levelLabel: "Médio",
-        mediaLabel: "📞 Canal de Ligação",
-        questionText: "Criminosos usam uma técnica para falsificar o número de telefone de origem que aparece na BINA do seu celular, exibindo o 0800 ou o número oficial do banco. Qual o nome dessa ameaça?",
-        maxTime: 35,
-        options: [
-          { text: "A) SIM Swap (Roubo de Linha Telefônica)", isCorrect: false },
-          { text: "B) Spoofing de BINA (Falsa Central)", isCorrect: true },
-          { text: "C) Vazamento de Dados SQL", isCorrect: false },
-          { text: "D) Phishing por Boleto MEI", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="mock-call" style="background: rgba(0,0,0,0.5); border: 2px solid var(--accent-teal); padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px;">
-            <div style="font-size:32px; margin-bottom:8px;">📲</div>
-            <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:#fff;">+55 (11) 4004-0001</div>
-            <div style="color:var(--accent-teal); font-size:11px; font-family:var(--font-mono); margin-bottom:12px; font-weight:700;">📞 BINA: Central Oficial do Banco</div>
-            <p style="font-size:12.5px; line-height:1.6; text-align:left; color:#f8fafc;">"Olá! Sou da central de segurança. Identificamos uma compra suspeita de R$2.400 nas Lojas Capi. Digite sua senha de 6 dígitos no teclado numérico para contestar esta transação..."</p>
-          </div>`,
-        feedback: {
-          title: "📞 CORRETO — É Spoofing de BINA!",
-          explain: "No Spoofing de BINA, criminosos mascaram a identificação telefônica real para fingir que ligam da central do banco. Mas os bancos de verdade nunca solicitam que digite senhas por telefone.",
-          clues: [
-            "Bancos de verdade nunca pedem senha ou código via teclado do telefone",
-            "A BINA clonada induz a vítima a erro, transmitindo falsa autoridade",
-            "A ação preventiva ideal: desligar e ligar você mesmo para o número oficial impresso no cartão"
-          ]
-        }
-      },
-      {
-        id: 12,
-        level: "medium",
-        levelLabel: "Médio",
-        mediaLabel: "🧩 Anatomia de Fraude",
-        questionText: "Qual é a ordem cronológica correta das etapas usadas pelos estelionatários no Golpe da Falsa Vaga de Emprego (Tarefas Pix)?",
-        maxTime: 35,
-        options: [
-          { text: "A) 1. Oferta de renda fácil -> 2. Depósitos Pix pequenos de comissão -> 3. Exigência de depósitos maiores -> 4. Bloqueio ao tentar sacar", isCorrect: true },
-          { text: "B) 1. Bloqueio ao tentar sacar -> 2. Exigência de depósitos maiores -> 3. Depósitos Pix pequenos -> 4. Oferta de renda fácil", isCorrect: false },
-          { text: "C) 1. Exigência de depósitos maiores -> 2. Oferta de renda fácil -> 3. Bloqueio ao tentar sacar -> 4. Depósitos Pix pequenos", isCorrect: false },
-          { text: "D) 1. Depósitos Pix pequenos -> 2. Oferta de renda fácil -> 3. Exigência de depósitos maiores -> 4. Bloqueio ao tentar sacar", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="card-flat" style="padding: 15px; background: rgba(0,0,0,0.5); border: 2px solid var(--accent-pink); margin-bottom: 15px;">
-            <h4 style="color:var(--accent-pink); font-size:13.5px; margin-bottom:8px;">🧩 Linha do Tempo das Tarefas Pix</h4>
-            <p style="font-size:12px; line-height:1.5; color:#f8fafc;">Criminosos usam engenharia social progressiva para construir confiança e depois extorquir altos valores em Pix.</p>
-          </div>`,
-        feedback: {
-          title: "🧩 CORRETO — Essa é a sequência lógica!",
-          explain: "Primeiro constroem confiança dando pequenos pagamentos reais de R$10 ou R$20. Em seguida, exigem dinheiro sob o pretexto de liberar tarefas VIP. Quando você coloca um valor alto, eles bloqueiam e somem.",
-          clues: [
-            "Primeiras tarefas pagam de verdade — técnica clássica de isca",
-            "Bloqueio ocorre assim que a vítima atinge o limite máximo de investimento",
-            "Dinâmica do golpe: nunca faça transferências financeiras sob promessa de 'vagas' ou 'tarefas'"
-          ]
-        }
-      },
-      {
-        id: 13,
-        level: "hard",
-        levelLabel: "Expert",
-        mediaLabel: "🛡️ Defesa e Soluções",
-        questionText: "Criminosos abriram contas correntes e chaves Pix em seu nome em bancos desconhecidos sem seu consentimento. Qual serviço oficial e gratuito do Banco Central ajuda a detectar isso?",
-        maxTime: 35,
-        options: [
-          { text: "A) Portal REDESIM do Governo Federal", isCorrect: false },
-          { text: "B) Portal Não Me Perturbe da Anatel", isCorrect: false },
-          { text: "C) Registrato do Banco Central do Brasil", isCorrect: true },
-          { text: "D) MED (Mecanismo Especial de Devolução)", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="card-flat" style="padding: 15px; background: rgba(0,0,0,0.5); border: 2px solid var(--accent-teal); text-align: center; margin-bottom: 15px;">
-            <span style="font-size:32px;">🏦</span>
-            <h4 style="color:var(--accent-teal); font-size:13px; margin: 8px 0;">Monitoramento de Fraude em CPF</h4>
-            <p style="font-size:12.5px; line-height:1.5; color:#f8fafc;">Você descobriu que vazamentos de dados permitiram a abertura de contas bancárias laranjas em seu nome.</p>
-          </div>`,
-        feedback: {
-          title: "🛡️ CORRETO — É o Registrato do BC!",
-          explain: "O Registrato do Banco Central é a plataforma oficial que exibe todas as chaves Pix, contas bancárias e empréstimos ativos vinculados ao seu CPF em território nacional.",
-          clues: [
-            "Registrato é um painel seguro mantido pelo Banco Central do Brasil",
-            "Permite identificar preventivamente se terceiros estão se passando por você",
-            "Acesso gratuito pelo Gov.br (níveis prata ou ouro)"
-          ]
-        }
-      },
-      {
-        id: 14,
-        level: "medium",
-        levelLabel: "Médio",
-        mediaLabel: "👥 Vulnerabilidade Social",
-        questionText: "Criminosos enviam correspondências físicas e e-mails com falsos boletos cadastrais intimidadores imediatamente após a abertura de uma nova empresa. Qual é o público-alvo prioritário deste golpe?",
-        maxTime: 35,
-        options: [
-          { text: "A) Microempreendedores Individuais (MEIs) recém-registrados", isCorrect: true },
-          { text: "B) Idosos aposentados e pensionistas", isCorrect: false },
-          { text: "C) Adolescentes e jovens jogadores online", isCorrect: false },
-          { text: "D) Desenvolvedores e engenheiros de software", isCorrect: false }
-        ],
-        renderHTML: () => `
-          <div class="card-flat" style="padding: 15px; background: rgba(0,0,0,0.5); border: 2px solid var(--accent-pink); margin-bottom: 15px;">
-            <h4 style="color:var(--accent-pink); font-size:13px; margin-bottom:8px;">📧 Falsa Taxa Cadastral de Abertura</h4>
-            <p style="font-size:12px; line-height:1.5; color:#f8fafc;">Notificação alegando urgência fiscal de R$97,90 para 'ativação de CNPJ' na rede nacional do governo.</p>
-          </div>`,
-        feedback: {
-          title: "👥 CORRETO — Os novos MEIs!",
-          explain: "Os criminosos coletam dados públicos de CNPJ e enviam cobranças falsas imediatamente após o registro. Microempreendedores iniciantes, com medo de pendências, costumam pagar.",
-          clues: [
-            "Falso remetente que simula órgãos federais ou associações comerciais fantasmas",
-            "O MEI é isento de taxas associativas ou taxas cadastrais obrigatórias na abertura",
-            "A Receita Federal ou redesim oficial NUNCA emitem boletos de cobrança por e-mail"
-          ]
-        }
-      }
-    ];
-
-    // =====================================================================
-    // LÓGICA DO JOGO
-    // =====================================================================
-    document.addEventListener("DOMContentLoaded", () => {
-      let currentRound = 0;
-      let score = 0;
-      let lives = 3;
-      let streak = 0;
-      let timerInterval = null;
-      let timeLeft = 20;
-      let maxTimeThisRound = 20;
-      let roundResults = []; // 'correct', 'wrong', 'timeout'
-      let roundStartTime = 0;
-      let totalTimeUsed = 0;
-      let answered = false;
-      let gameIsOver = false;
-
-      const introScreen = document.getElementById("intro-screen");
-      const gameScreen = document.getElementById("game-screen");
-      const resultScreen = document.getElementById("result-screen");
-      const gameOverScreen = document.getElementById("game-over-screen");
-      const btnStart = document.getElementById("btn-start-game");
-      const btnNext = document.getElementById("btn-next");
-      const feedbackPanel = document.getElementById("feedback-panel");
-      const timerBar = document.getElementById("timer-bar");
-      const hudTimer = document.getElementById("hud-timer");
-      const roundDots = document.getElementById("round-dots");
-
-      btnStart.addEventListener("click", startGame);
-      btnNext.addEventListener("click", nextRound);
-      document.getElementById("btn-play-again").addEventListener("click", resetGame);
-      document.getElementById("btn-share-result").addEventListener("click", shareResult);
-      document.getElementById("btn-retry").addEventListener("click", startGame);
-
-      function startGame() {
-        introScreen.style.display = "none";
-        gameScreen.style.display = "block";
-        resultScreen.style.display = "none";
-        gameOverScreen.style.display = "none";
-        currentRound = 0;
-        score = 0;
-        lives = 3;
-        streak = 0;
-        roundResults = [];
-        totalTimeUsed = 0;
-        gameIsOver = false;
-        document.getElementById("hud-score").textContent = "0";
-        updateLivesDisplay();
-        updateStreakDisplay();
-        buildRoundDots();
-        loadRound();
-        document.getElementById("game-status-left").textContent = "Missão em andamento";
-      }
-
-      function buildRoundDots() {
-        roundDots.innerHTML = "";
-        for (let i = 0; i < SCENARIOS.length; i++) {
-          const dot = document.createElement("div");
-          dot.className = "round-dot";
-          dot.id = `dot-${i}`;
-          roundDots.appendChild(dot);
-        }
-      }
-
-      function loadRound() {
-        answered = false;
-        feedbackPanel.style.display = "none";
-
-        const s = SCENARIOS[currentRound];
-        document.getElementById("hud-round").textContent = `${currentRound + 1}/${SCENARIOS.length}`;
-
-        // Nível badge
-        const lb = document.getElementById("level-badge");
-        lb.textContent = s.levelLabel;
-        lb.className = `level-badge level-${s.level}`;
-        document.getElementById("media-label").textContent = s.mediaLabel;
-
-        // Renderiza pergunta
-        document.getElementById("game-question").textContent = s.questionText || "Esta mensagem é um golpe ou legítima?";
-
-        // Renderiza cenário
-        document.getElementById("scenario-container").innerHTML = s.renderHTML();
-
-        // Renderiza opções
-        const container = document.getElementById("game-options-container");
-        container.innerHTML = "";
-        
-        s.options.forEach(opt => {
-          const btn = document.createElement("button");
-          if (opt.text.includes("É GOLPE!")) {
-            btn.className = "btn-golpe";
-          } else if (opt.text.includes("É LEGÍTIMO")) {
-            btn.className = "btn-legitimo";
-          } else {
-            btn.className = "btn-naming-choice";
-          }
-          btn.textContent = opt.text;
-          btn.addEventListener("click", () => submitAnswer(opt, btn));
-          container.appendChild(btn);
-        });
-
-        // Destaca rodada atual nos dots
-        document.querySelectorAll(".round-dot").forEach((d, i) => {
-          d.className = "round-dot";
-          if (i < currentRound) {
-            d.classList.add(`done-${roundResults[i]}`);
-          }
-          if (i === currentRound) d.classList.add("current");
-        });
-
-        // Inicia timer
-        startTimer();
-      }
-
-      function startTimer() {
-        const s = SCENARIOS[currentRound];
-        maxTimeThisRound = s.maxTime || 20;
-        timeLeft = maxTimeThisRound;
-        roundStartTime = Date.now();
-        updateTimerUI();
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-          timeLeft--;
-          updateTimerUI();
-          if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            if (!answered) timeOut();
-          }
-        }, 1000);
-      }
-
-      function updateTimerUI() {
-        hudTimer.textContent = timeLeft;
-        const pct = (timeLeft / maxTimeThisRound) * 100;
-        timerBar.style.width = pct + "%";
-        const danger = Math.ceil(maxTimeThisRound * 0.3);
-        const warn = Math.ceil(maxTimeThisRound * 0.5);
-        if (timeLeft <= danger) {
-          timerBar.style.background = "var(--risk-high)";
-          hudTimer.className = "hud-value timer-danger";
-        } else if (timeLeft <= warn) {
-          timerBar.style.background = "var(--risk-medium)";
-          hudTimer.className = "hud-value";
-        } else {
-          timerBar.style.background = "var(--accent-teal)";
-          hudTimer.className = "hud-value";
-        }
-      }
-
-      function timeOut() {
-        answered = true;
-        clearInterval(timerInterval);
-        
-        roundResults.push("timeout");
-        totalTimeUsed += maxTimeThisRound;
-        lives--;
-        streak = 0;
-        updateLivesDisplay();
-        updateStreakDisplay();
-        if (lives <= 0) gameIsOver = true;
-
-        const s = SCENARIOS[currentRound];
-        const dotEl = document.getElementById(`dot-${currentRound}`);
-        if (dotEl) {
-          dotEl.classList.remove("current");
-          dotEl.classList.add("done-timeout");
-        }
-
-        // Desabilita botões e colore a correta em verde
-        const container = document.getElementById("game-options-container");
-        const buttons = container.querySelectorAll("button");
-        buttons.forEach((btn, idx) => {
-          btn.disabled = true;
-          const opt = s.options[idx];
-          if (opt.isCorrect) {
-            btn.style.background = "var(--risk-low-bg)";
-            btn.style.borderColor = "var(--risk-low)";
-            btn.style.color = "#fff";
-          }
-        });
-
-        const stage = document.getElementById("scenario-container");
-        stage.classList.remove("game-shake");
-        void stage.offsetWidth;
-        stage.classList.add("game-shake");
-
-        showFeedback("timeout",
-          `⏰ TEMPO ESGOTADO! (-1 vida)`,
-          s.feedback.explain,
-          s.feedback.clues
-        );
-      }
-
-      function submitAnswer(selectedOption, clickedBtn) {
-        if (answered) return;
-        answered = true;
-        clearInterval(timerInterval);
-
-        const elapsed = Math.round((Date.now() - roundStartTime) / 1000);
-        totalTimeUsed += elapsed;
-
-        const s = SCENARIOS[currentRound];
-        const isCorrect = selectedOption.isCorrect;
-        const dotEl = document.getElementById(`dot-${currentRound}`);
-        if (dotEl) dotEl.classList.remove("current");
-
-        // Desabilita botões e colore as respostas corretas/incorretas
-        const container = document.getElementById("game-options-container");
-        const buttons = container.querySelectorAll("button");
-        buttons.forEach((btn, idx) => {
-          btn.disabled = true;
-          const opt = s.options[idx];
-          if (opt.isCorrect) {
-            btn.style.background = "var(--risk-low-bg)";
-            btn.style.borderColor = "var(--risk-low)";
-            btn.style.color = "#fff";
-          } else if (btn === clickedBtn) {
-            btn.style.background = "var(--risk-high-bg)";
-            btn.style.borderColor = "var(--risk-high)";
-            btn.style.color = "#fff";
-          }
-        });
-
-        const stage = document.getElementById("scenario-container");
-
-        if (isCorrect) {
-          roundResults.push("correct");
-          if (dotEl) dotEl.classList.add("done-correct");
-          streak++;
-          updateStreakDisplay();
-
-          // Pontuação base 50pts + bônus de tempo restante * 3
-          const bonus = Math.round(timeLeft * 3);
-          const points = 50 + bonus;
-          score += points;
-          document.getElementById("hud-score").textContent = score;
-
-          stage.classList.remove("game-celebrate");
-          void stage.offsetWidth;
-          stage.classList.add("game-celebrate");
-
-          showFeedback("correct",
-            `✅ ${s.feedback.title} (+${points} pts)`,
-            s.feedback.explain,
-            s.feedback.clues
-          );
-        } else {
-          roundResults.push("wrong");
-          if (dotEl) dotEl.classList.add("done-wrong");
-          lives--;
-          streak = 0;
-          updateLivesDisplay();
-          updateStreakDisplay();
-          if (lives <= 0) gameIsOver = true;
-
-          stage.classList.remove("game-shake");
-          void stage.offsetWidth;
-          stage.classList.add("game-shake");
-
-          showFeedback("wrong",
-            `❌ Resposta incorreta! (-1 vida)`,
-            s.feedback.explain,
-            s.feedback.clues
-          );
-        }
-      }
-
-      function showFeedback(type, title, explain, clues) {
-        feedbackPanel.className = `feedback-panel ${type}`;
-        document.getElementById("feedback-title").textContent = title;
-        document.getElementById("feedback-explain").textContent = explain;
-        const cluesList = document.getElementById("feedback-clues");
-        cluesList.innerHTML = clues.map(c => `<li>${c}</li>`).join("");
-
-        const isLast = currentRound + 1 >= SCENARIOS.length;
-        btnNext.textContent = isLast ? "Ver Resultado Final →" : "Próxima Rodada →";
-        feedbackPanel.style.display = "block";
-      }
-
-      function nextRound() {
-        currentRound++;
-        if (gameIsOver) {
-          showGameOver();
-        } else if (currentRound >= SCENARIOS.length) {
-          showResults();
-        } else {
-          loadRound();
-        }
-      }
-
-      function showResults() {
-        gameScreen.style.display = "none";
-        resultScreen.style.display = "block";
-        document.getElementById("game-status-left").textContent = "Missão concluída";
-
-        const acertos = roundResults.filter(r => r === "correct").length;
-        const avgTime = roundResults.length > 0 ? Math.round(totalTimeUsed / roundResults.length) : 0;
-
-        document.getElementById("res-acertos").textContent = `${acertos}/${SCENARIOS.length}`;
-        document.getElementById("res-pontos").textContent = score;
-        document.getElementById("res-tempo").textContent = `${avgTime}s`;
-
-        let emoji, badge, desc;
-        const pct = acertos / SCENARIOS.length;
-
-        if (pct === 1) {
-          emoji = "🏆"; badge = "Super Detetive da Capi";
-          desc = `Perfeito! Você acertou todos os ${SCENARIOS.length} cenários e dinâmicas avançadas de cibersegurança! Seu radar de golpes e escudos de defesa estão afiados. Compartilhe seu resultado e desafie os amigos!`;
-        } else if (pct >= 0.75) {
-          emoji = "🥇"; badge = "Agente Especial Capi";
-          desc = `Excelente! Você obteve ${acertos} de ${SCENARIOS.length} acertos. Demonstra ótimo discernimento e conhecimento das defesas oficiais no Brasil. Revise as rodadas que errou e tente gabaritar!`;
-        } else if (pct >= 0.5) {
-          emoji = "🥈"; badge = "Patrulheiro Digital";
-          desc = `Bom trabalho! Obteve ${acertos} de ${SCENARIOS.length} acertos. Conhece noções essenciais de prevenção, mas golpistas avançados poderiam ter te pego. Estude na nossa Academia Capi!`;
-        } else {
-          emoji = "🚨"; badge = "Recruta Vulnerável";
-          desc = `Alerta Vermelho! Você obteve apenas ${acertos} acertos. Cibersegurança exige atenção constante a fakes e golpes de engenharia social. Releia os tutoriais preventivos antes de tentar de novo!`;
-        }
-
-        document.getElementById("result-emoji").textContent = emoji;
-        document.getElementById("result-badge").textContent = `${badge} (${acertos}/${SCENARIOS.length})`;
-        document.getElementById("result-desc").textContent = desc;
-
-        // Mostra as rodadas que errou
-        const missed = roundResults
-          .map((r, i) => ({ r, s: SCENARIOS[i] }))
-          .filter(x => x.r !== "correct");
-
-        const missedDiv = document.getElementById("result-missed");
-        if (missed.length > 0) {
-          missedDiv.innerHTML = `
-            <h4 style="font-size:12px; color:var(--risk-medium); font-family:var(--font-mono); margin-bottom:8px; text-transform:uppercase;">⚠️ Revisar estes cenários:</h4>
-            ${missed.map(x => `
-              <div style="background:var(--bg-card); border:1.5px solid var(--color-border); border-radius:6px; padding:10px; margin-bottom:8px; font-size:12px;">
-                <strong style="color:var(--accent-teal);">Rodada ${x.s.id}:</strong> ${x.s.mediaLabel}<br>
-                <span style="color:var(--color-text-muted);">Feedback: <strong style="color:var(--accent-pink)">${x.s.feedback.title}</strong> — ${x.s.feedback.clues[0]}</span>
-              </div>
-            `).join("")}
-          `;
-        } else {
-          missedDiv.innerHTML = "";
-        }
-      }
-
-      function showGameOver() {
-        gameScreen.style.display = "none";
-        gameOverScreen.style.display = "block";
-        document.getElementById("game-status-left").textContent = "Game Over";
-
-        document.getElementById("go-rodada").textContent = `${currentRound}`;
-        document.getElementById("go-pontos").textContent = score;
-        const acertos = roundResults.filter(r => r === "correct").length;
-        document.getElementById("go-acertos").textContent = acertos;
-      }
-
-      function resetGame() {
-        resultScreen.style.display = "none";
-        gameOverScreen.style.display = "none";
-        introScreen.style.display = "block";
-        gameScreen.style.display = "none";
-        score = 0;
-        currentRound = 0;
-        roundResults = [];
-      }
-
-      function updateLivesDisplay() {
-        const el = document.getElementById("hud-lives");
-        if (el) {
-          let html = "";
-          for (let i = 0; i < 3; i++) {
-            if (i < lives) {
-              html += "❤️";
-            } else {
-              html += "🖤";
-            }
-          }
-          el.innerHTML = html;
-        }
-      }
-
-      function updateStreakDisplay() {
-        const el = document.getElementById("hud-streak");
-        if (el) {
-          el.textContent = streak > 0 ? `${streak}🔥` : "—";
-        }
-      }
-
-      function shareResult() {
-        const acertos = roundResults.filter(r => r === "correct").length;
-        const text = `🕵️ MISSÃO SUPER CAPI — Acertei ${acertos}/${SCENARIOS.length} estágios na Missão de Cibersegurança CapiSafe!
-Pontuação: ${score} pts
-
-Você consegue superar o desafio retrô? Faça os bloqueios preventivos e jogue em: ${window.location.origin}${window.location.pathname.replace('jogo.html', 'index.html')}`;
-        
-        if (navigator.share) {
-          navigator.share({
-            title: "Super Capi — CapiSafe",
-            text: text,
-            url: window.location.href
-          }).catch(console.error);
-        } else {
-          navigator.clipboard.writeText(text).then(() => {
-            if (typeof showToast === "function") {
-              showToast("Resultado copiado para a área de transferência! Compartilhe!", "success");
-            } else {
-              alert("Resultado copiado para a área de transferência!");
-            }
-          }).catch(() => {
-            alert("Não foi possível copiar automaticamente. Selecione e copie o texto.");
-          });
-        }
-      }
+  <a href="index.html" class="back-link">← CapiSafe</a>
+  <canvas id="game-canvas"></canvas>
+
+<script>
+// ─────────────────────────────────────────────────────────────────
+// CAPI DETECTA — Arcade game CapiSafe
+// Intercepte golpes (vermelho) antes que atinjam a população!
+// Evite mensagens legítimas (verde) — falso alarme custa uma vida.
+// ─────────────────────────────────────────────────────────────────
+
+const canvas = document.getElementById('game-canvas');
+const ctx    = canvas.getContext('2d');
+
+// Internal resolution
+const W = 800, H = 540;
+canvas.width  = W;
+canvas.height = H;
+
+// Scale to fit screen
+function resize() {
+  const scale = Math.min(
+    (window.innerWidth  - 16) / W,
+    (window.innerHeight - 16) / H,
+    1
+  );
+  canvas.style.width  = Math.floor(W * scale) + 'px';
+  canvas.style.height = Math.floor(H * scale) + 'px';
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ─── ROUNDRECT POLYFILL ───────────────────────────────────────────
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    this.beginPath();
+    this.moveTo(x + r, y);
+    this.arcTo(x + w, y,     x + w, y + h, r);
+    this.arcTo(x + w, y + h, x,     y + h, r);
+    this.arcTo(x,     y + h, x,     y,     r);
+    this.arcTo(x,     y,     x + w, y,     r);
+    this.closePath();
+    return this;
+  };
+}
+
+// ─── ASSETS ──────────────────────────────────────────────────────
+const capiImg = new Image();
+capiImg.src = 'imagens/capi_detective.png';
+
+// ─── CONSTANTS ───────────────────────────────────────────────────
+const CAPI_W  = 68, CAPI_H  = 68;
+const CARD_W  = 138, CARD_H = 60;
+const GROUND_Y = H - 80;   // capi top-edge resting position
+const CAPI_SPEED = 7;
+
+const SCAM_DATA = [
+  { label: 'FALSO PIX',     sub: 'Transferência urgente!',      icon: '💸' },
+  { label: 'PHISHING',      sub: 'Clique neste link agora',     icon: '🎣' },
+  { label: 'VAGA FALSA',    sub: 'Ganhe R$500/dia em casa',     icon: '💼' },
+  { label: 'BANCO FALSO',   sub: 'Central de segurança',        icon: '🏦' },
+  { label: 'PRÊMIO FALSO',  sub: 'Você ganhou R$1.000!',        icon: '🎁' },
+  { label: 'CLONAGEM',      sub: 'WhatsApp de familiar',        icon: '📱' },
+  { label: 'LINK SUSPEITO', sub: 'Rastreio Correios / INSS',    icon: '🔗' },
+  { label: 'DEEPFAKE',      sub: 'Voz de parente em apuros',    icon: '🎙️' },
+  { label: 'GOLPE AMOROSO', sub: 'Relacionamento + Pix',        icon: '💔' },
+  { label: 'INVEST. FALSO', sub: 'Lucro garantido de 30%',      icon: '📈' },
+];
+
+const LEGIT_DATA = [
+  { label: 'MENSAGEM REAL', sub: 'Remetente verificado',        icon: '✅' },
+  { label: 'PIX REAL',      sub: 'Transação legítima',          icon: '✅' },
+  { label: 'BANCO REAL',    sub: 'Canal oficial seguro',        icon: '✅' },
+  { label: 'NOTÍCIA OK',    sub: 'Fonte confiável',             icon: '✅' },
+];
+
+// ─── STATE ───────────────────────────────────────────────────────
+let state      = 'menu';   // menu | playing | paused | gameover
+let score      = 0;
+let lives      = 3;
+let level      = 1;
+let caught     = 0;        // scams caught this game
+let frameCount = 0;
+let highScore  = parseInt(localStorage.getItem('capi-hiscore') || '0');
+
+let capiX     = W / 2;
+let capiAnim  = 0;         // subtle bob
+let tutorialTimer = 0;     // in-game hint countdown
+
+let cards      = [];
+let particles  = [];
+let feedbacks  = [];       // floating score texts
+let flashAlpha = 0;
+let shakeAmt   = 0;
+
+const keys = {};
+let touchTargetX = null;
+
+// ─── INPUT ───────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  keys[e.code] = true;
+  if (e.code === 'Space' || e.code === 'Enter' || e.code === 'NumpadEnter') {
+    if (state === 'menu' || state === 'gameover') startGame();
+    else if (state === 'playing') state = 'paused';
+    else if (state === 'paused')  state = 'playing';
+    e.preventDefault();
+  }
+  if (e.code === 'Escape') {
+    if (state === 'playing') state = 'paused';
+    else if (state === 'paused') state = 'playing';
+  }
+  // Suppress arrow key page scroll
+  if (['ArrowLeft','ArrowRight','Space'].includes(e.code)) e.preventDefault();
+});
+document.addEventListener('keyup', e => { keys[e.code] = false; });
+
+// Touch: follow finger X
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  if (state === 'menu' || state === 'gameover') { startGame(); return; }
+  touchTargetX = getTouchX(e);
+}, { passive: false });
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  touchTargetX = getTouchX(e);
+}, { passive: false });
+canvas.addEventListener('touchend',   () => { touchTargetX = null; });
+canvas.addEventListener('click', () => {
+  if (state === 'menu' || state === 'gameover') startGame();
+  else if (state === 'paused') state = 'playing';
+});
+
+function getTouchX(e) {
+  const rect   = canvas.getBoundingClientRect();
+  const scaleX = W / rect.width;
+  return (e.touches[0].clientX - rect.left) * scaleX;
+}
+
+// ─── GAME START ───────────────────────────────────────────────────
+function startGame() {
+  state = 'playing'; score = 0; lives = 3; level = 1; caught = 0;
+  frameCount = 0; capiX = W / 2; cards = []; particles = []; feedbacks = [];
+  flashAlpha = 0; shakeAmt = 0; tutorialTimer = 260;
+}
+
+// ─── SPAWN ───────────────────────────────────────────────────────
+function spawnCard() {
+  const isScam = Math.random() < 0.62;
+  const data   = isScam
+    ? SCAM_DATA [Math.floor(Math.random() * SCAM_DATA.length)]
+    : LEGIT_DATA[Math.floor(Math.random() * LEGIT_DATA.length)];
+
+  // Avoid spawning directly on top of each other
+  let x;
+  let tries = 0;
+  do {
+    x = 20 + Math.random() * (W - CARD_W - 40);
+    tries++;
+  } while (tries < 10 && cards.some(c => Math.abs(c.x - x) < CARD_W + 20 && c.y < 80));
+
+  const baseSpeed = 1.6 + level * 0.45;
+  cards.push({
+    x, y: -CARD_H - 10,
+    vy: baseSpeed + Math.random() * 1.2,
+    isScam,
+    label: data.label,
+    sub:   data.sub,
+    icon:  data.icon,
+    opacity: 1,
+    dying: false,
+    dyingUp: false,   // caught: float up
+  });
+}
+
+function spawnRate() {
+  // frames between spawns, decreasing with level
+  return Math.max(34, 88 - level * 9);
+}
+
+// ─── PARTICLES ───────────────────────────────────────────────────
+function burst(x, y, good) {
+  const color1 = good ? '#00f5d4' : '#ef4444';
+  const color2 = good ? '#a855f7' : '#f97316';
+  for (let i = 0; i < 14; i++) {
+    const angle = (Math.PI * 2 * i) / 14;
+    const spd   = 2.5 + Math.random() * 4;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * spd,
+      vy: Math.sin(angle) * spd - 1.5,
+      life: 1,
+      color: i % 2 === 0 ? color1 : color2,
+      size:  2.5 + Math.random() * 3.5,
     });
-  </script>
+  }
+}
+
+function addFeedback(x, y, text, color) {
+  feedbacks.push({ x, y, vy: -1.2, text, color, life: 1 });
+}
+
+// ─── DAMAGE ──────────────────────────────────────────────────────
+function takeDamage(reason) {
+  lives--;
+  flashAlpha = 0.45;
+  shakeAmt   = 8;
+  addFeedback(W / 2, H / 2 - 40, reason, '#ef4444');
+  if (lives <= 0) {
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem('capi-hiscore', highScore);
+    }
+    state = 'gameover';
+  }
+}
+
+// ─── UPDATE ──────────────────────────────────────────────────────
+function update() {
+  if (state !== 'playing') return;
+  frameCount++;
+  capiAnim += 0.07;
+
+  // Move Capi
+  if (touchTargetX !== null) {
+    capiX += (touchTargetX - capiX) * 0.18;
+  } else {
+    if (keys['ArrowLeft']  || keys['KeyA']) capiX -= CAPI_SPEED;
+    if (keys['ArrowRight'] || keys['KeyD']) capiX += CAPI_SPEED;
+  }
+  capiX = Math.max(CAPI_W / 2 + 8, Math.min(W - CAPI_W / 2 - 8, capiX));
+
+  // Spawn cards
+  if (frameCount % spawnRate() === 0) spawnCard();
+
+  // Level: every 12 scams caught
+  level = 1 + Math.floor(caught / 12);
+  if (tutorialTimer > 0) tutorialTimer--;
+
+  // Update cards
+  for (let i = cards.length - 1; i >= 0; i--) {
+    const c = cards[i];
+
+    if (c.dying) {
+      c.opacity -= 0.07;
+      if (c.dyingUp) c.y -= 2.5;
+      if (c.opacity <= 0) cards.splice(i, 1);
+      continue;
+    }
+
+    c.y += c.vy;
+
+    // Collision check: card bottom touches Capi zone
+    const cLeft   = capiX - CAPI_W * 0.48;
+    const cRight  = capiX + CAPI_W * 0.48;
+    const cardCX  = c.x + CARD_W / 2;
+    const cardBot = c.y + CARD_H;
+
+    const hOverlap = cardCX > cLeft && cardCX < cRight;
+    const vContact = cardBot >= GROUND_Y && c.y <= GROUND_Y + CAPI_H;
+
+    if (hOverlap && vContact) {
+      burst(cardCX, GROUND_Y, c.isScam);
+      if (c.isScam) {
+        const pts = 10 * level;
+        score  += pts;
+        caught++;
+        addFeedback(cardCX, GROUND_Y - 30, `+${pts}  ${c.label}`, '#00f5d4');
+        c.dying   = true;
+        c.dyingUp = true;
+      } else {
+        takeDamage('FALSO ALARME! -1 vida');
+        c.dying = true;
+      }
+      continue;
+    }
+
+    // Card exits bottom
+    if (c.y > H + 10) {
+      if (c.isScam) takeDamage('GOLPE PASSOU! -1 vida');
+      cards.splice(i, 1);
+    }
+  }
+
+  // Update particles
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x  += p.vx; p.y += p.vy; p.vy += 0.18;
+    p.life -= 0.028;
+    if (p.life <= 0) particles.splice(i, 1);
+  }
+
+  // Update feedbacks
+  for (let i = feedbacks.length - 1; i >= 0; i--) {
+    const f = feedbacks[i];
+    f.y    += f.vy;
+    f.life -= 0.022;
+    if (f.life <= 0) feedbacks.splice(i, 1);
+  }
+
+  // Decay
+  if (flashAlpha > 0) flashAlpha = Math.max(0, flashAlpha - 0.025);
+  if (shakeAmt   > 0) shakeAmt   = Math.max(0, shakeAmt   - 0.7);
+}
+
+// ─── DRAW HELPERS ────────────────────────────────────────────────
+function drawRoundRect(x, y, w, h, r, fill, stroke, lw) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, r);
+  if (fill)   { ctx.fillStyle   = fill;   ctx.fill();   }
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw || 1.5; ctx.stroke(); }
+}
+
+function text(t, x, y, font, color, align) {
+  ctx.font      = font;
+  ctx.fillStyle = color;
+  ctx.textAlign = align || 'left';
+  ctx.fillText(t, x, y);
+}
+
+// ─── DRAW SCENE ──────────────────────────────────────────────────
+function drawBG() {
+  // Sky gradient
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0,   '#060c1a');
+  g.addColorStop(0.7, '#0d1121');
+  g.addColorStop(1,   '#0a1628');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid
+  ctx.strokeStyle = 'rgba(0,245,212,0.035)';
+  ctx.lineWidth   = 1;
+  for (let x = 0; x <= W; x += 48) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = 0; y <= H; y += 48) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // Ground
+  const groundY = GROUND_Y + CAPI_H + 6;
+  ctx.strokeStyle = 'rgba(0,245,212,0.25)';
+  ctx.lineWidth   = 2;
+  ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(W, groundY); ctx.stroke();
+
+  // Ground glow strip
+  const glow = ctx.createLinearGradient(0, groundY, 0, groundY + 30);
+  glow.addColorStop(0, 'rgba(0,245,212,0.07)');
+  glow.addColorStop(1, 'rgba(0,245,212,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, groundY, W, 30);
+}
+
+function drawCard(c) {
+  ctx.globalAlpha = c.opacity;
+  const { x, y, isScam, label, sub, icon } = c;
+
+  const bg     = isScam ? '#1c0808' : '#081c0e';
+  const border = isScam ? '#ef4444' : '#22c55e';
+  const accent = isScam ? '#ef4444' : '#22c55e';
+  const lbl    = isScam ? '#fca5a5' : '#86efac';
+
+  ctx.shadowColor = isScam ? 'rgba(239,68,68,0.35)' : 'rgba(34,197,94,0.25)';
+  ctx.shadowBlur  = 10;
+  drawRoundRect(x, y, CARD_W, CARD_H, 8, bg, border, 2);
+  ctx.shadowBlur  = 0;
+
+  // Left stripe
+  ctx.fillStyle = accent;
+  ctx.beginPath(); ctx.roundRect(x, y, 5, CARD_H, [8, 0, 0, 8]); ctx.fill();
+
+  // Label
+  text(label, x + 15, y + 22, 'bold 12.5px monospace', lbl);
+
+  // Sub label
+  text(sub, x + 15, y + 38, '10px monospace', 'rgba(226,232,240,0.5)');
+
+  // Icon
+  ctx.font      = '18px serif';
+  ctx.textAlign = 'right';
+  ctx.fillText(icon, x + CARD_W - 8, y + 30);
+  ctx.textAlign = 'left';
+
+  ctx.globalAlpha = 1;
+}
+
+function drawCapi() {
+  const bobY = GROUND_Y + Math.sin(capiAnim) * 2;
+
+  // Shadow ellipse
+  const sh = ctx.createRadialGradient(capiX, GROUND_Y + CAPI_H + 8, 4, capiX, GROUND_Y + CAPI_H + 8, 42);
+  sh.addColorStop(0, 'rgba(0,245,212,0.18)');
+  sh.addColorStop(1, 'rgba(0,245,212,0)');
+  ctx.fillStyle = sh;
+  ctx.beginPath();
+  ctx.ellipse(capiX, GROUND_Y + CAPI_H + 10, 42, 10, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  if (capiImg.complete && capiImg.naturalWidth > 0) {
+    ctx.drawImage(capiImg, capiX - CAPI_W / 2, bobY, CAPI_W, CAPI_H);
+  } else {
+    // Fallback emoji
+    ctx.font      = '52px serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('🦫', capiX, bobY + CAPI_H - 6);
+    ctx.textAlign = 'left';
+  }
+}
+
+function drawHUD() {
+  // Left: score + level
+  text(`SCORE: ${score}`, 18, 30, 'bold 14px monospace', '#00f5d4');
+  text(`NÍVEL: ${level}`,  18, 50, '12px monospace',      '#a855f7');
+  text(`RECORDE: ${highScore}`, 18, 68, '10px monospace', 'rgba(226,232,240,0.35)');
+
+  // Right: lives as shields
+  ctx.textAlign = 'right';
+  ctx.font      = '22px serif';
+  for (let i = 0; i < 3; i++) {
+    ctx.globalAlpha = i < lives ? 1 : 0.18;
+    ctx.fillText('🛡️', W - 16 - i * 32, 34);
+  }
+  ctx.globalAlpha = 1;
+  ctx.textAlign   = 'left';
+
+  // Scams caught progress bar toward next level
+  const progress  = (caught % 12) / 12;
+  const barW = 120, barH = 5;
+  const bx = W / 2 - barW / 2, by = 12;
+  drawRoundRect(bx, by, barW, barH, 3, 'rgba(255,255,255,0.06)', null);
+  if (progress > 0) drawRoundRect(bx, by, barW * progress, barH, 3, '#a855f7', null);
+  text(`NÍVEL ${level+1} em ${12 - caught%12} golpes`, W/2, by + barH + 12,
+       '9px monospace', 'rgba(168,85,247,0.6)', 'center');
+}
+
+function drawParticles() {
+  for (const p of particles) {
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle   = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawFeedbacks() {
+  for (const f of feedbacks) {
+    ctx.globalAlpha = Math.min(1, f.life * 2);
+    ctx.shadowColor = f.color;
+    ctx.shadowBlur  = 6;
+    text(f.text, f.x, f.y, 'bold 13px monospace', f.color, 'center');
+    ctx.shadowBlur  = 0;
+  }
+  ctx.globalAlpha = 1;
+}
+
+// ─── SCREENS ─────────────────────────────────────────────────────
+function drawMenu() {
+  drawBG();
+
+  // Big title
+  ctx.shadowColor = '#00f5d4'; ctx.shadowBlur = 20;
+  text('CAPI DETECTA', W/2, H/2 - 110, 'bold 40px monospace', '#00f5d4', 'center');
+  ctx.shadowBlur = 0;
+
+  text('Defenda o Brasil dos golpes digitais!', W/2, H/2 - 72,
+       '14px monospace', 'rgba(226,232,240,0.55)', 'center');
+
+  // Capi image centred
+  if (capiImg.complete && capiImg.naturalWidth > 0) {
+    const sz = 90;
+    ctx.drawImage(capiImg, W/2 - sz/2, H/2 - 48, sz, sz);
+  } else {
+    ctx.font = '72px serif'; ctx.textAlign = 'center';
+    ctx.fillText('🦫', W/2, H/2 + 44); ctx.textAlign = 'left';
+  }
+
+  // Instructions box — 2 columns: SCAM side | LEGIT side
+  const bx = W/2 - 238, by = H/2 + 52, bw = 476, bh = 118;
+  drawRoundRect(bx, by, bw, bh, 10, 'rgba(6,12,26,0.7)', 'rgba(0,245,212,0.18)', 1.5);
+
+  // Controls row
+  ctx.fillStyle = 'rgba(226,232,240,0.45)';
+  ctx.font = '10.5px monospace'; ctx.textAlign = 'center';
+  ctx.fillText('CONTROLES: ← →  ou  A D  para mover   |   3 vidas 🛡️', W/2, by + 18);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(bx + 16, by + 26); ctx.lineTo(bx + bw - 16, by + 26); ctx.stroke();
+
+  // Left column: scam
+  const col1 = bx + 20, col2 = bx + bw / 2 + 10;
+
+  // Scam header
+  ctx.fillStyle = '#ef4444'; ctx.font = 'bold 11px monospace'; ctx.textAlign = 'left';
+  ctx.fillText('🔴  CARD VERMELHO = GOLPE', col1, by + 44);
+  ctx.fillStyle = '#fca5a5'; ctx.font = '10.5px monospace';
+  ctx.fillText('→ posicione a Capi embaixo', col1 + 8, by + 60);
+  ctx.fillText('→ golpe interceptado = +pontos', col1 + 8, by + 76);
+  ctx.fillStyle = '#f97316'; ctx.font = '10px monospace';
+  ctx.fillText('✗ golpe escapou pelo fundo = -1 vida', col1 + 8, by + 92);
+
+  // Vertical divider
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+  ctx.beginPath(); ctx.moveTo(bx + bw/2, by + 30); ctx.lineTo(bx + bw/2, by + bh - 8); ctx.stroke();
+
+  // Legit header
+  ctx.fillStyle = '#22c55e'; ctx.font = 'bold 11px monospace';
+  ctx.fillText('🟢  CARD VERDE = LEGÍTIMO', col2, by + 44);
+  ctx.fillStyle = '#86efac'; ctx.font = '10.5px monospace';
+  ctx.fillText('→ NÃO é golpe — esquive!', col2 + 8, by + 60);
+  ctx.fillText('→ passar = sem penalidade', col2 + 8, by + 76);
+  ctx.fillStyle = '#f97316'; ctx.font = '10px monospace';
+  ctx.fillText('✗ tocar = falso alarme = -1 vida', col2 + 8, by + 92);
+
+  ctx.textAlign = 'left';
+
+  // Pulsing CTA
+  const pulse = 0.65 + 0.35 * Math.sin(Date.now() / 420);
+  ctx.globalAlpha = pulse;
+  ctx.shadowColor = '#00f5d4'; ctx.shadowBlur = 8;
+  text('[ ENTER / CLIQUE / TOQUE PARA JOGAR ]', W/2, by + bh + 22,
+       'bold 14px monospace', '#00f5d4', 'center');
+  ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+
+  if (highScore > 0) {
+    text(`Recorde: ${highScore} pts`, W/2, by + bh + 44, '12px monospace', '#a855f7', 'center');
+  }
+}
+
+function drawPause() {
+  ctx.fillStyle = 'rgba(6,12,26,0.72)';
+  ctx.fillRect(0, 0, W, H);
+  ctx.shadowColor = '#a855f7'; ctx.shadowBlur = 16;
+  text('PAUSADO', W/2, H/2 - 10, 'bold 32px monospace', '#a855f7', 'center');
+  ctx.shadowBlur = 0;
+  text('ENTER / ESPAÇO / CLIQUE para continuar', W/2, H/2 + 28,
+       '12px monospace', 'rgba(226,232,240,0.5)', 'center');
+}
+
+function drawGameOver() {
+  drawBG();
+  drawParticles();
+
+  ctx.shadowColor = '#ef4444'; ctx.shadowBlur = 24;
+  text('FIM DE JOGO', W/2, H/2 - 98, 'bold 36px monospace', '#ef4444', 'center');
+  ctx.shadowBlur = 0;
+
+  // Score box
+  const bx = W/2 - 180, by = H/2 - 74, bw = 360, bh = 86;
+  drawRoundRect(bx, by, bw, bh, 10, 'rgba(0,0,0,0.35)', 'rgba(0,245,212,0.2)', 1.5);
+
+  text(`Pontuação: ${score}`, W/2, by + 30, 'bold 22px monospace', '#00f5d4', 'center');
+
+  if (score > 0 && score >= highScore) {
+    ctx.shadowColor = '#fbbf24'; ctx.shadowBlur = 10;
+    text('NOVO RECORDE!', W/2, by + 54, 'bold 14px monospace', '#fbbf24', 'center');
+    ctx.shadowBlur = 0;
+  } else {
+    text(`Recorde: ${highScore}`, W/2, by + 54, '13px monospace', '#a855f7', 'center');
+  }
+
+  text(`Golpes interceptados: ${caught}  •  Nível: ${level}`,
+       W/2, by + 74, '11px monospace', 'rgba(226,232,240,0.45)', 'center');
+
+  // Capi at bottom of box
+  if (capiImg.complete && capiImg.naturalWidth > 0) {
+    ctx.drawImage(capiImg, W/2 - 36, H/2 + 18, 72, 72);
+  }
+
+  const pulse = 0.65 + 0.35 * Math.sin(Date.now() / 420);
+  ctx.globalAlpha = pulse;
+  ctx.shadowColor = '#00f5d4'; ctx.shadowBlur = 8;
+  text('[ JOGAR NOVAMENTE ]', W/2, H/2 + 112, 'bold 16px monospace', '#00f5d4', 'center');
+  ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+}
+
+// ─── MAIN DRAW ───────────────────────────────────────────────────
+function draw() {
+  ctx.save();
+
+  // Screen shake
+  if (shakeAmt > 0) {
+    ctx.translate((Math.random() - 0.5) * shakeAmt, (Math.random() - 0.5) * shakeAmt);
+  }
+
+  if (state === 'menu') {
+    drawMenu();
+  } else if (state === 'gameover') {
+    drawGameOver();
+  } else {
+    // playing or paused
+    drawBG();
+
+    for (const c of cards) drawCard(c);
+
+    drawParticles();
+    drawCapi();
+    drawFeedbacks();
+    drawHUD();
+
+    // Red damage flash
+    if (flashAlpha > 0) {
+      ctx.fillStyle = `rgba(239,68,68,${flashAlpha})`;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    // In-game tutorial hint
+    if (tutorialTimer > 0) {
+      const alpha = Math.min(1, tutorialTimer / 50) * Math.min(1, tutorialTimer / 50);
+      ctx.globalAlpha = alpha * 0.82;
+      ctx.fillStyle = 'rgba(6,12,26,0.7)';
+      ctx.beginPath();
+      ctx.roundRect(W/2 - 250, H - 46, 500, 30, 6);
+      ctx.fill();
+      ctx.globalAlpha = alpha * 0.82;
+      ctx.font = '11.5px monospace'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#00f5d4';
+      ctx.fillText('🔴 Fique embaixo do card VERMELHO para interceptar o golpe', W/2, H - 26);
+      ctx.globalAlpha = 1; ctx.textAlign = 'left';
+    }
+
+    if (state === 'paused') drawPause();
+  }
+
+  ctx.restore();
+}
+
+// ─── LOOP ────────────────────────────────────────────────────────
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+loop();
+</script>
 </body>
 </html>
