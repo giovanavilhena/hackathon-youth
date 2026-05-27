@@ -115,6 +115,11 @@
           </div>
         </div>
 
+        <!-- RESULT COUNT -->
+        <p style="font-size:11px; font-family:var(--font-mono); color:var(--color-text-muted); margin-bottom:10px;">
+          <span id="scams-count"></span>
+        </p>
+
         <!-- SCAMS GRID (ACCESSIBILITY: ARIA-LIVE) -->
         <div class="scams-grid" id="scams-grid-container" aria-live="polite" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
           <!-- Preenchido via JS -->
@@ -316,7 +321,7 @@
           return matchCategory && matchQuery;
         });
 
-        scamsCount.textContent = `${filtered.length} Itens Encontrados`;
+        if (scamsCount) scamsCount.textContent = `${filtered.length} Itens Encontrados`;
 
         if (filtered.length === 0) {
           gridContainer.innerHTML = `
