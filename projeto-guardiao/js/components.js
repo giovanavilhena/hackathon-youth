@@ -46,9 +46,9 @@
   const CHATBOT_HTML = `
   <!-- WIDGET DE CHATBOT FLUTUANTE INTERATIVO (CAPI BOT) -->
   <div class="chatbot-widget minimized" id="chatbot-widget">
-    <button class="chatbot-toggle outset-border" id="chatbot-toggle" aria-label="Falar com Especialista em Golpes">
+    <button class="chatbot-toggle outset-border" id="chatbot-toggle" aria-label="Falar com a CapiBot">
       <img src="imagens/capi_detective.png" alt="Capi" class="logo-img" style="width:20px;height:20px;margin-right:6px;">
-      <span class="chatbot-toggle-text">Falar com Especialista</span>
+      <span class="chatbot-toggle-text">Falar com a CapiBot</span>
       <span class="chatbot-pulse-dot"></span>
     </button>
     <div class="chatbot-window window outset-border">
