@@ -100,7 +100,7 @@ bot.on('text', async (ctx) => {
       responseMsg += `${index + 1}. ${rec}\n`;
     });
 
-    responseMsg += `\n_Quer uma análise mais completa com IA do Gemini? Acesse nosso site oficial._`;
+    responseMsg += `\n_Para uma análise completa com IA, acesse o site oficial do CapiSafe._`;
 
     // Envia o laudo
     ctx.replyWithMarkdown(responseMsg);
