@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Academia Capi — CapiSafe</title>
+  <link rel="icon" type="image/png" href="imagens/capi_detective.png">
   <link rel="stylesheet" href="css/estilo.css">
   <style>
     /* ── Academia Capi Local Styles ── */
     .academia-hero {
-      background: linear-gradient(135deg, rgba(0,245,212,0.08) 0%, rgba(168,85,247,0.08) 100%);
+      background: linear-gradient(135deg, rgba(0,245,212,0.08) 0%, rgba(255,46,147,0.08) 100%);
       border-bottom: 1px solid var(--color-border);
       padding: 3.5rem 2rem 2.5rem;
       text-align: center;
@@ -181,7 +182,7 @@
     .hbar-fill {
       height: 100%;
       border-radius: 6px;
-      background: linear-gradient(90deg, var(--accent-teal), var(--accent-purple));
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-pink));
       animation: hbar-grow 1.2s ease-out forwards;
       transform-origin: left;
     }
@@ -276,7 +277,7 @@
       padding: 1.4rem;
       transition: var(--transition-normal);
     }
-    .prevention-card:hover { border-color: var(--accent-purple); }
+    .prevention-card:hover { border-color: var(--accent-pink); box-shadow: 0 0 12px rgba(255, 46, 147, 0.2); }
     .prevention-card .p-icon {
       font-size: 2rem;
       margin-bottom: 0.75rem;
@@ -426,9 +427,9 @@
       align-items: center;
       gap: 0.75rem;
     }
-    .cgi-slot:hover { border-color: var(--accent-purple); background: var(--accent-purple-light); }
+    .cgi-slot:hover { border-color: var(--accent-pink); background: var(--accent-pink-light); }
     .cgi-slot .slot-icon { font-size: 2rem; opacity: 0.5; }
-    .cgi-slot h4 { font-size: 0.9rem; color: var(--accent-purple); font-weight: 600; }
+    .cgi-slot h4 { font-size: 0.9rem; color: var(--accent-pink); font-weight: 600; }
     .cgi-slot p { font-size: 0.8rem; color: var(--color-text-muted); line-height: 1.5; }
     .cgi-slot .slot-badge {
       font-family: var(--font-mono);
@@ -595,6 +596,114 @@
     }
     .btn-quiz:hover { background: var(--accent-teal); color: #080C14; }
     .btn-quiz:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── Seção de Autoproteção Ativa (Bloqueios CPF) ── */
+    .protection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .protection-card {
+      background: var(--bg-card);
+      border: 2px solid var(--color-border);
+      border-radius: 16px;
+      padding: 1.6rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-flat);
+      transition: var(--transition-normal);
+    }
+    .protection-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-pink));
+    }
+    .protection-card:hover {
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 20px rgba(255, 46, 147, 0.25), var(--shadow-flat);
+      transform: translateY(-4px);
+    }
+    .protection-card .p-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .protection-card .p-icon {
+      font-size: 2.2rem;
+    }
+    .protection-card .badge-gov {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--accent-pink);
+      border: 1px solid var(--accent-pink);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: var(--accent-pink-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .protection-card h4 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      color: var(--color-text);
+    }
+    .protection-card .p-card-desc {
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .protection-card .step-list {
+      padding-left: 1.2rem;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.8rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      list-style-type: square;
+    }
+    .protection-card .step-list li {
+      margin-bottom: 0.5rem;
+    }
+    .protection-card .step-list li::marker {
+      color: var(--accent-pink);
+    }
+    .protection-card .card-footer-action {
+      margin-top: auto;
+      text-align: center;
+    }
+    .btn-cyber {
+      width: 100%;
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 46, 147, 0.05) 100%);
+      color: var(--accent-teal) !important;
+      border: 2px solid var(--accent-teal);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-normal);
+      box-shadow: var(--shadow-flat-sm);
+    }
+    .btn-cyber:hover {
+      background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-pink) 100%);
+      color: #000000 !important;
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 12px rgba(0, 245, 212, 0.4);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
@@ -603,20 +712,20 @@
   <header class="app-header outset-border">
     <div class="header-container">
       <a href="index.html" class="logo-link">
-        <span class="logo-icon" aria-hidden="true">🦫</span>
+        <img src="imagens/capi_detective.png" alt="Logo CapiSafe" class="logo-img">
         <span class="logo-text">CapiSafe</span>
       </a>
       <div style="display: flex; gap: 8px; align-items: center;">
         <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
         <nav class="app-nav" aria-label="Navegação Principal">
           <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
-          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
-          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-          <a href="letramento.html" class="nav-link outset-border active" id="nav-letramento">Academia</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Capi, vê pra mim?</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Capi, anota aí</a>
           <a href="jogo.html" class="nav-link outset-border" id="nav-jogo">🎮 Jogo</a>
-          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <a href="letramento.html" class="nav-link outset-border active" id="nav-letramento">Academia</a>
+          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
           <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
         </nav>
       </div>
@@ -634,6 +743,7 @@
       <a href="#panorama">📊 Panorama</a>
       <a href="#noticias">📰 Notícias</a>
       <a href="#prevencao">🛡️ Prevenção</a>
+      <a href="#tutoriais-protecao">🔒 Tutoriais</a>
       <a href="#videos-nic">▶️ Vídeos NIC.br</a>
       <a href="#conselheiros">🎙️ CGI.br</a>
       <a href="#quiz">🧠 Quiz</a>
@@ -851,6 +961,103 @@
   <hr class="section-divider">
 
   <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SEÇÃO 3B — TUTORIAIS DE AUTO-PROTEÇÃO ATIVA         -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section id="tutoriais-protecao" class="academia-section fade-up">
+    <p class="section-label">// seção especial</p>
+    <h2 class="section-title">Tutoriais de Bloqueio &amp; Auto-Proteção Ativa</h2>
+    <p class="section-subtitle">Aprenda a fazer bloqueios práticos usando portais oficiais do Governo e do Banco Central para se blindar contra golpes.</p>
+
+    <div class="protection-grid">
+      <!-- Card 1: REDESIM -->
+      <div class="protection-card">
+        <div class="p-header">
+          <span class="p-icon">🏢</span>
+          <span class="badge-gov">Gov.br</span>
+        </div>
+        <h4>Bloqueio de Empresas (REDESIM)</h4>
+        <p class="p-card-desc">Evite que golpistas abram CNPJs falsos ou empresas fantasmas em seu nome usando o seu CPF.</p>
+        <ul class="step-list">
+          <li>Acesse o portal da <strong>REDESIM</strong> do Governo Federal.</li>
+          <li>Faça login com sua conta <strong>Gov.br</strong> (nível Prata ou Ouro).</li>
+          <li>Navegue até a área de <strong>"Meus CNPJs"</strong> ou consulta de dados.</li>
+          <li>Ative a opção de bloqueio/restrição para novos registros sob seu CPF.</li>
+        </ul>
+        <div class="card-footer-action">
+          <a href="https://www.gov.br/empresas-e-negocios/pt-br/redesim" target="_blank" rel="noopener" class="btn-cyber">
+            ↗ Acessar REDESIM
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2: Registrato -->
+      <div class="protection-card">
+        <div class="p-header">
+          <span class="p-icon">🏦</span>
+          <span class="badge-gov">BCB</span>
+        </div>
+        <h4>Contas e Dívidas (Registrato)</h4>
+        <p class="p-card-desc">Monitore contas bancárias, empréstimos, cartões de crédito e chaves Pix desconhecidas abertas no seu CPF.</p>
+        <ul class="step-list">
+          <li>Acesse o sistema <strong>Registrato</strong> do Banco Central.</li>
+          <li>Entre com seu login <strong>Gov.br</strong> ou pelo credenciamento do seu banco.</li>
+          <li>Gere relatórios de <strong>"Contas e Relacionamentos"</strong> (CCS) e <strong>"Empréstimos e Financiamentos"</strong> (SCR).</li>
+          <li>Se achar algo suspeito, contate imediatamente o banco emissor para contestação.</li>
+        </ul>
+        <div class="card-footer-action">
+          <a href="https://registrato.bcb.gov.br/" target="_blank" rel="noopener" class="btn-cyber">
+            ↗ Acessar Registrato
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 3: Bets -->
+      <div class="protection-card">
+        <div class="p-header">
+          <span class="p-icon">🎰</span>
+          <span class="badge-gov">Min. Fazenda</span>
+        </div>
+        <h4>Autoexclusão de Apostas (Bets)</h4>
+        <p class="p-card-desc">Bloqueie preventivamente seu CPF em todas as casas de apostas online autorizadas no Brasil.</p>
+        <ul class="step-list">
+          <li>Acesse o portal oficial de <strong>Autoexclusão de Apostas</strong> do Gov.br.</li>
+          <li>Autentique-se com sua conta <strong>Gov.br</strong>.</li>
+          <li>Escolha o período do bloqueio (de 1 a 12 meses, ou por tempo indeterminado).</li>
+          <li>Confirme a solicitação para impedir novos cadastros ou acessos em todas as bets.</li>
+        </ul>
+        <div class="card-footer-action">
+          <a href="https://www.gov.br/autoexclusaoapostas" target="_blank" rel="noopener" class="btn-cyber">
+            ↗ Bloquear Bets
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 4: Não Me Perturbe -->
+      <div class="protection-card">
+        <div class="p-header">
+          <span class="p-icon">📞</span>
+          <span class="badge-gov">Telemarketing</span>
+        </div>
+        <h4>Bloqueio de Ligações (Não Me Perturbe)</h4>
+        <p class="p-card-desc">Bloqueie ligações chatas e insistentes de ofertas de crédito consignado e operadoras de telefonia.</p>
+        <ul class="step-list">
+          <li>Acesse o site oficial do <strong>Não Me Perturbe</strong>.</li>
+          <li>Clique em <strong>"Cadastro"</strong> e crie uma conta gratuita com seu e-mail e CPF.</li>
+          <li>Selecione quais operadoras de telecomunicações e instituições financeiras deseja bloquear.</li>
+          <li>Aguarde até 30 dias para a efetivação completa do bloqueio de ligações de vendas.</li>
+        </ul>
+        <div class="card-footer-action">
+          <a href="https://www.naomeperturbe.com.br/" target="_blank" rel="noopener" class="btn-cyber">
+            ↗ Não Me Perturbe
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════════════════ -->
   <!-- SEÇÃO 4 — VÍDEOS NIC.BR                            -->
   <!-- ═══════════════════════════════════════════════════ -->
   <section id="videos-nic" class="academia-section fade-up">
@@ -1038,7 +1245,7 @@
   <footer class="app-footer outset-border">
     <div class="footer-container">
       <div>🦫 CapiSafe</div>
-      <div>Dados: NIC.br · CERT.br · CGI.br · CETIC.br · Serasa · FEBRABAN</div>
+      <div>Segurança Digital</div>
     </div>
   </footer>
 

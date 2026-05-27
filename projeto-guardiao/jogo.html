@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="CapiSafe — Missão Detectiva Capi: Jogo educativo de identificação de golpes virtuais.">
   <title>Missão Detectiva Capi — CapiSafe</title>
+  <link rel="icon" type="image/png" href="imagens/capi_detective.png">
   <link rel="stylesheet" href="css/estilo.css">
   <style>
     /* ===== ESTILOS DO JOGO ===== */
@@ -258,7 +259,7 @@
     /* Botões de ação do jogo */
     .game-actions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 14px;
       margin-top: 20px;
     }
@@ -426,20 +427,20 @@
   <header class="app-header outset-border">
     <div class="header-container">
       <a href="index.html" class="logo-link">
-        <span class="logo-icon" aria-hidden="true">🦫</span>
+        <img src="imagens/capi_detective.png" alt="Logo CapiSafe" class="logo-img">
         <span class="logo-text">CapiSafe</span>
       </a>
       <div style="display: flex; gap: 8px; align-items: center;">
         <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
         <nav class="app-nav" aria-label="Navegação Principal">
           <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
-          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
-          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Capi, vê pra mim?</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Capi, anota aí</a>
           <a href="jogo.html" class="nav-link outset-border active" id="nav-jogo">🎮 Jogo</a>
-          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
+          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
           <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
         </nav>
       </div>
@@ -508,18 +509,26 @@
         <!-- TELA DO JOGO (oculta inicialmente) -->
         <div id="game-screen" style="display: none;">
           <!-- HUD -->
-          <div class="game-hud">
+          <div class="game-hud" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px;">
             <div class="hud-card">
               <div class="hud-label">Rodada</div>
-              <div class="hud-value" id="hud-round">1/8</div>
+              <div class="hud-value" id="hud-round">1/14</div>
             </div>
             <div class="hud-card">
               <div class="hud-label">Pontos</div>
               <div class="hud-value" id="hud-score">0</div>
             </div>
             <div class="hud-card">
+              <div class="hud-label">Vidas</div>
+              <div class="hud-value" id="hud-lives" style="font-size: 14px;">❤️❤️❤️</div>
+            </div>
+            <div class="hud-card">
+              <div class="hud-label">Combo</div>
+              <div class="hud-value" id="hud-streak">—</div>
+            </div>
+            <div class="hud-card">
               <div class="hud-label">Tempo</div>
-              <div class="hud-value" id="hud-timer">15</div>
+              <div class="hud-value" id="hud-timer">20</div>
             </div>
           </div>
 
@@ -547,10 +556,9 @@
             Esta mensagem é um golpe ou legítima?
           </p>
 
-          <!-- Botões de ação -->
-          <div class="game-actions">
-            <button class="btn-golpe" id="btn-golpe">🚨 É GOLPE!</button>
-            <button class="btn-legitimo" id="btn-legitimo">✅ É LEGÍTIMO</button>
+          <!-- Botões de ação dinâmicos -->
+          <div class="game-actions" id="game-options-container">
+            <!-- Injetados dinamicamente via JS -->
           </div>
 
           <!-- Painel de feedback -->
@@ -596,6 +604,35 @@
           </div>
         </div>
 
+        <!-- TELA DE GAME OVER (oculta inicialmente) -->
+        <div class="result-screen" id="game-over-screen" style="display: none;">
+          <span class="result-badge-emoji">🚨</span>
+          <h2 class="result-badge-title" style="color: var(--risk-high);">Fim de Jogo!</h2>
+          <p style="color: var(--color-text-muted); font-size: 13.5px; line-height: 1.6; max-width: 440px; margin: 0 auto 16px;">
+            Você esgotou todas as suas vidas. A segurança digital requer atenção aos detalhes de cada golpe. Estude na nossa academia e tente de novo!
+          </p>
+
+          <div class="result-score-breakdown">
+            <div class="result-score-item">
+              <span id="go-rodada">0</span>
+              Rodada
+            </div>
+            <div class="result-score-item">
+              <span id="go-pontos">0</span>
+              Pontos
+            </div>
+            <div class="result-score-item">
+              <span id="go-acertos">0</span>
+              Acertos
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+            <button class="btn btn-primary outset-border" id="btn-retry">🔄 Tentar Novamente</button>
+            <a href="letramento.html" class="btn btn-secondary outset-border" style="text-decoration: none;">📚 Estudar na Academia</a>
+          </div>
+        </div>
+
       </div>
       <div class="window-statusbar">
         <span id="game-status-left">Aguardando início</span>
@@ -634,8 +671,8 @@
 
   <footer class="app-footer outset-border">
     <div class="footer-container">
-      <div>🛡️ CapiSafe</div>
-      <div>Segurança Digital Brasileira</div>
+      <div>🦫 CapiSafe</div>
+      <div>Segurança Digital</div>
     </div>
   </footer>
 
@@ -646,13 +683,18 @@
     // BANCO DE CENÁRIOS DO JOGO — 8 rodadas (5 golpes + 3 legítimas)
     // =====================================================================
     const SCENARIOS = [
-      // ====== NÍVEL FÁCIL ======
+      // ====== NÍVEL FÁCIL (SPOT-THE-SCAM) ======
       {
         id: 1,
         level: "easy",
         levelLabel: "Fácil",
         mediaLabel: "📱 Mensagem WhatsApp",
-        isScam: true,
+        questionText: "Esta mensagem é um golpe ou legítima?",
+        maxTime: 20,
+        options: [
+          { text: "🚨 É GOLPE!", isCorrect: true },
+          { text: "✅ É LEGÍTIMO", isCorrect: false }
+        ],
         renderHTML: () => `
           <div class="mock-wpp">
             <div class="mock-wpp-header">
@@ -687,7 +729,12 @@
         level: "easy",
         levelLabel: "Fácil",
         mediaLabel: "💬 SMS Recebido",
-        isScam: true,
+        questionText: "Esta mensagem é um golpe ou legítima?",
+        maxTime: 20,
+        options: [
+          { text: "🚨 É GOLPE!", isCorrect: true },
+          { text: "✅ É LEGÍTIMO", isCorrect: false }
+        ],
         renderHTML: () => `
           <div class="mock-sms">
             <div class="mock-sms-header">SMS • Correios Brasil • Hoje</div>
@@ -712,7 +759,12 @@
         level: "easy",
         levelLabel: "Fácil",
         mediaLabel: "📧 E-mail Recebido",
-        isScam: true,
+        questionText: "Esta mensagem é um golpe ou legítima?",
+        maxTime: 20,
+        options: [
+          { text: "🚨 É GOLPE!", isCorrect: true },
+          { text: "✅ É LEGÍTIMO", isCorrect: false }
+        ],
         renderHTML: () => `
           <div class="mock-email">
             <div class="mock-email-header">
@@ -739,13 +791,19 @@
           ]
         }
       },
-      // ====== NÍVEL MÉDIO ======
+
+      // ====== NÍVEL MÉDIO (SPOT-THE-SCAM) ======
       {
         id: 4,
         level: "medium",
         levelLabel: "Médio",
         mediaLabel: "📱 Mensagem WhatsApp",
-        isScam: false,
+        questionText: "Esta mensagem é um golpe ou legítima?",
+        maxTime: 20,
+        options: [
+          { text: "🚨 É GOLPE!", isCorrect: false },
+          { text: "✅ É LEGÍTIMO", isCorrect: true }
+        ],
         renderHTML: () => `
           <div class="mock-wpp">
             <div class="mock-wpp-header">
@@ -773,7 +831,7 @@
           explain: "Esta é uma conversa familiar genuína. O número é de um contato salvo (Prima Carla), o contexto faz sentido, não há urgência artificial e o valor é razoável para o contexto.",
           clues: [
             "O número é de um contato salvo com nome conhecido",
-            "O contexto conversacional é natural e progressivo",
+            "O contexto conversacional é natural e progressive",
             "Valor pequeno (R$25) para um contexto social plausível",
             "Não há pressão de 'agora ou nunca', link suspeito ou urgência criada artificialmente"
           ]
@@ -784,7 +842,12 @@
         level: "medium",
         levelLabel: "Médio",
         mediaLabel: "🌐 Site no Navegador",
-        isScam: true,
+        questionText: "Esta mensagem é um golpe ou legítima?",
+        maxTime: 20,
+        options: [
+          { text: "🚨 É GOLPE!", isCorrect: true },
+          { text: "✅ É LEGÍTIMO", isCorrect: false }
+        ],
         renderHTML: () => `
           <div class="mock-browser">
             <div class="mock-browser-bar">
@@ -825,7 +888,12 @@
         level: "medium",
         levelLabel: "Médio",
         mediaLabel: "📞 Ligação + WhatsApp",
-        isScam: true,
+        questionText: "Esta mensagem é um golpe ou legítima?",
+        maxTime: 20,
+        options: [
+          { text: "🚨 É GOLPE!", isCorrect: true },
+          { text: "✅ É LEGÍTIMO", isCorrect: false }
+        ],
         renderHTML: () => `
           <div class="mock-wpp">
             <div class="mock-wpp-header">
@@ -855,13 +923,17 @@
           ]
         }
       },
-      // ====== NÍVEL MÉDIO (continuação) ======
       {
         id: 7,
         level: "medium",
         levelLabel: "Médio",
-        mediaLabel: "📱 Mensagem WhatsApp + Áudio",
-        isScam: true,
+        mediaLabel: "📱 WhatsApp + Áudio clone",
+        questionText: "Esta mensagem é um golpe ou legítima?",
+        maxTime: 20,
+        options: [
+          { text: "🚨 É GOLPE!", isCorrect: true },
+          { text: "✅ É LEGÍTIMO", isCorrect: false }
+        ],
         renderHTML: () => `
           <div class="mock-wpp">
             <div class="mock-wpp-header">
@@ -907,7 +979,12 @@
         level: "medium",
         levelLabel: "Médio",
         mediaLabel: "📱 Mensagem WhatsApp",
-        isScam: true,
+        questionText: "Esta mensagem é um golpe ou legítima?",
+        maxTime: 20,
+        options: [
+          { text: "🚨 É GOLPE!", isCorrect: true },
+          { text: "✅ É LEGÍTIMO", isCorrect: false }
+        ],
         renderHTML: () => `
           <div class="mock-wpp">
             <div class="mock-wpp-header">
@@ -941,13 +1018,19 @@
           ]
         }
       },
-      // ====== NÍVEL EXPERT ======
+
+      // ====== NÍVEL EXPERT (SPOT-THE-SCAM) ======
       {
         id: 9,
         level: "hard",
         levelLabel: "Expert",
         mediaLabel: "💬 SMS Recebido",
-        isScam: false,
+        questionText: "Esta mensagem é um golpe ou legítima?",
+        maxTime: 20,
+        options: [
+          { text: "🚨 É GOLPE!", isCorrect: false },
+          { text: "✅ É LEGÍTIMO", isCorrect: true }
+        ],
         renderHTML: () => `
           <div class="mock-sms">
             <div class="mock-sms-header">SMS • Nubank • Hoje</div>
@@ -972,7 +1055,12 @@
         level: "hard",
         levelLabel: "Expert",
         mediaLabel: "📧 E-mail Recebido",
-        isScam: true,
+        questionText: "Esta mensagem é um golpe ou legítima?",
+        maxTime: 20,
+        options: [
+          { text: "🚨 É GOLPE!", isCorrect: true },
+          { text: "✅ É LEGÍTIMO", isCorrect: false }
+        ],
         renderHTML: () => `
           <div class="mock-email">
             <div class="mock-email-header">
@@ -999,6 +1087,123 @@
             "Valores específicos (R$ 1.847,30) são usados para parecer mais real"
           ]
         }
+      },
+
+      // ====== MULTIPLA ESCOLHA AVANÇADA (SUPER CAPI) ======
+      {
+        id: 11,
+        level: "medium",
+        levelLabel: "Médio",
+        mediaLabel: "📞 Canal de Ligação",
+        questionText: "Criminosos usam uma técnica para falsificar o número de telefone de origem que aparece na BINA do seu celular, exibindo o 0800 ou o número oficial do banco. Qual o nome dessa ameaça?",
+        maxTime: 35,
+        options: [
+          { text: "A) SIM Swap (Roubo de Linha Telefônica)", isCorrect: false },
+          { text: "B) Spoofing de BINA (Falsa Central)", isCorrect: true },
+          { text: "C) Vazamento de Dados SQL", isCorrect: false },
+          { text: "D) Phishing por Boleto MEI", isCorrect: false }
+        ],
+        renderHTML: () => `
+          <div class="mock-call" style="background: rgba(0,0,0,0.5); border: 2px solid var(--accent-teal); padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px;">
+            <div style="font-size:32px; margin-bottom:8px;">📲</div>
+            <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:#fff;">+55 (11) 4004-0001</div>
+            <div style="color:var(--accent-teal); font-size:11px; font-family:var(--font-mono); margin-bottom:12px; font-weight:700;">📞 BINA: Central Oficial do Banco</div>
+            <p style="font-size:12.5px; line-height:1.6; text-align:left; color:#f8fafc;">"Olá! Sou da central de segurança. Identificamos uma compra suspeita de R$2.400 nas Lojas Capi. Digite sua senha de 6 dígitos no teclado numérico para contestar esta transação..."</p>
+          </div>`,
+        feedback: {
+          title: "📞 CORRETO — É Spoofing de BINA!",
+          explain: "No Spoofing de BINA, criminosos mascaram a identificação telefônica real para fingir que ligam da central do banco. Mas os bancos de verdade nunca solicitam que digite senhas por telefone.",
+          clues: [
+            "Bancos de verdade nunca pedem senha ou código via teclado do telefone",
+            "A BINA clonada induz a vítima a erro, transmitindo falsa autoridade",
+            "A ação preventiva ideal: desligar e ligar você mesmo para o número oficial impresso no cartão"
+          ]
+        }
+      },
+      {
+        id: 12,
+        level: "medium",
+        levelLabel: "Médio",
+        mediaLabel: "🧩 Anatomia de Fraude",
+        questionText: "Qual é a ordem cronológica correta das etapas usadas pelos estelionatários no Golpe da Falsa Vaga de Emprego (Tarefas Pix)?",
+        maxTime: 35,
+        options: [
+          { text: "A) 1. Oferta de renda fácil -> 2. Depósitos Pix pequenos de comissão -> 3. Exigência de depósitos maiores -> 4. Bloqueio ao tentar sacar", isCorrect: true },
+          { text: "B) 1. Bloqueio ao tentar sacar -> 2. Exigência de depósitos maiores -> 3. Depósitos Pix pequenos -> 4. Oferta de renda fácil", isCorrect: false },
+          { text: "C) 1. Exigência de depósitos maiores -> 2. Oferta de renda fácil -> 3. Bloqueio ao tentar sacar -> 4. Depósitos Pix pequenos", isCorrect: false },
+          { text: "D) 1. Depósitos Pix pequenos -> 2. Oferta de renda fácil -> 3. Exigência de depósitos maiores -> 4. Bloqueio ao tentar sacar", isCorrect: false }
+        ],
+        renderHTML: () => `
+          <div class="card-flat" style="padding: 15px; background: rgba(0,0,0,0.5); border: 2px solid var(--accent-pink); margin-bottom: 15px;">
+            <h4 style="color:var(--accent-pink); font-size:13.5px; margin-bottom:8px;">🧩 Linha do Tempo das Tarefas Pix</h4>
+            <p style="font-size:12px; line-height:1.5; color:#f8fafc;">Criminosos usam engenharia social progressiva para construir confiança e depois extorquir altos valores em Pix.</p>
+          </div>`,
+        feedback: {
+          title: "🧩 CORRETO — Essa é a sequência lógica!",
+          explain: "Primeiro constroem confiança dando pequenos pagamentos reais de R$10 ou R$20. Em seguida, exigem dinheiro sob o pretexto de liberar tarefas VIP. Quando você coloca um valor alto, eles bloqueiam e somem.",
+          clues: [
+            "Primeiras tarefas pagam de verdade — técnica clássica de isca",
+            "Bloqueio ocorre assim que a vítima atinge o limite máximo de investimento",
+            "Dinâmica do golpe: nunca faça transferências financeiras sob promessa de 'vagas' ou 'tarefas'"
+          ]
+        }
+      },
+      {
+        id: 13,
+        level: "hard",
+        levelLabel: "Expert",
+        mediaLabel: "🛡️ Defesa e Soluções",
+        questionText: "Criminosos abriram contas correntes e chaves Pix em seu nome em bancos desconhecidos sem seu consentimento. Qual serviço oficial e gratuito do Banco Central ajuda a detectar isso?",
+        maxTime: 35,
+        options: [
+          { text: "A) Portal REDESIM do Governo Federal", isCorrect: false },
+          { text: "B) Portal Não Me Perturbe da Anatel", isCorrect: false },
+          { text: "C) Registrato do Banco Central do Brasil", isCorrect: true },
+          { text: "D) MED (Mecanismo Especial de Devolução)", isCorrect: false }
+        ],
+        renderHTML: () => `
+          <div class="card-flat" style="padding: 15px; background: rgba(0,0,0,0.5); border: 2px solid var(--accent-teal); text-align: center; margin-bottom: 15px;">
+            <span style="font-size:32px;">🏦</span>
+            <h4 style="color:var(--accent-teal); font-size:13px; margin: 8px 0;">Monitoramento de Fraude em CPF</h4>
+            <p style="font-size:12.5px; line-height:1.5; color:#f8fafc;">Você descobriu que vazamentos de dados permitiram a abertura de contas bancárias laranjas em seu nome.</p>
+          </div>`,
+        feedback: {
+          title: "🛡️ CORRETO — É o Registrato do BC!",
+          explain: "O Registrato do Banco Central é a plataforma oficial que exibe todas as chaves Pix, contas bancárias e empréstimos ativos vinculados ao seu CPF em território nacional.",
+          clues: [
+            "Registrato é um painel seguro mantido pelo Banco Central do Brasil",
+            "Permite identificar preventivamente se terceiros estão se passando por você",
+            "Acesso gratuito pelo Gov.br (níveis prata ou ouro)"
+          ]
+        }
+      },
+      {
+        id: 14,
+        level: "medium",
+        levelLabel: "Médio",
+        mediaLabel: "👥 Vulnerabilidade Social",
+        questionText: "Criminosos enviam correspondências físicas e e-mails com falsos boletos cadastrais intimidadores imediatamente após a abertura de uma nova empresa. Qual é o público-alvo prioritário deste golpe?",
+        maxTime: 35,
+        options: [
+          { text: "A) Microempreendedores Individuais (MEIs) recém-registrados", isCorrect: true },
+          { text: "B) Idosos aposentados e pensionistas", isCorrect: false },
+          { text: "C) Adolescentes e jovens jogadores online", isCorrect: false },
+          { text: "D) Desenvolvedores e engenheiros de software", isCorrect: false }
+        ],
+        renderHTML: () => `
+          <div class="card-flat" style="padding: 15px; background: rgba(0,0,0,0.5); border: 2px solid var(--accent-pink); margin-bottom: 15px;">
+            <h4 style="color:var(--accent-pink); font-size:13px; margin-bottom:8px;">📧 Falsa Taxa Cadastral de Abertura</h4>
+            <p style="font-size:12px; line-height:1.5; color:#f8fafc;">Notificação alegando urgência fiscal de R$97,90 para 'ativação de CNPJ' na rede nacional do governo.</p>
+          </div>`,
+        feedback: {
+          title: "👥 CORRETO — Os novos MEIs!",
+          explain: "Os criminosos coletam dados públicos de CNPJ e enviam cobranças falsas imediatamente após o registro. Microempreendedores iniciantes, com medo de pendências, costumam pagar.",
+          clues: [
+            "Falso remetente que simula órgãos federais ou associações comerciais fantasmas",
+            "O MEI é isento de taxas associativas ou taxas cadastrais obrigatórias na abertura",
+            "A Receita Federal ou redesim oficial NUNCA emitem boletos de cobrança por e-mail"
+          ]
+        }
       }
     ];
 
@@ -1008,20 +1213,22 @@
     document.addEventListener("DOMContentLoaded", () => {
       let currentRound = 0;
       let score = 0;
+      let lives = 3;
+      let streak = 0;
       let timerInterval = null;
-      let timeLeft = 15;
-      const MAX_TIME = 15;
+      let timeLeft = 20;
+      let maxTimeThisRound = 20;
       let roundResults = []; // 'correct', 'wrong', 'timeout'
       let roundStartTime = 0;
       let totalTimeUsed = 0;
       let answered = false;
+      let gameIsOver = false;
 
       const introScreen = document.getElementById("intro-screen");
       const gameScreen = document.getElementById("game-screen");
       const resultScreen = document.getElementById("result-screen");
+      const gameOverScreen = document.getElementById("game-over-screen");
       const btnStart = document.getElementById("btn-start-game");
-      const btnGolpe = document.getElementById("btn-golpe");
-      const btnLegitime = document.getElementById("btn-legitimo");
       const btnNext = document.getElementById("btn-next");
       const feedbackPanel = document.getElementById("feedback-panel");
       const timerBar = document.getElementById("timer-bar");
@@ -1029,21 +1236,26 @@
       const roundDots = document.getElementById("round-dots");
 
       btnStart.addEventListener("click", startGame);
-      btnGolpe.addEventListener("click", () => submitAnswer(true));
-      btnLegitime.addEventListener("click", () => submitAnswer(false));
       btnNext.addEventListener("click", nextRound);
       document.getElementById("btn-play-again").addEventListener("click", resetGame);
       document.getElementById("btn-share-result").addEventListener("click", shareResult);
+      document.getElementById("btn-retry").addEventListener("click", startGame);
 
       function startGame() {
         introScreen.style.display = "none";
         gameScreen.style.display = "block";
         resultScreen.style.display = "none";
+        gameOverScreen.style.display = "none";
         currentRound = 0;
         score = 0;
+        lives = 3;
+        streak = 0;
         roundResults = [];
         totalTimeUsed = 0;
+        gameIsOver = false;
         document.getElementById("hud-score").textContent = "0";
+        updateLivesDisplay();
+        updateStreakDisplay();
         buildRoundDots();
         loadRound();
         document.getElementById("game-status-left").textContent = "Missão em andamento";
@@ -1062,8 +1274,6 @@
       function loadRound() {
         answered = false;
         feedbackPanel.style.display = "none";
-        btnGolpe.disabled = false;
-        btnLegitime.disabled = false;
 
         const s = SCENARIOS[currentRound];
         document.getElementById("hud-round").textContent = `${currentRound + 1}/${SCENARIOS.length}`;
@@ -1074,8 +1284,29 @@
         lb.className = `level-badge level-${s.level}`;
         document.getElementById("media-label").textContent = s.mediaLabel;
 
+        // Renderiza pergunta
+        document.getElementById("game-question").textContent = s.questionText || "Esta mensagem é um golpe ou legítima?";
+
         // Renderiza cenário
         document.getElementById("scenario-container").innerHTML = s.renderHTML();
+
+        // Renderiza opções
+        const container = document.getElementById("game-options-container");
+        container.innerHTML = "";
+        
+        s.options.forEach(opt => {
+          const btn = document.createElement("button");
+          if (opt.text.includes("É GOLPE!")) {
+            btn.className = "btn-golpe";
+          } else if (opt.text.includes("É LEGÍTIMO")) {
+            btn.className = "btn-legitimo";
+          } else {
+            btn.className = "btn-naming-choice";
+          }
+          btn.textContent = opt.text;
+          btn.addEventListener("click", () => submitAnswer(opt, btn));
+          container.appendChild(btn);
+        });
 
         // Destaca rodada atual nos dots
         document.querySelectorAll(".round-dot").forEach((d, i) => {
@@ -1091,7 +1322,9 @@
       }
 
       function startTimer() {
-        timeLeft = MAX_TIME;
+        const s = SCENARIOS[currentRound];
+        maxTimeThisRound = s.maxTime || 20;
+        timeLeft = maxTimeThisRound;
         roundStartTime = Date.now();
         updateTimerUI();
         clearInterval(timerInterval);
@@ -1107,12 +1340,14 @@
 
       function updateTimerUI() {
         hudTimer.textContent = timeLeft;
-        const pct = (timeLeft / MAX_TIME) * 100;
+        const pct = (timeLeft / maxTimeThisRound) * 100;
         timerBar.style.width = pct + "%";
-        if (timeLeft <= 5) {
+        const danger = Math.ceil(maxTimeThisRound * 0.3);
+        const warn = Math.ceil(maxTimeThisRound * 0.5);
+        if (timeLeft <= danger) {
           timerBar.style.background = "var(--risk-high)";
           hudTimer.className = "hud-value timer-danger";
-        } else if (timeLeft <= 8) {
+        } else if (timeLeft <= warn) {
           timerBar.style.background = "var(--risk-medium)";
           hudTimer.className = "hud-value";
         } else {
@@ -1123,22 +1358,49 @@
 
       function timeOut() {
         answered = true;
-        btnGolpe.disabled = true;
-        btnLegitime.disabled = true;
+        clearInterval(timerInterval);
+        
         roundResults.push("timeout");
-        totalTimeUsed += MAX_TIME;
+        totalTimeUsed += maxTimeThisRound;
+        lives--;
+        streak = 0;
+        updateLivesDisplay();
+        updateStreakDisplay();
+        if (lives <= 0) gameIsOver = true;
 
         const s = SCENARIOS[currentRound];
+        const dotEl = document.getElementById(`dot-${currentRound}`);
+        if (dotEl) {
+          dotEl.classList.remove("current");
+          dotEl.classList.add("done-timeout");
+        }
+
+        // Desabilita botões e colore a correta em verde
+        const container = document.getElementById("game-options-container");
+        const buttons = container.querySelectorAll("button");
+        buttons.forEach((btn, idx) => {
+          btn.disabled = true;
+          const opt = s.options[idx];
+          if (opt.isCorrect) {
+            btn.style.background = "var(--risk-low-bg)";
+            btn.style.borderColor = "var(--risk-low)";
+            btn.style.color = "#fff";
+          }
+        });
+
+        const stage = document.getElementById("scenario-container");
+        stage.classList.remove("game-shake");
+        void stage.offsetWidth;
+        stage.classList.add("game-shake");
+
         showFeedback("timeout",
-          `⏰ TEMPO ESGOTADO — Era um ${s.isScam ? "GOLPE" : "LEGÍTIMO"}`,
-          "Você não respondeu a tempo. Na vida real, hesitar pode ser custoso — mas também é importante não agir impulsivamente.",
+          `⏰ TEMPO ESGOTADO! (-1 vida)`,
+          s.feedback.explain,
           s.feedback.clues
         );
-        document.getElementById(`dot-${currentRound}`).classList.remove("current");
-        document.getElementById(`dot-${currentRound}`).classList.add("done-timeout");
       }
 
-      function submitAnswer(userSaysScam) {
+      function submitAnswer(selectedOption, clickedBtn) {
         if (answered) return;
         answered = true;
         clearInterval(timerInterval);
@@ -1147,21 +1409,44 @@
         totalTimeUsed += elapsed;
 
         const s = SCENARIOS[currentRound];
-        btnGolpe.disabled = true;
-        btnLegitime.disabled = true;
-
-        const isCorrect = (userSaysScam === s.isScam);
+        const isCorrect = selectedOption.isCorrect;
         const dotEl = document.getElementById(`dot-${currentRound}`);
-        dotEl.classList.remove("current");
+        if (dotEl) dotEl.classList.remove("current");
+
+        // Desabilita botões e colore as respostas corretas/incorretas
+        const container = document.getElementById("game-options-container");
+        const buttons = container.querySelectorAll("button");
+        buttons.forEach((btn, idx) => {
+          btn.disabled = true;
+          const opt = s.options[idx];
+          if (opt.isCorrect) {
+            btn.style.background = "var(--risk-low-bg)";
+            btn.style.borderColor = "var(--risk-low)";
+            btn.style.color = "#fff";
+          } else if (btn === clickedBtn) {
+            btn.style.background = "var(--risk-high-bg)";
+            btn.style.borderColor = "var(--risk-high)";
+            btn.style.color = "#fff";
+          }
+        });
+
+        const stage = document.getElementById("scenario-container");
 
         if (isCorrect) {
           roundResults.push("correct");
-          dotEl.classList.add("done-correct");
-          // Bônus de velocidade: max 50pts base + até 50 bônus por tempo restante
+          if (dotEl) dotEl.classList.add("done-correct");
+          streak++;
+          updateStreakDisplay();
+
+          // Pontuação base 50pts + bônus de tempo restante * 3
           const bonus = Math.round(timeLeft * 3);
           const points = 50 + bonus;
           score += points;
           document.getElementById("hud-score").textContent = score;
+
+          stage.classList.remove("game-celebrate");
+          void stage.offsetWidth;
+          stage.classList.add("game-celebrate");
 
           showFeedback("correct",
             `✅ ${s.feedback.title} (+${points} pts)`,
@@ -1170,9 +1455,19 @@
           );
         } else {
           roundResults.push("wrong");
-          dotEl.classList.add("done-wrong");
+          if (dotEl) dotEl.classList.add("done-wrong");
+          lives--;
+          streak = 0;
+          updateLivesDisplay();
+          updateStreakDisplay();
+          if (lives <= 0) gameIsOver = true;
+
+          stage.classList.remove("game-shake");
+          void stage.offsetWidth;
+          stage.classList.add("game-shake");
+
           showFeedback("wrong",
-            `❌ Resposta errada! Era um ${s.isScam ? "GOLPE" : "LEGÍTIMO"}`,
+            `❌ Resposta incorreta! (-1 vida)`,
             s.feedback.explain,
             s.feedback.clues
           );
@@ -1193,7 +1488,9 @@
 
       function nextRound() {
         currentRound++;
-        if (currentRound >= SCENARIOS.length) {
+        if (gameIsOver) {
+          showGameOver();
+        } else if (currentRound >= SCENARIOS.length) {
           showResults();
         } else {
           loadRound();
@@ -1216,17 +1513,17 @@
         const pct = acertos / SCENARIOS.length;
 
         if (pct === 1) {
-          emoji = "🏆"; badge = "Detetive Master da Capi";
-          desc = `Perfeito! Você acertou todas as ${SCENARIOS.length} rodadas. Seu instinto digital está afiado! Compartilhe e desafie seus amigos e família a superarem sua pontuação de ${score} pontos.`;
+          emoji = "🏆"; badge = "Super Detetive da Capi";
+          desc = `Perfeito! Você acertou todos os ${SCENARIOS.length} cenários e dinâmicas avançadas de cibersegurança! Seu radar de golpes e escudos de defesa estão afiados. Compartilhe seu resultado e desafie os amigos!`;
         } else if (pct >= 0.75) {
-          emoji = "🥇"; badge = "Agente Digital de Elite";
-          desc = `Excelente! ${acertos} de ${SCENARIOS.length} acertos e ${score} pontos. Você tem ótima capacidade de identificar fraudes. Revise as dicas das rodadas que errou para chegar ao nível Master!`;
+          emoji = "🥇"; badge = "Agente Especial Capi";
+          desc = `Excelente! Você obteve ${acertos} de ${SCENARIOS.length} acertos. Demonstra ótimo discernimento e conhecimento das defesas oficiais no Brasil. Revise as rodadas que errou e tente gabaritar!`;
         } else if (pct >= 0.5) {
-          emoji = "🥈"; badge = "Investigador em Treinamento";
-          desc = `Bom trabalho! ${acertos} de ${SCENARIOS.length} acertos. Você já tem noções importantes, mas golpistas sofisticados podem te enganar. Estude mais no Letramento para aprimorar seu radar.`;
+          emoji = "🥈"; badge = "Patrulheiro Digital";
+          desc = `Bom trabalho! Obteve ${acertos} de ${SCENARIOS.length} acertos. Conhece noções essenciais de prevenção, mas golpistas avançados poderiam ter te pego. Estude na nossa Academia Capi!`;
         } else {
-          emoji = "🥉"; badge = "Recruta Iniciante";
-          desc = `${acertos} de ${SCENARIOS.length} acertos. Não desanime — identificar golpes é uma habilidade que se aprende! Leia as dicas de cada rodada e visite nossa seção de Letramento Digital antes de jogar novamente.`;
+          emoji = "🚨"; badge = "Recruta Vulnerável";
+          desc = `Alerta Vermelho! Você obteve apenas ${acertos} acertos. Cibersegurança exige atenção constante a fakes e golpes de engenharia social. Releia os tutoriais preventivos antes de tentar de novo!`;
         }
 
         document.getElementById("result-emoji").textContent = emoji;
@@ -1245,7 +1542,7 @@
             ${missed.map(x => `
               <div style="background:var(--bg-card); border:1.5px solid var(--color-border); border-radius:6px; padding:10px; margin-bottom:8px; font-size:12px;">
                 <strong style="color:var(--accent-teal);">Rodada ${x.s.id}:</strong> ${x.s.mediaLabel}<br>
-                <span style="color:var(--color-text-muted);">Era: <strong style="color:${x.s.isScam ? 'var(--risk-high)' : 'var(--risk-low)'}">${x.s.isScam ? '🚨 GOLPE' : '✅ LEGÍTIMO'}</strong> — ${x.s.feedback.clues[0]}</span>
+                <span style="color:var(--color-text-muted);">Feedback: <strong style="color:var(--accent-pink)">${x.s.feedback.title}</strong> — ${x.s.feedback.clues[0]}</span>
               </div>
             `).join("")}
           `;
@@ -1254,8 +1551,20 @@
         }
       }
 
+      function showGameOver() {
+        gameScreen.style.display = "none";
+        gameOverScreen.style.display = "block";
+        document.getElementById("game-status-left").textContent = "Game Over";
+
+        document.getElementById("go-rodada").textContent = `${currentRound}`;
+        document.getElementById("go-pontos").textContent = score;
+        const acertos = roundResults.filter(r => r === "correct").length;
+        document.getElementById("go-acertos").textContent = acertos;
+      }
+
       function resetGame() {
         resultScreen.style.display = "none";
+        gameOverScreen.style.display = "none";
         introScreen.style.display = "block";
         gameScreen.style.display = "none";
         score = 0;
@@ -1263,17 +1572,50 @@
         roundResults = [];
       }
 
+      function updateLivesDisplay() {
+        const el = document.getElementById("hud-lives");
+        if (el) {
+          let html = "";
+          for (let i = 0; i < 3; i++) {
+            if (i < lives) {
+              html += "❤️";
+            } else {
+              html += "🖤";
+            }
+          }
+          el.innerHTML = html;
+        }
+      }
+
+      function updateStreakDisplay() {
+        const el = document.getElementById("hud-streak");
+        if (el) {
+          el.textContent = streak > 0 ? `${streak}🔥` : "—";
+        }
+      }
+
       function shareResult() {
         const acertos = roundResults.filter(r => r === "correct").length;
-        const badge = acertos === SCENARIOS.length ? "Detetive Master" :
-                      acertos >= 6 ? "Agente de Elite" :
-                      acertos >= 4 ? "Investigador" : "Recruta";
-        const text = `🕵️ MISSÃO DETECTIVA CAPI — CapiSafe\n\nAcertei ${acertos}/${SCENARIOS.length} rodadas!\nPontuação: ${score} pts\nNível: ${badge}\n\nVocê consegue me superar? Teste seus reflexos anti-golpe!`;
+        const text = `🕵️ MISSÃO SUPER CAPI — Acertei ${acertos}/${SCENARIOS.length} estágios na Missão de Cibersegurança CapiSafe!
+Pontuação: ${score} pts
+
+Você consegue superar o desafio retrô? Faça os bloqueios preventivos e jogue em: ${window.location.origin}${window.location.pathname.replace('jogo.html', 'index.html')}`;
+        
         if (navigator.share) {
-          navigator.share({ title: "Missão Detectiva Capi", text }).catch(() => {});
+          navigator.share({
+            title: "Super Capi — Guardião da Rede",
+            text: text,
+            url: window.location.href
+          }).catch(console.error);
         } else {
           navigator.clipboard.writeText(text).then(() => {
-            if (typeof showToast === "function") showToast("Resultado copiado para a área de transferência!", "success");
+            if (typeof showToast === "function") {
+              showToast("Resultado copiado para a área de transferência! Compartilhe!", "success");
+            } else {
+              alert("Resultado copiado para a área de transferência!");
+            }
+          }).catch(() => {
+            alert("Não foi possível copiar automaticamente. Selecione e copie o texto.");
           });
         }
       }

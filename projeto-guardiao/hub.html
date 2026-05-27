@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="CapiSafe - Hub Público de Golpes Recentes. Aprenda a reconhecer as fraudes virtuais mais comuns no Brasil.">
   <title>Hub de Golpes Conhecidos — CapiSafe</title>
+  <link rel="icon" type="image/png" href="imagens/capi_detective.png">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -16,20 +17,20 @@
   <header class="app-header outset-border">
     <div class="header-container">
       <a href="index.html" class="logo-link">
-        <span class="logo-icon" aria-hidden="true">🦫</span>
+        <img src="imagens/capi_detective.png" alt="Logo CapiSafe" class="logo-img">
         <span class="logo-text">CapiSafe</span>
       </a>
       <div style="display: flex; gap: 8px; align-items: center;">
         <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
         <nav class="app-nav" aria-label="Navegação Principal">
           <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
-          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
-          <a href="hub.html" class="nav-link outset-border active" id="nav-hub">Dicionário de Golpes</a>
-          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Capi, vê pra mim?</a>
+          <a href="hub.html" class="nav-link outset-border active" id="nav-hub">Dicionário</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Capi, anota aí</a>
           <a href="jogo.html" class="nav-link outset-border" id="nav-jogo">🎮 Jogo</a>
-          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
+          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
           <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
         </nav>
       </div>
@@ -96,7 +97,7 @@
 
       <div class="window-statusbar">
         <span>Filtro de Dicionário Ativo</span>
-        <span id="scams-count">7 Categorias Carregadas</span>
+        <span id="scams-count">15 Entradas Carregadas</span>
       </div>
     </section>
 
@@ -105,8 +106,8 @@
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
     <div class="footer-container">
-      <div>🛡️ CapiSafe</div>
-      <div>Segurança Digital Brasileira</div>
+      <div>🦫 CapiSafe</div>
+      <div>Segurança Digital</div>
     </div>
   </footer>
 
@@ -176,6 +177,78 @@
         perfil: "Jovens em busca de renda extra ou primeiro emprego",
         descricao: "Vagas oferecidas no WhatsApp prometendo comissão para curtir vídeos no TikTok. Para aumentar os ganhos, exigem depósitos Pix de garantia. A vítima faz os depósitos e os criminosos bloqueiam o contato.",
         prevencao: "Nenhum emprego legítimo cobra taxas ou pede depósitos Pix para liberar salários. Desconfie de rendas extras fáceis."
+      },
+      {
+        titulo: "Deepfake de Voz com IA (Clonagem de Familiar)",
+        categoria: "whatsapp",
+        gravidade: "Risco Alto",
+        incidencia: "Casos multiplicaram 4× em 2024 no Brasil (Kaspersky)",
+        perfil: "Adultos e idosos com familiares ativos em redes sociais",
+        descricao: "Com apenas 3 a 10 segundos de áudio de redes sociais, IA gera um áudio convincente imitando a voz de um filho, neto ou cônjuge. O golpista envia o áudio por WhatsApp de um número desconhecido, dizendo ter trocado de celular, e pede dinheiro com urgência extrema.",
+        prevencao: "Ao receber áudio de número desconhecido pedindo dinheiro, ligue imediatamente para o número ANTIGO do familiar antes de qualquer transferência. Nunca confie em áudio como prova de identidade."
+      },
+      {
+        titulo: "Pix Premiado / Sorteio Falso",
+        categoria: "phishing",
+        gravidade: "Risco Alto",
+        incidencia: "Frequente em SMS, WhatsApp e anúncios de redes sociais",
+        perfil: "Todos os perfis, especialmente usuários de Pix",
+        descricao: "A vítima recebe mensagem dizendo que ganhou um sorteio e precisa pagar uma 'taxa de liberação' via Pix para receber o prêmio. Variações incluem falsos sorteios do Banco Central, do governo federal ou de marcas famosas como iFood e Nubank.",
+        prevencao: "Nenhum sorteio legítimo cobra taxa para liberar prêmio. O Banco Central não realiza sorteios. Ignore e denuncie mensagens deste tipo."
+      },
+      {
+        titulo: "Golpe do FGTS Antecipado / Saque Falso",
+        categoria: "phishing",
+        gravidade: "Risco Alto",
+        incidencia: "Pico em períodos de liberação do FGTS pelo governo",
+        perfil: "Trabalhadores com carteira assinada, principalmente CLT",
+        descricao: "Criminosos criam sites e aplicativos falsos da Caixa Econômica Federal prometendo antecipar ou liberar o FGTS. Coletam CPF, senha e dados bancários para limpar a conta da vítima. Variações pedem taxa de desbloqueio via Pix.",
+        prevencao: "O FGTS só é acessado pelo aplicativo oficial da Caixa (FGTS — baixe apenas das lojas oficiais) ou agências Caixa. Nunca forneça senha em sites enviados por link."
+      },
+      {
+        titulo: "Sequestro de Conta no Instagram / WhatsApp",
+        categoria: "whatsapp",
+        gravidade: "Risco Alto",
+        incidencia: "Uma das fraudes de mais rápido crescimento em 2023–2024",
+        perfil: "Criadores de conteúdo, empreendedores e influenciadores",
+        descricao: "O criminoso finge ser do suporte do Instagram ou Meta e pede o código de verificação SMS enviado ao celular da vítima para 'validar a conta'. Com o código, assume o perfil e usa para pedir Pix a seguidores ou vender a conta.",
+        prevencao: "Nunca compartilhe o código SMS de verificação com ninguém — nem com quem afirma ser do suporte. Ative a autenticação em dois fatores com aplicativo autenticador (não SMS)."
+      },
+      {
+        titulo: "Herança Internacional Falsa (Golpe 419 / Nigeriano)",
+        categoria: "relacionamento",
+        gravidade: "Risco Médio",
+        incidencia: "Persistente por e-mail; adapta-se a WhatsApp e redes sociais",
+        perfil: "Adultos com 40+ anos, usuários de e-mail",
+        descricao: "A vítima recebe e-mail de um suposto advogado ou diplomata estrangeiro informando que um parente distante deixou uma herança milionária. Para liberá-la, são cobradas sucessivas taxas (alfândega, impostos, cartório) via transferência internacional ou criptomoeda.",
+        prevencao: "Desconfie de qualquer contato não solicitado sobre herança, especialmente de países estrangeiros. Heranças legítimas nunca cobram taxas adiantadas. Bloqueie e denuncie."
+      },
+      {
+        titulo: "QR Code Falso (QRLJacking / Pix Substituído)",
+        categoria: "phishing",
+        gravidade: "Risco Alto",
+        incidencia: "Crescente em estabelecimentos comerciais e estacionamentos",
+        perfil: "Consumidores que pagam por QR Code em lojas físicas",
+        descricao: "Criminosos colam adesivos com QR Codes falsos sobre os originais em cardápios, cartazes, mesas de restaurantes ou totens de estacionamento. Ao escanear, a vítima faz o Pix para a conta do criminoso. Em versão digital, links de phishing redirecionam para QR Codes falsos.",
+        prevencao: "Antes de pagar, verifique o nome do recebedor no Pix — deve ser o estabelecimento. Desconfie de QR Codes em adesivos ou papéis colados. Prefira digitar a chave Pix manualmente quando possível."
+      },
+      {
+        titulo: "Clonagem de WhatsApp (SIM Swap / Código de Verificação)",
+        categoria: "whatsapp",
+        gravidade: "Risco Alto",
+        incidencia: "Relatado pelo Cert.br como vetor principal em 2023–2024",
+        perfil: "Qualquer usuário de WhatsApp, especialmente com chip pré-pago",
+        descricao: "O criminoso convence a operadora a transferir o número da vítima para um chip dele (SIM Swap), ou consegue o código de verificação do WhatsApp por engenharia social. Com o WhatsApp clonado, contacta amigos e familiares pedindo Pix urgente.",
+        prevencao: "Ative o PIN de verificação em dois fatores no WhatsApp (Configurações → Conta → Verificação em duas etapas). Nunca compartilhe o código de 6 dígitos enviado por SMS."
+      },
+      {
+        titulo: "Falso Funcionário de Energia / Água (Boleto Falso)",
+        categoria: "bancos",
+        gravidade: "Risco Médio",
+        incidencia: "Frequente em regiões metropolitanas, especialmente SP e RJ",
+        perfil: "Residências e pequenos comércios, moradores idosos",
+        descricao: "Falso funcionário visita a residência alegando débitos atrasados ou necessidade de inspeção do medidor. Entrega um boleto falso com o logo da concessionária ou convence a vítima a pagar via Pix na hora. Variação por telefone alega corte iminente do serviço.",
+        prevencao: "Solicite a identificação funcional do funcionário e ligue para o canal oficial da concessionária para confirmar. Nunca pague boletos ou Pix entregues por terceiros sem verificar no site ou app oficial da empresa."
       }
     ];
 
