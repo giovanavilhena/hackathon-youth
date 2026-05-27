@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capi Detecta — CapiSafe</title>
+  <link rel="icon" type="image/png" href="imagens/capi_detective.png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0f1e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+    }
+
+    #game-canvas {
+      display: block;
+      border: 2px solid rgba(0,245,212,0.4);
+      border-radius: 10px;
+      box-shadow: 0 0 60px rgba(0,245,212,0.15), 0 0 120px rgba(168,85,247,0.08);
+      max-width: calc(100vw - 16px);
+      max-height: calc(100vh - 16px);
+      cursor: none;
+      image-rendering: pixelated;
+    }
+
+    .back-link {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      color: #00f5d4;
+      text-decoration: none;
+      font-size: 12px;
+      font-family: monospace;
+      background: rgba(0,0,0,0.5);
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,245,212,0.25);
+      transition: all 0.15s;
+      z-index: 10;
+    }
+    .back-link:hover {
+      background: rgba(0,245,212,0.1);
+      border-color: rgba(0,245,212,0.5);
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-link">← CapiSafe</a>
+  <canvas id="game-canvas"></canvas>
+
+<script>
+// ─────────────────────────────────────────────────────────────────
+// CAPI DETECTA — Arcade game CapiSafe
+// Intercepte golpes (vermelho) antes que atinjam a população!
+// Evite mensagens legítimas (verde) — falso alarme custa uma vida.
+// ─────────────────────────────────────────────────────────────────
+
+const canvas = document.getElementById('game-canvas');
+const ctx    = canvas.getContext('2d');
+
+// Internal resolution
+const W = 800, H = 540;
+canvas.width  = W;
+canvas.height = H;
+
+// Scale to fit screen
+function resize() {
+  const scale = Math.min(
+    (window.innerWidth  - 16) / W,
+    (window.innerHeight - 16) / H,
+    1
+  );
+  canvas.style.width  = Math.floor(W * scale) + 'px';
+  canvas.style.height = Math.floor(H * scale) + 'px';
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ─── ROUNDRECT POLYFILL ───────────────────────────────────────────
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    this.beginPath();
+    this.moveTo(x + r, y);
+    this.arcTo(x + w, y,     x + w, y + h, r);
+    this.arcTo(x + w, y + h, x,     y + h, r);
+    this.arcTo(x,     y + h, x,     y,     r);
+    this.arcTo(x,     y,     x + w, y,     r);
+    this.closePath();
+    return this;
+  };
+}
+
+// ─── ASSETS ──────────────────────────────────────────────────────
+const capiImg = new Image();
+capiImg.src = 'imagens/capi_detective.png';
+
+// ─── CONSTANTS ───────────────────────────────────────────────────
+const CAPI_W  = 68, CAPI_H  = 68;
+const CARD_W  = 138, CARD_H = 60;
+const GROUND_Y = H - 80;   // capi top-edge resting position
+const CAPI_SPEED = 7;
+
+const SCAM_DATA = [
+  { label: 'FALSO PIX',     sub: 'Transferência urgente!',      icon: '💸' },
+  { label: 'PHISHING',      sub: 'Clique neste link agora',     icon: '🎣' },
+  { label: 'VAGA FALSA',    sub: 'Ganhe R$500/dia em casa',     icon: '💼' },
+  { label: 'BANCO FALSO',   sub: 'Central de segurança',        icon: '🏦' },
+  { label: 'PRÊMIO FALSO',  sub: 'Você ganhou R$1.000!',        icon: '🎁' },
+  { label: 'CLONAGEM',      sub: 'WhatsApp de familiar',        icon: '📱' },
+  { label: 'LINK SUSPEITO', sub: 'Rastreio Correios / INSS',    icon: '🔗' },
+  { label: 'DEEPFAKE',      sub: 'Voz de parente em apuros',    icon: '🎙️' },
+  { label: 'GOLPE AMOROSO', sub: 'Relacionamento + Pix',        icon: '💔' },
+  { label: 'INVEST. FALSO', sub: 'Lucro garantido de 30%',      icon: '📈' },
+];
+
+const LEGIT_DATA = [
+  { label: 'MENSAGEM REAL', sub: 'Remetente verificado',        icon: '✅' },
+  { label: 'PIX REAL',      sub: 'Transação legítima',          icon: '✅' },
+  { label: 'BANCO REAL',    sub: 'Canal oficial seguro',        icon: '✅' },
+  { label: 'NOTÍCIA OK',    sub: 'Fonte confiável',             icon: '✅' },
+];
+
+// ─── STATE ───────────────────────────────────────────────────────
+let state      = 'menu';   // menu | playing | paused | gameover
+let score      = 0;
+let lives      = 3;
+let level      = 1;
+let caught     = 0;        // scams caught this game
+let frameCount = 0;
+let highScore  = parseInt(localStorage.getItem('capi-hiscore') || '0');
+
+let capiX     = W / 2;
+let capiAnim  = 0;         // subtle bob
+
+let cards      = [];
+let particles  = [];
+let feedbacks  = [];       // floating score texts
+let flashAlpha = 0;
+let shakeAmt   = 0;
+
+const keys = {};
+let touchTargetX = null;
+
+// ─── INPUT ───────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  keys[e.code] = true;
+  if (e.code === 'Space' || e.code === 'Enter' || e.code === 'NumpadEnter') {
+    if (state === 'menu' || state === 'gameover') startGame();
+    else if (state === 'playing') state = 'paused';
+    else if (state === 'paused')  state = 'playing';
+    e.preventDefault();
+  }
+  if (e.code === 'Escape') {
+    if (state === 'playing') state = 'paused';
+    else if (state === 'paused') state = 'playing';
+  }
+  // Suppress arrow key page scroll
+  if (['ArrowLeft','ArrowRight','Space'].includes(e.code)) e.preventDefault();
+});
+document.addEventListener('keyup', e => { keys[e.code] = false; });
+
+// Touch: follow finger X
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  if (state === 'menu' || state === 'gameover') { startGame(); return; }
+  touchTargetX = getTouchX(e);
+}, { passive: false });
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  touchTargetX = getTouchX(e);
+}, { passive: false });
+canvas.addEventListener('touchend',   () => { touchTargetX = null; });
+canvas.addEventListener('click', () => {
+  if (state === 'menu' || state === 'gameover') startGame();
+  else if (state === 'paused') state = 'playing';
+});
+
+function getTouchX(e) {
+  const rect   = canvas.getBoundingClientRect();
+  const scaleX = W / rect.width;
+  return (e.touches[0].clientX - rect.left) * scaleX;
+}
+
+// ─── GAME START ───────────────────────────────────────────────────
+function startGame() {
+  state = 'playing'; score = 0; lives = 3; level = 1; caught = 0;
+  frameCount = 0; capiX = W / 2; cards = []; particles = []; feedbacks = [];
+  flashAlpha = 0; shakeAmt = 0;
+}
+
+// ─── SPAWN ───────────────────────────────────────────────────────
+function spawnCard() {
+  const isScam = Math.random() < 0.62;
+  const data   = isScam
+    ? SCAM_DATA [Math.floor(Math.random() * SCAM_DATA.length)]
+    : LEGIT_DATA[Math.floor(Math.random() * LEGIT_DATA.length)];
+
+  // Avoid spawning directly on top of each other
+  let x;
+  let tries = 0;
+  do {
+    x = 20 + Math.random() * (W - CARD_W - 40);
+    tries++;
+  } while (tries < 10 && cards.some(c => Math.abs(c.x - x) < CARD_W + 20 && c.y < 80));
+
+  const baseSpeed = 1.6 + level * 0.45;
+  cards.push({
+    x, y: -CARD_H - 10,
+    vy: baseSpeed + Math.random() * 1.2,
+    isScam,
+    label: data.label,
+    sub:   data.sub,
+    icon:  data.icon,
+    opacity: 1,
+    dying: false,
+    dyingUp: false,   // caught: float up
+  });
+}
+
+function spawnRate() {
+  // frames between spawns, decreasing with level
+  return Math.max(34, 88 - level * 9);
+}
+
+// ─── PARTICLES ───────────────────────────────────────────────────
+function burst(x, y, good) {
+  const color1 = good ? '#00f5d4' : '#ef4444';
+  const color2 = good ? '#a855f7' : '#f97316';
+  for (let i = 0; i < 14; i++) {
+    const angle = (Math.PI * 2 * i) / 14;
+    const spd   = 2.5 + Math.random() * 4;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * spd,
+      vy: Math.sin(angle) * spd - 1.5,
+      life: 1,
+      color: i % 2 === 0 ? color1 : color2,
+      size:  2.5 + Math.random() * 3.5,
+    });
+  }
+}
+
+function addFeedback(x, y, text, color) {
+  feedbacks.push({ x, y, vy: -1.2, text, color, life: 1 });
+}
+
+// ─── DAMAGE ──────────────────────────────────────────────────────
+function takeDamage(reason) {
+  lives--;
+  flashAlpha = 0.45;
+  shakeAmt   = 8;
+  addFeedback(W / 2, H / 2 - 40, reason, '#ef4444');
+  if (lives <= 0) {
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem('capi-hiscore', highScore);
+    }
+    state = 'gameover';
+  }
+}
+
+// ─── UPDATE ──────────────────────────────────────────────────────
+function update() {
+  if (state !== 'playing') return;
+  frameCount++;
+  capiAnim += 0.07;
+
+  // Move Capi
+  if (touchTargetX !== null) {
+    capiX += (touchTargetX - capiX) * 0.18;
+  } else {
+    if (keys['ArrowLeft']  || keys['KeyA']) capiX -= CAPI_SPEED;
+    if (keys['ArrowRight'] || keys['KeyD']) capiX += CAPI_SPEED;
+  }
+  capiX = Math.max(CAPI_W / 2 + 8, Math.min(W - CAPI_W / 2 - 8, capiX));
+
+  // Spawn cards
+  if (frameCount % spawnRate() === 0) spawnCard();
+
+  // Level: every 12 scams caught
+  level = 1 + Math.floor(caught / 12);
+
+  // Update cards
+  for (let i = cards.length - 1; i >= 0; i--) {
+    const c = cards[i];
+
+    if (c.dying) {
+      c.opacity -= 0.07;
+      if (c.dyingUp) c.y -= 2.5;
+      if (c.opacity <= 0) cards.splice(i, 1);
+      continue;
+    }
+
+    c.y += c.vy;
+
+    // Collision check: card bottom touches Capi zone
+    const cLeft   = capiX - CAPI_W * 0.48;
+    const cRight  = capiX + CAPI_W * 0.48;
+    const cardCX  = c.x + CARD_W / 2;
+    const cardBot = c.y + CARD_H;
+
+    const hOverlap = cardCX > cLeft && cardCX < cRight;
+    const vContact = cardBot >= GROUND_Y && c.y <= GROUND_Y + CAPI_H;
+
+    if (hOverlap && vContact) {
+      burst(cardCX, GROUND_Y, c.isScam);
+      if (c.isScam) {
+        const pts = 10 * level;
+        score  += pts;
+        caught++;
+        addFeedback(cardCX, GROUND_Y - 30, `+${pts}  ${c.label}`, '#00f5d4');
+        c.dying   = true;
+        c.dyingUp = true;
+      } else {
+        takeDamage('FALSO ALARME! -1 vida');
+        c.dying = true;
+      }
+      continue;
+    }
+
+    // Card exits bottom
+    if (c.y > H + 10) {
+      if (c.isScam) takeDamage('GOLPE PASSOU! -1 vida');
+      cards.splice(i, 1);
+    }
+  }
+
+  // Update particles
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x  += p.vx; p.y += p.vy; p.vy += 0.18;
+    p.life -= 0.028;
+    if (p.life <= 0) particles.splice(i, 1);
+  }
+
+  // Update feedbacks
+  for (let i = feedbacks.length - 1; i >= 0; i--) {
+    const f = feedbacks[i];
+    f.y    += f.vy;
+    f.life -= 0.022;
+    if (f.life <= 0) feedbacks.splice(i, 1);
+  }
+
+  // Decay
+  if (flashAlpha > 0) flashAlpha = Math.max(0, flashAlpha - 0.025);
+  if (shakeAmt   > 0) shakeAmt   = Math.max(0, shakeAmt   - 0.7);
+}
+
+// ─── DRAW HELPERS ────────────────────────────────────────────────
+function drawRoundRect(x, y, w, h, r, fill, stroke, lw) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, r);
+  if (fill)   { ctx.fillStyle   = fill;   ctx.fill();   }
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw || 1.5; ctx.stroke(); }
+}
+
+function text(t, x, y, font, color, align) {
+  ctx.font      = font;
+  ctx.fillStyle = color;
+  ctx.textAlign = align || 'left';
+  ctx.fillText(t, x, y);
+}
+
+// ─── DRAW SCENE ──────────────────────────────────────────────────
+function drawBG() {
+  // Sky gradient
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0,   '#060c1a');
+  g.addColorStop(0.7, '#0d1121');
+  g.addColorStop(1,   '#0a1628');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid
+  ctx.strokeStyle = 'rgba(0,245,212,0.035)';
+  ctx.lineWidth   = 1;
+  for (let x = 0; x <= W; x += 48) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = 0; y <= H; y += 48) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // Ground
+  const groundY = GROUND_Y + CAPI_H + 6;
+  ctx.strokeStyle = 'rgba(0,245,212,0.25)';
+  ctx.lineWidth   = 2;
+  ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(W, groundY); ctx.stroke();
+
+  // Ground glow strip
+  const glow = ctx.createLinearGradient(0, groundY, 0, groundY + 30);
+  glow.addColorStop(0, 'rgba(0,245,212,0.07)');
+  glow.addColorStop(1, 'rgba(0,245,212,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, groundY, W, 30);
+}
+
+function drawCard(c) {
+  ctx.globalAlpha = c.opacity;
+  const { x, y, isScam, label, sub, icon } = c;
+
+  const bg     = isScam ? '#1c0808' : '#081c0e';
+  const border = isScam ? '#ef4444' : '#22c55e';
+  const accent = isScam ? '#ef4444' : '#22c55e';
+  const lbl    = isScam ? '#fca5a5' : '#86efac';
+
+  ctx.shadowColor = isScam ? 'rgba(239,68,68,0.35)' : 'rgba(34,197,94,0.25)';
+  ctx.shadowBlur  = 10;
+  drawRoundRect(x, y, CARD_W, CARD_H, 8, bg, border, 2);
+  ctx.shadowBlur  = 0;
+
+  // Left stripe
+  ctx.fillStyle = accent;
+  ctx.beginPath(); ctx.roundRect(x, y, 5, CARD_H, [8, 0, 0, 8]); ctx.fill();
+
+  // Label
+  text(label, x + 15, y + 22, 'bold 12.5px monospace', lbl);
+
+  // Sub label
+  text(sub, x + 15, y + 38, '10px monospace', 'rgba(226,232,240,0.5)');
+
+  // Icon
+  ctx.font      = '18px serif';
+  ctx.textAlign = 'right';
+  ctx.fillText(icon, x + CARD_W - 8, y + 30);
+  ctx.textAlign = 'left';
+
+  ctx.globalAlpha = 1;
+}
+
+function drawCapi() {
+  const bobY = GROUND_Y + Math.sin(capiAnim) * 2;
+
+  // Shadow ellipse
+  const sh = ctx.createRadialGradient(capiX, GROUND_Y + CAPI_H + 8, 4, capiX, GROUND_Y + CAPI_H + 8, 42);
+  sh.addColorStop(0, 'rgba(0,245,212,0.18)');
+  sh.addColorStop(1, 'rgba(0,245,212,0)');
+  ctx.fillStyle = sh;
+  ctx.beginPath();
+  ctx.ellipse(capiX, GROUND_Y + CAPI_H + 10, 42, 10, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  if (capiImg.complete && capiImg.naturalWidth > 0) {
+    ctx.drawImage(capiImg, capiX - CAPI_W / 2, bobY, CAPI_W, CAPI_H);
+  } else {
+    // Fallback emoji
+    ctx.font      = '52px serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('🦫', capiX, bobY + CAPI_H - 6);
+    ctx.textAlign = 'left';
+  }
+}
+
+function drawHUD() {
+  // Left: score + level
+  text(`SCORE: ${score}`, 18, 30, 'bold 14px monospace', '#00f5d4');
+  text(`NÍVEL: ${level}`,  18, 50, '12px monospace',      '#a855f7');
+  text(`RECORDE: ${highScore}`, 18, 68, '10px monospace', 'rgba(226,232,240,0.35)');
+
+  // Right: lives as shields
+  ctx.textAlign = 'right';
+  ctx.font      = '22px serif';
+  for (let i = 0; i < 3; i++) {
+    ctx.globalAlpha = i < lives ? 1 : 0.18;
+    ctx.fillText('🛡️', W - 16 - i * 32, 34);
+  }
+  ctx.globalAlpha = 1;
+  ctx.textAlign   = 'left';
+
+  // Scams caught progress bar toward next level
+  const progress  = (caught % 12) / 12;
+  const barW = 120, barH = 5;
+  const bx = W / 2 - barW / 2, by = 12;
+  drawRoundRect(bx, by, barW, barH, 3, 'rgba(255,255,255,0.06)', null);
+  if (progress > 0) drawRoundRect(bx, by, barW * progress, barH, 3, '#a855f7', null);
+  text(`NÍVEL ${level+1} em ${12 - caught%12} golpes`, W/2, by + barH + 12,
+       '9px monospace', 'rgba(168,85,247,0.6)', 'center');
+}
+
+function drawParticles() {
+  for (const p of particles) {
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle   = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawFeedbacks() {
+  for (const f of feedbacks) {
+    ctx.globalAlpha = Math.min(1, f.life * 2);
+    ctx.shadowColor = f.color;
+    ctx.shadowBlur  = 6;
+    text(f.text, f.x, f.y, 'bold 13px monospace', f.color, 'center');
+    ctx.shadowBlur  = 0;
+  }
+  ctx.globalAlpha = 1;
+}
+
+// ─── SCREENS ─────────────────────────────────────────────────────
+function drawMenu() {
+  drawBG();
+
+  // Big title
+  ctx.shadowColor = '#00f5d4'; ctx.shadowBlur = 20;
+  text('CAPI DETECTA', W/2, H/2 - 110, 'bold 40px monospace', '#00f5d4', 'center');
+  ctx.shadowBlur = 0;
+
+  text('Defenda o Brasil dos golpes digitais!', W/2, H/2 - 72,
+       '14px monospace', 'rgba(226,232,240,0.55)', 'center');
+
+  // Capi image centred
+  if (capiImg.complete && capiImg.naturalWidth > 0) {
+    const sz = 90;
+    ctx.drawImage(capiImg, W/2 - sz/2, H/2 - 48, sz, sz);
+  } else {
+    ctx.font = '72px serif'; ctx.textAlign = 'center';
+    ctx.fillText('🦫', W/2, H/2 + 44); ctx.textAlign = 'left';
+  }
+
+  // Instructions box
+  const bx = W/2 - 220, by = H/2 + 56, bw = 440, bh = 72;
+  drawRoundRect(bx, by, bw, bh, 8, 'rgba(0,245,212,0.04)', 'rgba(0,245,212,0.15)', 1);
+
+  text('← →  mover a Capi', bx + 20, by + 22, '12px monospace', 'rgba(226,232,240,0.6)');
+  text('⬛ VERMELHO — GOLPE: intercepte!',  bx + 20, by + 40, '12px monospace', '#fca5a5');
+  text('⬛ VERDE — LEGÍTIMO: esquive!',      bx + 20, by + 58, '12px monospace', '#86efac');
+
+  // Pulsing CTA
+  const pulse = 0.65 + 0.35 * Math.sin(Date.now() / 420);
+  ctx.globalAlpha = pulse;
+  ctx.shadowColor = '#00f5d4'; ctx.shadowBlur = 8;
+  text('[ ENTER / CLIQUE / TOQUE PARA JOGAR ]', W/2, H/2 + 155,
+       'bold 14px monospace', '#00f5d4', 'center');
+  ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+
+  if (highScore > 0) {
+    text(`Recorde: ${highScore} pts`, W/2, H/2 + 178, '12px monospace', '#a855f7', 'center');
+  }
+}
+
+function drawPause() {
+  ctx.fillStyle = 'rgba(6,12,26,0.72)';
+  ctx.fillRect(0, 0, W, H);
+  ctx.shadowColor = '#a855f7'; ctx.shadowBlur = 16;
+  text('PAUSADO', W/2, H/2 - 10, 'bold 32px monospace', '#a855f7', 'center');
+  ctx.shadowBlur = 0;
+  text('ENTER / ESPAÇO / CLIQUE para continuar', W/2, H/2 + 28,
+       '12px monospace', 'rgba(226,232,240,0.5)', 'center');
+}
+
+function drawGameOver() {
+  drawBG();
+  drawParticles();
+
+  ctx.shadowColor = '#ef4444'; ctx.shadowBlur = 24;
+  text('FIM DE JOGO', W/2, H/2 - 98, 'bold 36px monospace', '#ef4444', 'center');
+  ctx.shadowBlur = 0;
+
+  // Score box
+  const bx = W/2 - 180, by = H/2 - 74, bw = 360, bh = 86;
+  drawRoundRect(bx, by, bw, bh, 10, 'rgba(0,0,0,0.35)', 'rgba(0,245,212,0.2)', 1.5);
+
+  text(`Pontuação: ${score}`, W/2, by + 30, 'bold 22px monospace', '#00f5d4', 'center');
+
+  if (score > 0 && score >= highScore) {
+    ctx.shadowColor = '#fbbf24'; ctx.shadowBlur = 10;
+    text('NOVO RECORDE!', W/2, by + 54, 'bold 14px monospace', '#fbbf24', 'center');
+    ctx.shadowBlur = 0;
+  } else {
+    text(`Recorde: ${highScore}`, W/2, by + 54, '13px monospace', '#a855f7', 'center');
+  }
+
+  text(`Golpes interceptados: ${caught}  •  Nível: ${level}`,
+       W/2, by + 74, '11px monospace', 'rgba(226,232,240,0.45)', 'center');
+
+  // Capi at bottom of box
+  if (capiImg.complete && capiImg.naturalWidth > 0) {
+    ctx.drawImage(capiImg, W/2 - 36, H/2 + 18, 72, 72);
+  }
+
+  const pulse = 0.65 + 0.35 * Math.sin(Date.now() / 420);
+  ctx.globalAlpha = pulse;
+  ctx.shadowColor = '#00f5d4'; ctx.shadowBlur = 8;
+  text('[ JOGAR NOVAMENTE ]', W/2, H/2 + 112, 'bold 16px monospace', '#00f5d4', 'center');
+  ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+}
+
+// ─── MAIN DRAW ───────────────────────────────────────────────────
+function draw() {
+  ctx.save();
+
+  // Screen shake
+  if (shakeAmt > 0) {
+    ctx.translate((Math.random() - 0.5) * shakeAmt, (Math.random() - 0.5) * shakeAmt);
+  }
+
+  if (state === 'menu') {
+    drawMenu();
+  } else if (state === 'gameover') {
+    drawGameOver();
+  } else {
+    // playing or paused
+    drawBG();
+
+    for (const c of cards) drawCard(c);
+
+    drawParticles();
+    drawCapi();
+    drawFeedbacks();
+    drawHUD();
+
+    // Red damage flash
+    if (flashAlpha > 0) {
+      ctx.fillStyle = `rgba(239,68,68,${flashAlpha})`;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    if (state === 'paused') drawPause();
+  }
+
+  ctx.restore();
+}
+
+// ─── LOOP ────────────────────────────────────────────────────────
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+</body>
+</html>
