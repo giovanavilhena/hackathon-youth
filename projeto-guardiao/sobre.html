@@ -33,8 +33,8 @@
       box-shadow: 0 12px 40px rgba(0, 245, 212, 0.15);
     }
     .founder-avatar {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
       display: flex;
@@ -46,6 +46,15 @@
       color: #000;
       margin: 0 auto 16px;
       box-shadow: 0 0 20px rgba(0, 245, 212, 0.3);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .founder-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 50%;
     }
     .founder-name {
       font-family: var(--font-body);
@@ -385,33 +394,6 @@
           </div>
         </div>
 
-        <!-- Timeline do projeto -->
-        <div style="margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px;">
-          <h3 style="font-size: 12px; font-family: var(--font-mono); color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;">📅 Linha do tempo</h3>
-          <div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div>
-                <div style="font-weight: 800; font-size: 12.5px; color: var(--color-text);">Maio 2026 — Fórum da Internet no Brasil (FIB16), Belém/PA</div>
-                <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 2px;">Idea do CapiSafe apresentada no hackathon do maior evento de governança da internet da América Latina.</div>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot" style="background: var(--accent-purple); box-shadow: 0 0 8px rgba(168,85,247,0.5);"></div>
-              <div>
-                <div style="font-weight: 800; font-size: 12.5px; color: var(--color-text);">Junho 2026 — MVP lançado</div>
-                <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 2px;">Primeira versão com relatos, diagnóstico por IA, histórico comunitário e jogo educativo.</div>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot" style="background: #F59E0B; box-shadow: 0 0 8px rgba(245,158,11,0.5);"></div>
-              <div>
-                <div style="font-weight: 800; font-size: 12.5px; color: var(--color-text);">Próximo — CapiBot no WhatsApp</div>
-                <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 2px;">Expansão para o app mais usado no Brasil, tornando a proteção acessível para idosos e jovens via chat.</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="window-statusbar">
         <span>CapiSafe — nascido no FIB16, Belém/PA</span>
@@ -425,7 +407,7 @@
         <div class="titlebar-text"><span>🦫 POR_QUE_CAPISAFE_E_A_CAPIVARA.TXT</span></div>
       </div>
       <div class="window-body">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px;">
+        <div>
 
           <!-- Nome CapiSafe -->
           <div>
@@ -451,40 +433,6 @@
             </p>
           </div>
 
-          <!-- Por que capivara -->
-          <div>
-            <h2 style="font-size: 16px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal); margin-bottom: 12px;">Por que uma capivara?</h2>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-              <div class="capi-fact">
-                <span class="capi-fact-icon">🌎</span>
-                <div>
-                  <div class="capi-fact-title">Genuinamente brasileira</div>
-                  <div class="capi-fact-text">A capivara é o maior roedor do mundo, nativa da América do Sul e símbolo cultural do Brasil — assim como o CapiSafe é uma solução feita do Brasil para o Brasil.</div>
-                </div>
-              </div>
-              <div class="capi-fact">
-                <span class="capi-fact-icon">🤝</span>
-                <div>
-                  <div class="capi-fact-title">A mais social de todas as espécies</div>
-                  <div class="capi-fact-text">A capivara é famosa por conviver em harmonia com todos os animais — jacarés, pássaros, macacos, gatos. Ela não tem inimigos no reino animal. Exatamente como a internet deveria ser: um espaço de convivência segura para todos.</div>
-                </div>
-              </div>
-              <div class="capi-fact">
-                <span class="capi-fact-icon">🌐</span>
-                <div>
-                  <div class="capi-fact-title">Fenômeno cultural global</div>
-                  <div class="capi-fact-text">O meme "para a capivara, tudo bem" viralizou mundialmente, tornando a capivara um símbolo de equanimidade e serenidade — qualidades que cultivamos em nossa comunidade digital.</div>
-                </div>
-              </div>
-              <div class="capi-fact">
-                <span class="capi-fact-icon">🔍</span>
-                <div>
-                  <div class="capi-fact-title">A Capi detetive vigia por você</div>
-                  <div class="capi-fact-text">Nossa mascote Capi é uma capivara detetive: calma e social com todos, mas sempre alerta contra fraudes. A vigilância comunitária do CapiSafe funciona da mesma forma — juntos, nos protegemos.</div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -504,7 +452,9 @@
 
           <!-- CO-FUNDADORA 1 -->
           <div class="founder-card">
-            <div class="founder-avatar">GV</div>
+            <div class="founder-avatar">
+              <img src="imagens/giovana.jpg" alt="Giovana Vilhena" onerror="this.style.display='none';this.parentElement.innerHTML='GV'">
+            </div>
             <div class="founder-name">Giovana Vilhena</div>
             <div class="founder-role">Co-fundadora</div>
             <p class="founder-bio">
@@ -520,7 +470,9 @@
 
           <!-- CO-FUNDADORA 2 -->
           <div class="founder-card">
-            <div class="founder-avatar" style="background: linear-gradient(135deg, var(--accent-purple), #EC4899);">K</div>
+            <div class="founder-avatar" style="background: linear-gradient(135deg, var(--accent-purple), #EC4899);">
+              <img src="imagens/karoline.jpg" alt="Karoline" onerror="this.style.display='none';this.parentElement.innerHTML='K'">
+            </div>
             <div class="founder-name">Karoline</div>
             <div class="founder-role">Co-fundadora</div>
             <p class="founder-bio">
@@ -671,6 +623,29 @@
       <div class="window-statusbar">
         <span>Plataforma aberta e gratuita para todos</span>
         <span>Segurança Digital Brasileira</span>
+      </div>
+    </section>
+
+    <!-- ====== SEÇÃO 6: CONSELHEIRO ====== -->
+    <section class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text"><span>🎓 CONSELHEIRO_CAPISAFE.TXT</span></div>
+      </div>
+      <div class="window-body">
+        <h2 style="font-size: 16px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal); margin-bottom: 6px;">Conselheiro</h2>
+        <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 20px;">Especialista que orienta a direção estratégica e técnica do projeto.</p>
+
+        <div style="display: flex; align-items: flex-start; gap: 20px; padding: 20px; background: var(--bg-desktop); border: 1.5px solid var(--color-border); border-radius: 12px;">
+          <div class="founder-avatar" style="background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple)); width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 22px; font-weight: 800; color: #ffffff; flex-shrink: 0;">RA</div>
+          <div style="flex: 1;">
+            <div style="font-size: 15px; font-weight: 800; font-family: var(--font-body); color: var(--color-text); margin-bottom: 4px;">Rodolfo Avelino</div>
+            <div style="font-size: 12px; color: var(--accent-teal); font-family: var(--font-mono); margin-bottom: 10px;">Conselheiro Estratégico</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <span style="font-size: 10px; font-family: var(--font-mono); background: rgba(0,245,212,0.08); border: 1px solid rgba(0,245,212,0.2); color: var(--accent-teal); border-radius: 4px; padding: 2px 8px;">Governança da Internet</span>
+              <span style="font-size: 10px; font-family: var(--font-mono); background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2); color: var(--accent-purple); border-radius: 4px; padding: 2px 8px;">FIB16</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
