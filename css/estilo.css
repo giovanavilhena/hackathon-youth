@@ -2792,4 +2792,25 @@ body.light-theme .app-footer {
   }
 }
 
+/* Light mode: fix dark rgba(0,0,0,x) backgrounds that become invisible on white */
+body.light-theme .scam-header {
+  background: #e2e8f0;
+  color: var(--accent-teal);
+  border-bottom-color: #cbd5e1;
+}
+
+body.light-theme .card-flat[style*="rgba(0,0,0"] {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.light-theme .no-results.card-flat {
+  background: #f8fafc;
+}
+
+/* historico.html inline rgba(0,0,0,0.2) stat cards */
+body.light-theme .card-flat {
+  background: #ffffff;
+}
+
 
