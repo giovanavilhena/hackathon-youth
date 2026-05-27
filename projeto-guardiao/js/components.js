@@ -68,7 +68,7 @@
         <div class="chatbot-messages" id="chatbot-messages">
           <div class="chat-message bot">
             <div class="message-meta" style="font-size: 10px; font-family: var(--font-mono); color: var(--accent-purple); margin-bottom: 2px;">Capi Bot • Agora</div>
-            <div class="message-text" style="font-size: 12px; line-height: 1.45;">Olá! Sou o especialista de segurança cibernética do Guardião da Rede. Suspeita de alguma mensagem, ligação ou investimento Pix? Me conte os detalhes e eu analiso para você na hora!</div>
+            <div class="message-text" style="font-size: 12px; line-height: 1.45;">Olá! Sou o especialista de segurança cibernética da CapiSafe. Suspeita de alguma mensagem, ligação ou investimento Pix? Me conte os detalhes e eu analiso para você na hora!</div>
           </div>
         </div>
         <div class="chatbot-loading-line" id="chatbot-loading" style="display: none; font-size: 11px; font-family: var(--font-mono); color: var(--accent-teal); margin-bottom: 8px; padding-left: 4px;">

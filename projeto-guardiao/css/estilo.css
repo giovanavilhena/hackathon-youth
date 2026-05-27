@@ -314,7 +314,7 @@ a:hover {
   color: var(--color-text);
   padding: 10px 16px;
   font-family: var(--font-pixel);
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
   display: flex;
   align-items: center;

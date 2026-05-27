@@ -1,5 +1,5 @@
 /**
- * Guardião da Rede — Controlador da Triagem (5 passos)
+ * CapiSafe — Controlador da Triagem (5 passos)
  * 
  * Gerencia o questionário Akinator de 5 etapas, as falas da Capi,
  * a persistência comunitária e a classificação do caso.
