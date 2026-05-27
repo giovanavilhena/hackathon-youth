@@ -1,5 +1,5 @@
 /**
- * Guardião da Rede — Chatbot do Telegram
+ * CapiSafe — Chatbot do Telegram
  * 
  * Um chatbot simplificado que recebe descrições de relatos
  * e retorna a classificação de risco e orientações.
@@ -27,9 +27,9 @@ const bot = new Telegraf(BOT_TOKEN);
 // Comando Inicial /start
 bot.start((ctx) => {
   const welcomeMessage = `
-🛡️ *Bem-vindo ao Guardião da Rede!*
+🛡️ *Bem-vindo ao CapiSafe!*
 
-Olá! Eu sou o assistente virtual do projeto Guardião da Rede (MVP desenvolvido para o Hackathon FIB16).
+Olá! Eu sou o assistente virtual do projeto CapiSafe (MVP desenvolvido para o Hackathon FIB16).
 Estou aqui para ajudar a identificar possíveis golpes virtuais de forma rápida e anônima.
 
 *Como usar:*
@@ -113,7 +113,7 @@ bot.on('text', async (ctx) => {
 
 // Inicialização do Servidor do Bot
 bot.launch().then(() => {
-  console.log("🛡️ Bot do Guardião da Rede iniciado com sucesso no Telegram!");
+  console.log("🛡️ Bot da CapiSafe iniciado com sucesso no Telegram!");
 });
 
 // Encerramento limpo para interrupções

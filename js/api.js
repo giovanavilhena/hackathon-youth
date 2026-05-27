@@ -249,7 +249,7 @@ const DICAS_CAPI = [
   "Antes de fazer um Pix de urgência para um parente com número novo no WhatsApp, ligue e fale com a pessoa por voz para confirmar.",
   "Cuidado com a 'Selfie da Selfie': Nunca tire fotos do rosto fora de aplicativos oficiais se solicitado por supostos funcionários em ligação.",
   "Sites do governo brasileiro e da justiça terminam sempre com '.gov.br' ou '.jus.br'. Desconfie de links encurtados ou estranhos.",
-  "O anonimato dos relatos no Guardião da Rede protege as vítimas da vergonha social e ajuda a proteger toda a comunidade em tempo real.",
+  "O anonimato dos relatos no CapiSafe protege as vítimas da vergonha social e ajuda a proteger toda a comunidade em tempo real.",
   "Se um comprador pedir para migrar a negociação da OLX ou Mercado Livre para o WhatsApp particular, desconfie: é o início de um golpe comum.",
   "Evite novos CNPJs fantasmas no seu CPF fazendo o bloqueio de empresas no portal da REDESIM!",
   "Consulte contas bancárias e dívidas desconhecidas no seu CPF usando o Registrato do Banco Central.",

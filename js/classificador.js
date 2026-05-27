@@ -1,5 +1,5 @@
 /**
- * Guardião da Rede — Motor de Classificação de Golpes
+ * CapiSafe — Motor de Classificação de Golpes
  * 
  * Este arquivo contém a base de dados de táticas de fraudes,
  * com novas categorias integradas (vagas online, encomendas, facial, exames, processos)
