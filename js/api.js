@@ -218,7 +218,11 @@ const DICAS_CAPI = [
   "Cuidado com a 'Selfie da Selfie': Nunca tire fotos do rosto fora de aplicativos oficiais se solicitado por supostos funcionários em ligação.",
   "Sites do governo brasileiro e da justiça terminam sempre com '.gov.br' ou '.jus.br'. Desconfie de links encurtados ou estranhos.",
   "O anonimato dos relatos no Guardião da Rede protege as vítimas da vergonha social e ajuda a proteger toda a comunidade em tempo real.",
-  "Se um comprador pedir para migrar a negociação da OLX ou Mercado Livre para o WhatsApp particular, desconfie: é o início de um golpe comum."
+  "Se um comprador pedir para migrar a negociação da OLX ou Mercado Livre para o WhatsApp particular, desconfie: é o início de um golpe comum.",
+  "Evite novos CNPJs fantasmas no seu CPF fazendo o bloqueio de empresas no portal da REDESIM!",
+  "Consulte contas bancárias e dívidas desconhecidas no seu CPF usando o Registrato do Banco Central.",
+  "Cadastre-se no Não Me Perturbe para bloquear ligações chatas de telemarketing financeiro.",
+  "Use a Autoexclusão de Apostas do Ministério da Fazenda no Gov.br para bloquear seu CPF em todas as bets."
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -285,6 +289,43 @@ document.addEventListener("DOMContentLoaded", () => {
           capiBubbleText.style.opacity = 1;
         }, 200);
       }
+    });
+  }
+
+  // Lógica do Mascote Flutuante Capi (Floating Assistant)
+  const capiMascot = document.getElementById("capi-mascot");
+  const capiMascotSprite = document.getElementById("capi-mascot-sprite");
+  const capiMascotBubble = document.getElementById("capi-mascot-bubble");
+
+  if (capiMascot && capiMascotSprite && capiMascotBubble) {
+    let bubbleTimeout = null;
+
+    capiMascotSprite.addEventListener("click", () => {
+      // Se a bolha já estiver visível, fecha
+      if (capiMascotBubble.style.display === "block") {
+        capiMascotBubble.style.display = "none";
+        if (bubbleTimeout) clearTimeout(bubbleTimeout);
+        return;
+      }
+
+      // Escolhe uma dica aleatória
+      const randIdx = Math.floor(Math.random() * DICAS_CAPI.length);
+      const dica = DICAS_CAPI[randIdx];
+
+      capiMascotBubble.innerHTML = `<strong>Capi diz:</strong> "${dica}"`;
+      capiMascotBubble.style.display = "block";
+
+      // Animação de pulo do sprite
+      capiMascotSprite.classList.add("block-jump-anim");
+      setTimeout(() => {
+        capiMascotSprite.classList.remove("block-jump-anim");
+      }, 300);
+
+      // Oculta automaticamente após 6 segundos
+      if (bubbleTimeout) clearTimeout(bubbleTimeout);
+      bubbleTimeout = setTimeout(() => {
+        capiMascotBubble.style.display = "none";
+      }, 6000);
     });
   }
 

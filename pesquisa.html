@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="CapiSafe - Pesquisa de campo e entrevistas sobre golpes virtuais realizadas no FIB16 em Belém/PA.">
-  <title>Pesquisa de Opinião — CapiSafe</title>
+  <title>Capi, anota aí — CapiSafe</title>
+  <link rel="icon" type="image/png" href="imagens/capi_detective.png">
   <link rel="stylesheet" href="css/estilo.css">
   <style>
     /* Estilos específicos para a pesquisa de campo */
@@ -235,20 +236,20 @@
   <header class="app-header outset-border">
     <div class="header-container">
       <a href="index.html" class="logo-link">
-        <span class="logo-icon" aria-hidden="true">🦫</span>
+        <img src="imagens/capi_detective.png" alt="Logo CapiSafe" class="logo-img">
         <span class="logo-text">CapiSafe</span>
       </a>
       <div style="display: flex; gap: 8px; align-items: center;">
         <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
         <nav class="app-nav" aria-label="Navegação Principal">
           <a href="index.html" class="nav-link outset-border" id="nav-home">Início</a>
-          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
-          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
-          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Capi, vê pra mim?</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico</a>
+          <a href="pesquisa.html" class="nav-link outset-border active" id="nav-pesquisa">Capi, anota aí</a>
           <a href="jogo.html" class="nav-link outset-border" id="nav-jogo">🎮 Jogo</a>
-          <a href="pesquisa.html" class="nav-link outset-border active" id="nav-pesquisa">Pesquisa de Campo</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
+          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
           <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
         </nav>
       </div>
@@ -258,8 +259,8 @@
   <!-- TICKER DE ALERTAS (CSS TICKER) -->
   <div class="ticker-wrap" aria-hidden="true">
     <div class="ticker-track">
-      <span class="ticker-item">🎤 PESQUISA DE SEGURANÇA DIGITAL NO FIB16: Ajude a mapear as ameaças virtuais e proteja Belém-PA!</span>
-      <span class="ticker-item">🎤 PESQUISA DE SEGURANÇA DIGITAL NO FIB16: Ajude a mapear as ameaças virtuais e proteja Belém-PA!</span>
+      <span class="ticker-item">🎤 CAPI, ANOTA AÍ: Interação e mapeamento de ameaças virtuais no FIB16 em Belém-PA!</span>
+      <span class="ticker-item">🎤 CAPI, ANOTA AÍ: Interação e mapeamento de ameaças virtuais no FIB16 em Belém-PA!</span>
     </div>
   </div>
 
@@ -274,7 +275,7 @@
       <div class="capi-bubble">
         <div class="capi-bubble-title">Capi diz:</div>
         <p style="margin-bottom: 0;">
-          "Olá! Esta pesquisa é rápida e <strong>100% anônima</strong>. Seus relatos nos ajudam a entender como os golpes virtuais estão atingindo nossa população e a calibrar minha inteligência de proteção!"
+          "Olá! Este é o nosso espaço de interação e registro! Aqui, você compartilha anonimamente sua experiência com a segurança digital, o que nos ajuda a mapear as ameaças em Belém-PA e a calibrar minhas ferramentas de proteção!"
         </p>
       </div>
     </div>
@@ -283,7 +284,7 @@
     <section id="thank-you-card" class="window outset-border" style="display: none; max-width: 550px; margin: 20px auto;">
       <div class="window-titlebar">
         <div class="titlebar-text">
-          <span>🛡️ PESQUISA_SALVA.EXE</span>
+          <span>🛡️ REGISTRO_SALVO.EXE</span>
         </div>
       </div>
       <div class="window-body" style="text-align: center; padding: 32px 24px;">
@@ -293,7 +294,7 @@
           Suas respostas foram arquivadas localmente com segurança e anonimato. Seus dados nos ajudam a mapear quais golpes digitais estão sendo aplicados no Brasil.
         </p>
         <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-          <a href="relato.html" class="btn btn-primary">⚡ Analisar Suspeita de Golpe</a>
+          <a href="relato.html" class="btn btn-primary">⚡ Capi, vê pra mim?</a>
           <button class="btn btn-secondary" id="btn-survey-again">🎤 Responder Novamente</button>
         </div>
       </div>
@@ -307,7 +308,7 @@
     <section class="window outset-border" id="survey-window">
       <div class="window-titlebar">
         <div class="titlebar-text">
-          <span>📝 FORMULARIO_PESQUISA_SEGURANCA.EXE</span>
+          <span>📝 CAPI_ANOTA_AI.EXE</span>
         </div>
       </div>
       <div class="window-body">
@@ -525,9 +526,9 @@
             <span class="metric-label" style="font-size: 10px;">Fizeram B.O. ou acionaram o banco</span>
           </div>
 
-          <!-- CARD 4: Letramento Digital Baixo -->
+          <!-- CARD 4: Familiaridade Digital Baixa -->
           <div class="metric-card">
-            <span class="metric-label">LETRAMENTO DIGITAL BAIXO/MÉDIO</span>
+            <span class="metric-label">FAMILIARIDADE DIGITAL BAIXA/MÉDIA</span>
             <div class="metric-value" id="stat-digital-literacy">0%</div>
             <span class="metric-label" style="font-size: 10px;">Precisam de alertas simples e acessíveis</span>
           </div>
@@ -599,9 +600,9 @@
             <table>
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>ID</th>
                   <th>Idade</th>
-                  <th>Letramento</th>
+                  <th>Familiaridade</th>
                   <th>Situação</th>
                   <th>Canal</th>
                   <th>Tipo</th>
@@ -637,8 +638,8 @@
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
     <div class="footer-container">
-      <div>🛡️ CapiSafe</div>
-      <div>Segurança Digital Brasileira</div>
+      <div>🦫 CapiSafe</div>
+      <div>Segurança Digital</div>
     </div>
   </footer>
 
@@ -737,7 +738,7 @@
             return false;
           }
           if (!q2) {
-            showToast("Por favor, selecione seu nível de letramento (Pergunta 2).", "warning");
+            showToast("Por favor, selecione seu nível de familiaridade (Pergunta 2).", "warning");
             return false;
           }
         } else if (step === 2) {
@@ -1117,7 +1118,7 @@
           return;
         }
 
-        const headers = ["ID", "Faixa Etaria", "Letramento Digital", "Situacao Golpe", "Canal Principal", "Tipo de Golpe", "Fator Convencimento", "Prejuizo Financeiro", "Atitude Pos-Golpe", "Facilidade Orientacoes", "Sentimento Principal"];
+        const headers = ["ID", "Faixa Etaria", "Familiaridade Digital", "Situacao Golpe", "Canal Principal", "Tipo de Golpe", "Fator Convencimento", "Prejuizo Financeiro", "Atitude Pos-Golpe", "Facilidade Orientacoes", "Sentimento Principal"];
         
         let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
         csvContent += headers.join(";") + "\n";

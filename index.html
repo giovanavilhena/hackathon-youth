@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="CapiSafe - Central Inteligente e Comunitária contra golpes virtuais no Brasil. Relate suspeitas anonimamente e receba diagnóstico instantâneo.">
+  <meta property="og:title" content="CapiSafe — Segurança Digital para Todos">
+  <meta property="og:description" content="Plataforma comunitária anti-golpes com IA brasileira. Relate suspeitas anonimamente e receba diagnóstico instantâneo — sem cadastro.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
   <title>CapiSafe — Segurança Digital para Todos</title>
+  <link rel="icon" type="image/png" href="imagens/capi_detective.png">
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -16,20 +22,20 @@
   <header class="app-header outset-border">
     <div class="header-container">
       <a href="index.html" class="logo-link">
-        <span class="logo-icon" aria-hidden="true">🦫</span>
+        <img src="imagens/capi_detective.png" alt="Logo CapiSafe" class="logo-img">
         <span class="logo-text">CapiSafe</span>
       </a>
       <div style="display: flex; gap: 8px; align-items: center;">
         <button class="hamburger-btn outset-border" id="btn-hamburger" aria-label="Menu" aria-expanded="false">☰</button>
         <nav class="app-nav" aria-label="Navegação Principal">
           <a href="index.html" class="nav-link outset-border active" id="nav-home">Início</a>
-          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Relatar Suspeita</a>
-          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico Público</a>
-          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
-          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário de Golpes</a>
-          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
+          <a href="relato.html" class="nav-link outset-border" id="nav-relato">Capi, vê pra mim?</a>
+          <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário</a>
+          <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Capi, anota aí</a>
           <a href="jogo.html" class="nav-link outset-border" id="nav-jogo">🎮 Jogo</a>
-          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Pesquisa de Campo</a>
+          <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
+          <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
           <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
         </nav>
       </div>
@@ -47,83 +53,39 @@
   <!-- MAIN CONTENT -->
   <main class="main-content boot-hidden" id="main-content">
     
-    <!-- CAPI WIDGET -->
-    <div class="capi-widget" role="note" aria-label="Mensagem de Capi">
-      <div class="capi-img-container outset-border">
-        <img src="imagens/capi_detective.png" alt="Mascote Capi Investigadora" class="capi-pixel-img">
+    <!-- HERO FULLBLEED -->
+    <section class="hero-fullbleed" aria-label="Apresentação do CapiSafe">
+      <span class="hero-eyebrow">🛡️ Plataforma Comunitária Anti-Golpes &nbsp;·&nbsp; Princípios CGI.br &amp; NIC.br</span>
+      <h1>Sua defesa contra as <span>fraudes digitais</span></h1>
+      <p class="hero-lead">Golpes virtuais custaram <strong style="color:var(--accent-teal)">R$ 2,5 bilhões</strong> aos brasileiros em 2024. Relate suspeitas anonimamente e receba diagnóstico instantâneo por IA brasileira — sem cadastro.</p>
+      <div class="hero-cta-row">
+        <a href="relato.html" class="btn btn-primary outset-border">⚡ Capi, vê pra mim?</a>
+        <a href="historico.html" class="btn btn-secondary outset-border">📂 Ver Histórico Público</a>
+        <a href="jogo.html" class="btn btn-secondary outset-border">🎮 Testar Conhecimento</a>
       </div>
-      <div class="capi-bubble">
-        <div class="capi-bubble-title">Capi diz:</div>
-        <p style="margin-bottom: 0;">
-          "Bem-vindo ao CapiSafe! Se você recebeu alguma mensagem estranha, propostas de investimentos irreais ou e-mails suspeitos, clique em mim para ver dicas ou faça uma investigação anônima!"
-        </p>
-      </div>
-    </div>
-
-    <!-- JANELA HERO DE APRESENTAÇÃO DE TRÊS COLUNAS -->
-    <section class="window outset-border" aria-label="Apresentação do Projeto">
-      <div class="window-titlebar">
-        <div class="titlebar-text">
-          <span>🛡️ APRESENTACAO_SISTEMA.EXE</span>
+      <div class="hero-stats-strip">
+        <div class="hero-stat">
+          <span class="hero-stat-num" id="stat-count-relatos">0</span>
+          <span class="hero-stat-label">Relatos na base</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num" id="stat-count-pesquisa">0</span>
+          <span class="hero-stat-label">Registros da comunidade</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">48</span>
+          <span class="hero-stat-label">Termos monitorados</span>
         </div>
       </div>
-      <div class="window-body">
-        <div class="hero-layout">
-          <!-- Coluna 1: Textos e CTAs -->
-          <div class="hero-text-col">
-            <h1 class="hero-title">
-              Sua defesa contra as fraudes digitais
-            </h1>
-            <p>
-              Golpes como falso Pix no WhatsApp, propostas enganosas de vagas de trabalho remoto e engenharia social bancária estão cada vez mais sofisticados. O <strong>CapiSafe</strong> é uma plataforma comunitária cooperativa onde qualquer cidadão relata tentativas de fraudes anonimamente para obter na hora o nível de risco estimado e orientações de segurança personalizadas.
-            </p>
-            <div class="hero-cta-group">
-              <a href="relato.html" class="btn btn-primary">
-                ⚡ Analisar Relato Anônimo
-              </a>
-              <a href="historico.html" class="btn btn-secondary">
-                📂 Explorar Histórico Público
-              </a>
-            </div>
-          </div>
-          
-          <!-- Coluna 2: Contador de estatísticas ao vivo -->
-          <div class="stats-widget">
-            <div class="stats-widget-title">📡 Rede Ativa Agora</div>
-            <div class="stat-item">
-              <span class="stat-num" id="stat-count-relatos">0</span>
-              <span class="stat-desc">Relatos registrados no banco</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-num" id="stat-count-pesquisa">0</span>
-              <span class="stat-desc">Pesquisas de campo coletadas</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-num" id="stat-count-keywords">48</span>
-              <span class="stat-desc">Termos sob monitoramento</span>
-            </div>
-          </div>
-
-          <!-- Coluna 3: Escudo com scanning animado -->
-          <div class="svg-scan-container" aria-hidden="true">
-            <svg class="svg-scanner" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
-              <path class="shield-svg-path" d="M50 10 L85 25 C85 65, 75 90, 50 110 C25 90, 15 65, 15 25 Z" />
-              <path d="M38 58 L46 66 L62 48" stroke="var(--accent-teal)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-              <line class="scanner-beam" x1="10" y1="0" x2="90" y2="0" />
-            </svg>
-          </div>
-        </div>
-      </div>
-      <div class="window-statusbar">
-        <span>Pronto para Diagnóstico Comunitário</span>
-        <span>NIC.br & CGI.br — Princípios Apoiados</span>
-      </div>
+      <a href="#alertas" class="scroll-indicator" aria-label="Rolar para conteúdo">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
     </section>
 
 
 
     <!-- JANELA DE ALERTAS RECENTES -->
-    <section class="window outset-border" aria-label="Alertas recentes da comunidade">
+    <section class="window outset-border" id="alertas" aria-label="Alertas recentes da comunidade">
       <div class="window-titlebar">
         <div class="titlebar-text">
           <span>📡 ALERTAS_RECENTES.TXT</span>
@@ -221,7 +183,7 @@
       </div>
       <div class="window-statusbar">
         <span>Bot em breve</span>
-        <span>Powered by Maritaca AI (Sabiá-3) 🇧🇷</span>
+        <span>Powered by IA Brasileira 🇧🇷</span>
       </div>
     </section>
 
@@ -241,7 +203,7 @@
             <div style="font-size: 24px; margin-bottom: 4px;">🤖</div>
             <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 4px;">Análise Híbrida Inteligente</h3>
             <p style="font-size: 12px; margin-bottom: 0;">
-              Comparamos seu relato usando um motor de regras locais de similaridade baseado em termos comuns das maiores fraudes no Brasil. Opcionalmente, integramos com a IA do Google Gemini para detalhar o diagnóstico do golpe na hora.
+              Comparamos seu relato usando um motor de regras locais baseado nas maiores fraudes do Brasil. Opcionalmente, integramos com <strong style="color:var(--accent-teal)">IA Avançada 🇧🇷</strong> para detalhar o diagnóstico na hora.
             </p>
           </article>
 
@@ -257,7 +219,7 @@
           <!-- PILAR 3 -->
           <article class="card-flat" style="padding: 16px; box-shadow: var(--shadow-flat-sm);">
             <div style="font-size: 24px; margin-bottom: 4px;">🎓</div>
-            <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 4px;">Cidadania e Letramento</h3>
+            <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 4px;">Cidadania e Aprendizado</h3>
             <p style="font-size: 12px; margin-bottom: 0;">
               O laudo técnico final adapta suas orientações de segurança de acordo com a faixa etária da vítima, canal de contato e dados profissionais expostos. Nosso portal apoia o decálogo do CGI.br, priorizando inclusão e padrões abertos.
             </p>
@@ -271,8 +233,8 @@
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
     <div class="footer-container">
-      <div>🛡️ CapiSafe</div>
-      <div>Segurança Digital Brasileira</div>
+      <div>🦫 CapiSafe</div>
+      <div>Segurança Digital</div>
     </div>
   </footer>
 
