@@ -122,8 +122,8 @@ function closeModal() {
 }
 
 /**
- * Função unificada para analisar o relato. Tenta usar o Gemini, senão cai
- * no classificador local offline.
+ * Função unificada para analisar o relato. Tenta o servidor local, depois
+ * a API direta, e por fim o classificador local offline.
  * 
  * @param {string} titulo Título do relato
  * @param {string} descricao Descrição detalhada
@@ -518,7 +518,7 @@ document.addEventListener("DOMContentLoaded", () => {
       chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
     }
 
-    // Histórico de mensagens estruturado para a API do Gemini
+    // Histórico de mensagens para contexto da conversa
     let chatHistory = [];
 
     // Prompt de treinamento (System Instruction) do Capi Bot especialista em golpes
@@ -656,7 +656,7 @@ Regras e Instruções para sua Resposta:
       if (!matched) {
         response += `💡 *RISCO ESTIMADO: ANÁLISE INCONCLUSIVA (Modo Offline)*\n\n`;
         response += `Não consegui identificar termos de golpes conhecidos na sua mensagem.\n\n`;
-        response += `Por favor, ative a chave API do Gemini no ícone ⚙️ no menu superior para conversar de forma livre e profunda com a inteligência artificial, ou descreva a suspeita citando se envolveu mensagens, WhatsApp, links, ligações ou transferências Pix.`;
+        response += `Descreva melhor a suspeita citando se envolveu mensagens, WhatsApp, links, ligações ou transferências Pix. Se quiser análise completa com IA, configure a chave API no ícone ⚙️ no menu.`;
       }
 
       return response;
