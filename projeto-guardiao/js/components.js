@@ -64,8 +64,8 @@
           <button class="win-btn" id="btn-minimize-chat" aria-label="Minimizar chat">&times;</button>
         </div>
       </div>
-      <div class="window-body chatbot-body" style="padding: 12px; display: flex; flex-direction: column; height: 350px; justify-content: space-between;">
-        <div class="chatbot-messages" id="chatbot-messages" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; padding-right: 4px;">
+      <div class="window-body chatbot-body" style="padding: 10px;">
+        <div class="chatbot-messages" id="chatbot-messages">
           <div class="chat-message bot">
             <div class="message-meta" style="font-size: 10px; font-family: var(--font-mono); color: var(--accent-purple); margin-bottom: 2px;">Capi Bot • Agora</div>
             <div class="message-text" style="font-size: 12px; line-height: 1.45;">Olá! Sou o especialista de segurança cibernética do Guardião da Rede. Suspeita de alguma mensagem, ligação ou investimento Pix? Me conte os detalhes e eu analiso para você na hora!</div>

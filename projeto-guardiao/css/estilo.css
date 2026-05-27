@@ -1745,7 +1745,7 @@ p {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 350px;
+  width: 300px;
   border-color: var(--accent-purple);
   box-shadow: var(--shadow-flat-lg);
   display: flex;
@@ -1754,6 +1754,27 @@ p {
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
   transform-origin: bottom right;
   z-index: 1000;
+}
+
+/* Body do chat com altura fixa para forçar scroll nas mensagens */
+.chatbot-body {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 260px !important;
+  min-height: 0;
+}
+
+/* Área de mensagens — precisa de min-height:0 para overflow funcionar em flex */
+.chatbot-messages {
+  flex: 1 1 0 !important;
+  min-height: 0 !important;
+  overflow-y: scroll !important;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 4px;
+  margin-bottom: 8px;
+  scroll-behavior: smooth;
 }
 
 /* Estado Minimizado */
@@ -1844,7 +1865,7 @@ p {
 
 @media (max-width: 480px) {
   .chatbot-window {
-    width: 290px;
+    width: 260px;
   }
 }
 
