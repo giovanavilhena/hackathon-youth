@@ -109,6 +109,9 @@
           <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA" aria-label="Configurações de IA">
             <svg class="nav-icon" aria-hidden="true"><use href="#i-settings"/></svg>
           </button>
+          <button class="btn-settings outset-border" id="btn-theme-toggle" title="Alternar tema" aria-label="Alternar tema claro/escuro">
+            <svg class="nav-icon" aria-hidden="true"><use href="#i-moon"/></svg>
+          </button>
         </nav>
       </div>
     </div>
@@ -129,7 +132,7 @@
     <section class="hero-fullbleed" aria-label="Apresentação do CapiSafe">
       <span class="hero-eyebrow">
         <svg class="eyebrow-icon" aria-hidden="true"><use href="#i-shield"/></svg>
-        Plataforma Comunitária Anti-Golpes &nbsp;·&nbsp; Princípios CGI.br &amp; NIC.br
+        Plataforma Comunitária Anti-Golpes
       </span>
       <h1>Sua defesa contra as <span>fraudes digitais</span></h1>
       <p class="hero-lead">Golpes virtuais custaram <strong style="color:var(--accent-teal)">R$ 2,5 bilhões</strong> aos brasileiros em 2024. Relate suspeitas anonimamente e receba diagnóstico instantâneo por IA brasileira — sem cadastro.</p>
@@ -184,10 +187,6 @@
           <!-- Relatos recentes renderizados via JS -->
         </div>
       </div>
-      <div class="window-statusbar">
-        <span>Atualizado em tempo real localmente</span>
-        <span>Compartilhe para salvar vidas</span>
-      </div>
     </section>
 
     <!-- JANELA CAPIBOT WHATSAPP -->
@@ -203,12 +202,12 @@
 
           <!-- Coluna Esquerda: Texto e CTAs -->
           <div>
-            <div style="font-family: var(--font-mono); font-size: 10px; color: #25D366; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 6px;">NOVO — Bot no WhatsApp</div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: #25D366; letter-spacing: 0.08em; font-weight: 800; margin-bottom: 6px;">Novo — Bot no WhatsApp</div>
             <h2 style="font-size: 18px; font-family: var(--font-body); font-weight: 800; color: var(--color-text); margin-bottom: 8px; line-height: 1.3;">
               Fale com a Capi no WhatsApp!
             </h2>
             <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 20px;">
-              A <strong style="color: var(--color-text);">Capi Bot</strong> chegou ao WhatsApp. Descreva a mensagem suspeita diretamente no app que todo brasileiro usa e receba uma análise anti-golpe na hora — sem abrir o site.
+              Descreva a mensagem suspeita direto no WhatsApp e receba uma análise na hora — sem cadastro, sem abrir o site.
             </p>
 
             <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; font-size: 13px;">
@@ -244,9 +243,6 @@
               </a>
             </div>
 
-            <div style="margin-top: 16px; padding: 10px 14px; background: rgba(37,211,102,0.06); border: 1.5px solid rgba(37,211,102,0.2); border-radius: 8px; font-size: 11px; color: var(--color-text-muted);">
-              <strong style="color: #25D366;">Em breve:</strong> O número oficial da Capi Bot estará disponível assim que o WhatsApp Business estiver configurado. Fique de olho!
-            </div>
           </div>
 
           <!-- Coluna Direita: Card de "Experimente agora" -->
@@ -255,7 +251,7 @@
               <div style="margin-bottom: 12px; display: flex; justify-content: center;">
                 <img src="imagens/capi_detective.png" alt="Capi Bot" style="width: 52px; height: 52px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 0 8px rgba(37,211,102,0.4));">
               </div>
-              <div style="font-family: var(--font-mono); font-size: 11px; color: #25D366; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em;">Experimente agora</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #25D366; font-weight: 800; margin-bottom: 8px; letter-spacing: 0.04em;">Experimente agora</div>
               <p style="font-size: 12px; color: var(--color-text-muted); line-height: 1.5; margin-bottom: 14px;">
                 Envie qualquer mensagem suspeita para a Capi Bot e receba uma análise como esta:
               </p>
@@ -276,10 +272,6 @@
 
 
       </div>
-      <div class="window-statusbar">
-        <span>Bot em breve</span>
-        <span>Desenvolvido com IA Brasileira</span>
-      </div>
     </section>
 
     <!-- JANELA DOS TRÊS PILARES -->
@@ -299,7 +291,7 @@
             <svg class="pillar-icon" aria-hidden="true"><use href="#i-cpu"/></svg>
             <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 6px;">Análise Híbrida Inteligente</h3>
             <p style="font-size: 12.5px; margin-bottom: 0; line-height: 1.65;">
-              Comparamos seu relato usando um motor de regras locais baseado nas maiores fraudes do Brasil. Opcionalmente, integramos com <strong style="color:var(--accent-teal)">IA Avançada</strong> para detalhar o diagnóstico na hora.
+              Motor de regras locais + integração opcional com IA para diagnóstico detalhado na hora.
             </p>
           </article>
 
@@ -308,7 +300,7 @@
             <svg class="pillar-icon" aria-hidden="true"><use href="#i-users"/></svg>
             <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 6px;">Crowdreport e Comentários</h3>
             <p style="font-size: 12.5px; margin-bottom: 0; line-height: 1.65;">
-              As denúncias integram um banco de relatos públicos e anonimizados. Cidadãos e especialistas podem interagir, deixando comentários e dicas de proteção de forma 100% anônima.
+              Relatos públicos e anonimizados. Qualquer pessoa pode comentar e deixar dicas de proteção.
             </p>
           </article>
 
@@ -317,7 +309,7 @@
             <svg class="pillar-icon" aria-hidden="true"><use href="#i-graduation"/></svg>
             <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 6px;">Cidadania e Aprendizado</h3>
             <p style="font-size: 12.5px; margin-bottom: 0; line-height: 1.65;">
-              O laudo técnico adapta as orientações de segurança à faixa etária, canal de contato e dados expostos. Apoiamos o decálogo do CGI.br, priorizando inclusão e padrões abertos.
+              Orientações adaptadas ao perfil da vítima. Alinhado ao decálogo do CGI.br.
             </p>
           </article>
         </div>
@@ -330,10 +322,9 @@
   <footer class="app-footer outset-border">
     <div class="footer-container">
       <div style="display: flex; align-items: center; gap: 8px;">
-        <img src="imagens/capi_detective.png" alt="" aria-hidden="true" style="width: 18px; height: 18px; object-fit: contain; image-rendering: pixelated; opacity: 0.8;">
+        <img src="imagens/capi_detective.png" alt="" aria-hidden="true" style="width: 18px; height: 18px; object-fit: cover; image-rendering: pixelated; opacity: 0.8; clip-path: inset(12%);">
         CapiSafe
       </div>
-      <div>Segurança Digital</div>
     </div>
   </footer>
 
