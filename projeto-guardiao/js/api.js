@@ -5,8 +5,26 @@
  * e as chamadas ao modelo de linguagem brasileiro Sabiá-3 (maritaca.ai).
  */
 
-// Chave do localStorage
+// Chave do localStorage (usada como fallback se o servidor local não estiver rodando)
 const MARITACA_STORAGE_KEY = "capisafe_maritaca_api_key";
+
+// Servidor local Python (servidor.py)
+const LOCAL_SERVER = "http://localhost:5001";
+let _serverOnline = null; // null = não verificado, true/false = resultado do último check
+
+async function isServerOnline() {
+  if (_serverOnline !== null) return _serverOnline;
+  try {
+    const r = await fetch(`${LOCAL_SERVER}/api/status`, { signal: AbortSignal.timeout(800) });
+    const j = await r.json();
+    _serverOnline = j.online === true && j.chave_configurada === true;
+  } catch {
+    _serverOnline = false;
+  }
+  // Re-verifica a cada 30s para detectar se o servidor foi ligado/desligado
+  setTimeout(() => { _serverOnline = null; }, 30000);
+  return _serverOnline;
+}
 
 // ==============================================================================
 // SISTEMA DE NOTIFICAÇÕES TOAST (SUBSTITUTO PARA ALERTS NATIVOS)
@@ -113,6 +131,20 @@ function closeModal() {
  * @returns {Promise<Object>} Promessa contendo os dados de análise do golpe
  */
 async function analisarRelatoComIA(titulo, descricao, triagem) {
+  // ── Tenta o servidor local primeiro ──────────────────────────────────────
+  if (await isServerOnline()) {
+    try {
+      const resp = await fetch(`${LOCAL_SERVER}/api/analyze`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ titulo, descricao, triagem }),
+      });
+      if (resp.ok) return await resp.json();
+    } catch (e) {
+      console.warn("Servidor local falhou, tentando API direta:", e);
+    }
+  }
+
   const apiKey = localStorage.getItem(MARITACA_STORAGE_KEY);
 
   // Fallback se não houver chave salva
@@ -405,10 +437,19 @@ document.addEventListener("DOMContentLoaded", () => {
       chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
     });
 
-    // Minimizar o chat
+    // Minimizar o chat (botão × dentro da janela)
     btnMinimizeChat.addEventListener("click", () => {
       chatbotWidget.classList.add("minimized");
     });
+
+    // Fechar/dispensar o widget inteiro (botão × ao lado do toggle)
+    const chatbotDismiss = document.getElementById("chatbot-dismiss");
+    if (chatbotDismiss) {
+      chatbotDismiss.addEventListener("click", (e) => {
+        e.stopPropagation();
+        chatbotWidget.style.display = "none";
+      });
+    }
 
     // Enviar mensagem
     async function handleChatSubmit() {
@@ -496,6 +537,28 @@ Regras e Instruções para sua Resposta:
 6. Nunca responda a perguntas fora de segurança da informação ou golpes. Se o usuário perguntar sobre outros assuntos, diga de forma bem-humorada que sua mente de capivara hacker está focada em caçar golpistas.`;
 
     async function getChatbotResponse(userMessage) {
+      // ── Tenta o servidor local primeiro ──────────────────────────────────
+      if (await isServerOnline()) {
+        try {
+          const resp = await fetch(`${LOCAL_SERVER}/api/chat`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: userMessage, history: chatHistory }),
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data.reply) {
+              chatHistory.push({ role: "user", content: userMessage });
+              chatHistory.push({ role: "assistant", content: data.reply });
+              if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+              return data.reply;
+            }
+          }
+        } catch (e) {
+          console.warn("Servidor local falhou no chat, tentando API direta:", e);
+        }
+      }
+
       const apiKey = localStorage.getItem(MARITACA_STORAGE_KEY);
 
       // Fallback heurístico se não houver API Key

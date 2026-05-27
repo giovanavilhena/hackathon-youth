@@ -46,11 +46,14 @@
   const CHATBOT_HTML = `
   <!-- WIDGET DE CHATBOT FLUTUANTE INTERATIVO (CAPI BOT) -->
   <div class="chatbot-widget minimized" id="chatbot-widget">
-    <button class="chatbot-toggle outset-border" id="chatbot-toggle" aria-label="Falar com a CapiBot">
-      <img src="imagens/capi_detective.png" alt="Capi" class="logo-img" style="width:20px;height:20px;margin-right:6px;">
-      <span class="chatbot-toggle-text">Falar com a CapiBot</span>
-      <span class="chatbot-pulse-dot"></span>
-    </button>
+    <div style="display:flex;align-items:center;gap:4px;">
+      <button class="chatbot-toggle outset-border" id="chatbot-toggle" aria-label="Falar com a CapiBot">
+        <img src="imagens/capi_detective.png" alt="Capi" class="logo-img" style="width:20px;height:20px;margin-right:6px;">
+        <span class="chatbot-toggle-text">Falar com a CapiBot</span>
+        <span class="chatbot-pulse-dot"></span>
+      </button>
+      <button id="chatbot-dismiss" aria-label="Fechar CapiBot" title="Fechar" style="background:var(--bg-card);border:1.5px solid var(--color-border);color:var(--color-text-muted);width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;transition:all 0.15s;">&times;</button>
+    </div>
     <div class="chatbot-window window outset-border">
       <div class="window-titlebar">
         <div class="titlebar-text">

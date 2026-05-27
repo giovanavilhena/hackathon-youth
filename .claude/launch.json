@@ -1,0 +1,20 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "capisafe",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "3333", "projeto-guardiao"],
+      "port": 3333
+    },
+    {
+      "name": "maritaca-server",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["projeto-guardiao/servidor.py"],
+      "port": 5001,
+      "env": {
+        "MARITACA_API_KEY": ""
+      }
+    }
+  ]
+}
