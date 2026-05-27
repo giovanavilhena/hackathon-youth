@@ -100,34 +100,14 @@
 
   document.body.insertAdjacentHTML('beforeend', MASCOT_HTML);
 
-  // Injetar botão de alternar tema ao lado das configurações de IA
+  // Tema toggle — botão já está no HTML estaticamente, só adiciona o listener
   document.addEventListener("DOMContentLoaded", () => {
-    const settingsToggle = document.getElementById("btn-settings-toggle");
-    if (settingsToggle) {
-      const themeToggle = document.createElement("button");
-      themeToggle.className = "btn-settings outset-border";
-      themeToggle.id = "btn-theme-toggle";
-      themeToggle.style.display = "inline-flex";
-      themeToggle.style.alignItems = "center";
-      themeToggle.style.justifyContent = "center";
-      themeToggle.style.fontSize = "13px";
-      
-      const isLight = document.body.classList.contains("light-theme");
-      themeToggle.title = isLight ? "Alternar para Modo Escuro" : "Alternar para Modo Claro";
-      themeToggle.innerHTML = "🌓";
-      
+    const themeToggle = document.getElementById("btn-theme-toggle");
+    if (themeToggle) {
       themeToggle.addEventListener("click", () => {
-        const wasLight = document.body.classList.toggle("light-theme");
-        if (wasLight) {
-          localStorage.setItem("capi-theme", "light");
-          themeToggle.title = "Alternar para Modo Escuro";
-        } else {
-          localStorage.setItem("capi-theme", "dark");
-          themeToggle.title = "Alternar para Modo Claro";
-        }
+        const isLight = document.body.classList.toggle("light-theme");
+        localStorage.setItem("capi-theme", isLight ? "light" : "dark");
       });
-      
-      settingsToggle.parentNode.insertBefore(themeToggle, settingsToggle);
     }
   });
 })();
