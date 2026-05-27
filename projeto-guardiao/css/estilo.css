@@ -2687,4 +2687,83 @@ body.light-theme .app-footer {
   border-top-color: #cbd5e1;
 }
 
+/* ==============================================================================
+   SVG ICON SYSTEM
+   ============================================================================== */
+.btn-icon {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.nav-icon {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  margin-right: 2px;
+}
+
+.titlebar-icon {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  color: var(--accent-teal);
+}
+
+.eyebrow-icon {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  margin-right: 2px;
+}
+
+.pillar-icon {
+  width: 28px;
+  height: 28px;
+  display: block;
+  margin-bottom: 10px;
+  color: var(--accent-teal);
+}
+
+.check-icon {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+  color: #25D366;
+}
+
+/* ==============================================================================
+   PILARES GRID — variação de peso visual (não simétrico puro)
+   ============================================================================== */
+.pilares-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.pilar-card {
+  box-shadow: var(--shadow-flat-sm);
+}
+
+.pilar-card:first-child {
+  border-left: 4px solid var(--accent-teal);
+}
+
+@media (max-width: 820px) {
+  .pilares-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 

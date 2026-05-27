@@ -15,6 +15,74 @@
 </head>
 <body>
 
+  <!-- SVG Icon Sprite -->
+  <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
+    <defs>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+      </symbol>
+      <symbol id="i-gamepad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/>
+        <line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/>
+        <rect x="2" y="6" width="20" height="12" rx="2"/>
+      </symbol>
+      <symbol id="i-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1.5 8.5a13 13 0 0 1 21 0"/>
+        <path d="M5 12a9 9 0 0 1 14 0"/>
+        <path d="M8.5 15.5a5 5 0 0 1 7 0"/>
+        <circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/>
+      </symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </symbol>
+      <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="4" width="16" height="16" rx="2"/>
+        <rect x="9" y="9" width="6" height="6"/>
+        <line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
+        <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>
+        <line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/>
+        <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </symbol>
+      <symbol id="i-graduation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+        <line x1="7" y1="7" x2="7.01" y2="7"/>
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </symbol>
+    </defs>
+  </svg>
+
   <!-- LINK DE ACESSIBILIDADE -->
   <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
 
@@ -33,10 +101,14 @@
           <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário</a>
           <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico</a>
           <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Capi, anota aí</a>
-          <a href="jogo.html" class="nav-link outset-border" id="nav-jogo">🎮 Jogo</a>
+          <a href="jogo.html" class="nav-link outset-border" id="nav-jogo">
+            <svg class="nav-icon" aria-hidden="true"><use href="#i-gamepad"/></svg> Jogo
+          </a>
           <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
           <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
-          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA">⚙️</button>
+          <button class="btn-settings outset-border" id="btn-settings-toggle" title="Configurações de IA" aria-label="Configurações de IA">
+            <svg class="nav-icon" aria-hidden="true"><use href="#i-settings"/></svg>
+          </button>
         </nav>
       </div>
     </div>
@@ -45,23 +117,35 @@
   <!-- TICKER DE ALERTAS (CSS TICKER) -->
   <div class="ticker-wrap" aria-hidden="true">
     <div class="ticker-track">
-      <span class="ticker-item">🚨 ALERTA DA CAPI: Aumento de golpes de falsas vagas de emprego com tarefas no Telegram e Pix de garantia! • Nunca faça depósitos para trabalhar!</span>
-      <span class="ticker-item">🚨 ALERTA DA CAPI: Aumento de golpes de falsas vagas de emprego com tarefas no Telegram e Pix de garantia! • Nunca faça depósitos para trabalhar!</span>
+      <span class="ticker-item">ALERTA DA CAPI: Aumento de golpes de falsas vagas de emprego com tarefas no Telegram e Pix de garantia! • Nunca faça depósitos para trabalhar!</span>
+      <span class="ticker-item">ALERTA DA CAPI: Aumento de golpes de falsas vagas de emprego com tarefas no Telegram e Pix de garantia! • Nunca faça depósitos para trabalhar!</span>
     </div>
   </div>
 
   <!-- MAIN CONTENT -->
   <main class="main-content boot-hidden" id="main-content">
-    
+
     <!-- HERO FULLBLEED -->
     <section class="hero-fullbleed" aria-label="Apresentação do CapiSafe">
-      <span class="hero-eyebrow">🛡️ Plataforma Comunitária Anti-Golpes &nbsp;·&nbsp; Princípios CGI.br &amp; NIC.br</span>
+      <span class="hero-eyebrow">
+        <svg class="eyebrow-icon" aria-hidden="true"><use href="#i-shield"/></svg>
+        Plataforma Comunitária Anti-Golpes &nbsp;·&nbsp; Princípios CGI.br &amp; NIC.br
+      </span>
       <h1>Sua defesa contra as <span>fraudes digitais</span></h1>
       <p class="hero-lead">Golpes virtuais custaram <strong style="color:var(--accent-teal)">R$ 2,5 bilhões</strong> aos brasileiros em 2024. Relate suspeitas anonimamente e receba diagnóstico instantâneo por IA brasileira — sem cadastro.</p>
       <div class="hero-cta-row">
-        <a href="relato.html" class="btn btn-primary outset-border">⚡ Capi, vê pra mim?</a>
-        <a href="historico.html" class="btn btn-secondary outset-border">📂 Ver Histórico Público</a>
-        <a href="jogo.html" class="btn btn-secondary outset-border">🎮 Testar Conhecimento</a>
+        <a href="relato.html" class="btn btn-primary outset-border">
+          <svg class="btn-icon" aria-hidden="true"><use href="#i-zap"/></svg>
+          Capi, vê pra mim?
+        </a>
+        <a href="historico.html" class="btn btn-secondary outset-border">
+          <svg class="btn-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+          Ver Histórico Público
+        </a>
+        <a href="jogo.html" class="btn btn-secondary outset-border">
+          <svg class="btn-icon" aria-hidden="true"><use href="#i-gamepad"/></svg>
+          Testar Conhecimento
+        </a>
       </div>
       <div class="hero-stats-strip">
         <div class="hero-stat">
@@ -88,13 +172,14 @@
     <section class="window outset-border" id="alertas" aria-label="Alertas recentes da comunidade">
       <div class="window-titlebar">
         <div class="titlebar-text">
-          <span>📡 ALERTAS_RECENTES.TXT</span>
+          <svg class="titlebar-icon" aria-hidden="true"><use href="#i-signal"/></svg>
+          <span>ALERTAS_RECENTES.TXT</span>
         </div>
       </div>
       <div class="window-body">
         <h2 style="font-size: 16px; margin-bottom: 4px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Radar Comunitário Recente</h2>
         <p>Abaixo estão as últimas tentativas de golpes registradas pela nossa comunidade para manter você alerta.</p>
-        
+
         <div class="alerts-recent-grid" id="alerts-recent-container">
           <!-- Relatos recentes renderizados via JS -->
         </div>
@@ -109,34 +194,39 @@
     <section class="window outset-border" aria-label="CapiBot no WhatsApp">
       <div class="window-titlebar">
         <div class="titlebar-text">
-          <span>💬 CAPIBOT_WHATSAPP.EXE</span>
+          <svg class="titlebar-icon" aria-hidden="true"><use href="#i-chat"/></svg>
+          <span>CAPIBOT_WHATSAPP.EXE</span>
         </div>
       </div>
       <div class="window-body">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center;">
 
           <!-- Coluna Esquerda: Texto e CTAs -->
           <div>
-            <div style="font-family: var(--font-mono); font-size: 10px; color: #25D366; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 6px;">🤖 NOVO — Bot no WhatsApp</div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: #25D366; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 6px;">NOVO — Bot no WhatsApp</div>
             <h2 style="font-size: 18px; font-family: var(--font-body); font-weight: 800; color: var(--color-text); margin-bottom: 8px; line-height: 1.3;">
               Fale com a Capi no WhatsApp!
             </h2>
-            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px;">
-              A <strong style="color: var(--color-text);">Capi Bot</strong> chegou ao WhatsApp! Agora você pode descrever a mensagem suspeita diretamente no app que todo brasileiro usa e receber uma análise anti-golpe na hora — mesmo sem abrir o site.
+            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 20px;">
+              A <strong style="color: var(--color-text);">Capi Bot</strong> chegou ao WhatsApp. Descreva a mensagem suspeita diretamente no app que todo brasileiro usa e receba uma análise anti-golpe na hora — sem abrir o site.
             </p>
 
-            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; font-size: 12.5px;">
-              <div style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);">
-                <span style="color: #25D366; font-size: 16px;">✅</span> Análise de mensagens suspeitas por texto
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; font-size: 13px;">
+              <div style="display: flex; align-items: center; gap: 10px; color: var(--color-text-muted);">
+                <svg class="check-icon" aria-hidden="true"><use href="#i-check"/></svg>
+                Análise de mensagens suspeitas por texto
               </div>
-              <div style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);">
-                <span style="color: #25D366; font-size: 16px;">✅</span> Diagnóstico de risco (Alto / Médio / Baixo)
+              <div style="display: flex; align-items: center; gap: 10px; color: var(--color-text-muted);">
+                <svg class="check-icon" aria-hidden="true"><use href="#i-check"/></svg>
+                Diagnóstico de risco (Alto / Médio / Baixo)
               </div>
-              <div style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);">
-                <span style="color: #25D366; font-size: 16px;">✅</span> Orientações de segurança personalizadas
+              <div style="display: flex; align-items: center; gap: 10px; color: var(--color-text-muted);">
+                <svg class="check-icon" aria-hidden="true"><use href="#i-check"/></svg>
+                Orientações de segurança personalizadas
               </div>
-              <div style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);">
-                <span style="color: #25D366; font-size: 16px;">✅</span> 100% anônimo — sem cadastro necessário
+              <div style="display: flex; align-items: center; gap: 10px; color: var(--color-text-muted);">
+                <svg class="check-icon" aria-hidden="true"><use href="#i-check"/></svg>
+                100% anônimo — sem cadastro necessário
               </div>
             </div>
 
@@ -145,22 +235,27 @@
                  target="_blank" rel="noopener"
                  class="btn btn-primary"
                  style="background: #25D366; border-color: #25D366; color: #000; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 6px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 Falar com a Capi Bot
               </a>
-              <a href="letramento.html" class="btn btn-secondary" style="text-decoration: none;">📚 Saber mais</a>
+              <a href="letramento.html" class="btn btn-secondary" style="text-decoration: none; display: flex; align-items: center; gap: 6px;">
+                <svg class="btn-icon" aria-hidden="true"><use href="#i-book"/></svg>
+                Saber mais
+              </a>
             </div>
 
-            <div style="margin-top: 14px; padding: 10px 12px; background: rgba(37,211,102,0.06); border: 1.5px solid rgba(37,211,102,0.2); border-radius: 8px; font-size: 11px; color: var(--color-text-muted);">
-              <strong style="color: #25D366;">🚀 Em breve:</strong> O número oficial da Capi Bot estará disponível assim que o WhatsApp Business estiver configurado. Fique de olho nas novidades!
+            <div style="margin-top: 16px; padding: 10px 14px; background: rgba(37,211,102,0.06); border: 1.5px solid rgba(37,211,102,0.2); border-radius: 8px; font-size: 11px; color: var(--color-text-muted);">
+              <strong style="color: #25D366;">Em breve:</strong> O número oficial da Capi Bot estará disponível assim que o WhatsApp Business estiver configurado. Fique de olho!
             </div>
           </div>
 
           <!-- Coluna Direita: Card de "Experimente agora" -->
           <div>
-            <div class="card-flat" style="padding: 20px; background: rgba(37,211,102,0.04); border-color: rgba(37,211,102,0.25); text-align: center;">
-              <div style="font-size: 42px; margin-bottom: 10px;">🦫🔍</div>
-              <div style="font-family: var(--font-mono); font-size: 11px; color: #25D366; font-weight: 800; margin-bottom: 8px; text-transform: uppercase;">Experimente agora</div>
+            <div class="card-flat" style="padding: 24px; background: rgba(37,211,102,0.04); border-color: rgba(37,211,102,0.25); text-align: center;">
+              <div style="margin-bottom: 12px; display: flex; justify-content: center;">
+                <img src="imagens/capi_detective.png" alt="Capi Bot" style="width: 52px; height: 52px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 0 8px rgba(37,211,102,0.4));">
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #25D366; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em;">Experimente agora</div>
               <p style="font-size: 12px; color: var(--color-text-muted); line-height: 1.5; margin-bottom: 14px;">
                 Envie qualquer mensagem suspeita para a Capi Bot e receba uma análise como esta:
               </p>
@@ -170,8 +265,8 @@
                   "Recebi uma vaga de emprego pelo WhatsApp dizendo que pago depósito para liberar minhas tarefas..."
                 </div>
                 <div style="background: #202C33; border-radius: 0 8px 8px 8px; padding: 8px 10px; max-width: 85%; font-size: 11.5px; color: #E9EDEF; font-family: system-ui;">
-                  🚨 <strong>Capi detectou: ALTO RISCO</strong><br>
-                  Isso é o golpe da Falsa Vaga de Emprego. Nenhuma empresa legítima cobra depósito para liberar salários. Não transfira nada! 🛡️
+                  <strong>Capi detectou: ALTO RISCO</strong><br>
+                  Isso é o golpe da Falsa Vaga de Emprego. Nenhuma empresa legítima cobra depósito para liberar salários. Não transfira nada!
                 </div>
               </div>
             </div>
@@ -183,7 +278,7 @@
       </div>
       <div class="window-statusbar">
         <span>Bot em breve</span>
-        <span>Powered by IA Brasileira 🇧🇷</span>
+        <span>Desenvolvido com IA Brasileira</span>
       </div>
     </section>
 
@@ -191,37 +286,38 @@
     <section class="window outset-border" aria-label="Como o Guardião funciona">
       <div class="window-titlebar">
         <div class="titlebar-text">
-          <span>📖 COMO_FUNCIONA_ARQUITETURA.TXT</span>
+          <svg class="titlebar-icon" aria-hidden="true"><use href="#i-book"/></svg>
+          <span>COMO_FUNCIONA_ARQUITETURA.TXT</span>
         </div>
       </div>
       <div class="window-body">
-        <h2 style="font-size: 16px; margin-bottom: 12px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Os Três Pilares da Plataforma</h2>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+        <h2 style="font-size: 16px; margin-bottom: 16px; font-family: var(--font-body); font-weight: 800; color: var(--accent-teal);">Os Três Pilares da Plataforma</h2>
+
+        <div class="pilares-grid">
           <!-- PILAR 1 -->
-          <article class="card-flat" style="padding: 16px; box-shadow: var(--shadow-flat-sm);">
-            <div style="font-size: 24px; margin-bottom: 4px;">🤖</div>
-            <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 4px;">Análise Híbrida Inteligente</h3>
-            <p style="font-size: 12px; margin-bottom: 0;">
-              Comparamos seu relato usando um motor de regras locais baseado nas maiores fraudes do Brasil. Opcionalmente, integramos com <strong style="color:var(--accent-teal)">IA Avançada 🇧🇷</strong> para detalhar o diagnóstico na hora.
+          <article class="card-flat pilar-card" style="padding: 20px;">
+            <svg class="pillar-icon" aria-hidden="true"><use href="#i-cpu"/></svg>
+            <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 6px;">Análise Híbrida Inteligente</h3>
+            <p style="font-size: 12.5px; margin-bottom: 0; line-height: 1.65;">
+              Comparamos seu relato usando um motor de regras locais baseado nas maiores fraudes do Brasil. Opcionalmente, integramos com <strong style="color:var(--accent-teal)">IA Avançada</strong> para detalhar o diagnóstico na hora.
             </p>
           </article>
 
           <!-- PILAR 2 -->
-          <article class="card-flat" style="padding: 16px; box-shadow: var(--shadow-flat-sm);">
-            <div style="font-size: 24px; margin-bottom: 4px;">👥</div>
-            <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 4px;">Crowdreport e Comentários</h3>
-            <p style="font-size: 12px; margin-bottom: 0;">
-              As denúncias integram um banco de relatos públicos e anonimizados. Cidadãos e especialistas podem interagir, deixando comentários e dicas de proteção de forma 100% anônima para blindar a vizinhança digital contra novas ameaças.
+          <article class="card-flat pilar-card" style="padding: 20px;">
+            <svg class="pillar-icon" aria-hidden="true"><use href="#i-users"/></svg>
+            <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 6px;">Crowdreport e Comentários</h3>
+            <p style="font-size: 12.5px; margin-bottom: 0; line-height: 1.65;">
+              As denúncias integram um banco de relatos públicos e anonimizados. Cidadãos e especialistas podem interagir, deixando comentários e dicas de proteção de forma 100% anônima.
             </p>
           </article>
 
           <!-- PILAR 3 -->
-          <article class="card-flat" style="padding: 16px; box-shadow: var(--shadow-flat-sm);">
-            <div style="font-size: 24px; margin-bottom: 4px;">🎓</div>
-            <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 4px;">Cidadania e Aprendizado</h3>
-            <p style="font-size: 12px; margin-bottom: 0;">
-              O laudo técnico final adapta suas orientações de segurança de acordo com a faixa etária da vítima, canal de contato e dados profissionais expostos. Nosso portal apoia o decálogo do CGI.br, priorizando inclusão e padrões abertos.
+          <article class="card-flat pilar-card" style="padding: 20px;">
+            <svg class="pillar-icon" aria-hidden="true"><use href="#i-graduation"/></svg>
+            <h3 style="color: var(--accent-teal); font-size: 13px; font-family: var(--font-mono); margin-bottom: 6px;">Cidadania e Aprendizado</h3>
+            <p style="font-size: 12.5px; margin-bottom: 0; line-height: 1.65;">
+              O laudo técnico adapta as orientações de segurança à faixa etária, canal de contato e dados expostos. Apoiamos o decálogo do CGI.br, priorizando inclusão e padrões abertos.
             </p>
           </article>
         </div>
@@ -233,7 +329,10 @@
   <!-- FOOTER -->
   <footer class="app-footer outset-border">
     <div class="footer-container">
-      <div>🦫 CapiSafe</div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <img src="imagens/capi_detective.png" alt="" aria-hidden="true" style="width: 18px; height: 18px; object-fit: contain; image-rendering: pixelated; opacity: 0.8;">
+        CapiSafe
+      </div>
       <div>Segurança Digital</div>
     </div>
   </footer>
@@ -245,11 +344,10 @@
       // 1. Carregar contadores
       const reportsDb = JSON.parse(localStorage.getItem("guardiao_reports_database") || "[]");
       const surveyDb = JSON.parse(localStorage.getItem("guardiao_pesquisa_dados") || "[]");
-      
-      const totalRelatosReal = reportsDb.length + 8; // 8 base simulados
-      const totalPesquisasReal = surveyDb.length + 12; // 12 base simulados
-      const totalKeywords = 48; // Total de keywords cadastradas no classificador
-      
+
+      const totalRelatosReal = reportsDb.length + 8;
+      const totalPesquisasReal = surveyDb.length + 12;
+
       // Animação CountUp
       function animateValue(id, start, end, duration) {
         if (start === end) {
@@ -263,13 +361,12 @@
         const stepTime = Math.abs(Math.floor(duration / range));
         const obj = document.getElementById(id);
         if (!obj) return;
-        
+
         const timer = setInterval(() => {
           current += increment;
           obj.textContent = current;
           if (current == end) {
             clearInterval(timer);
-            // Efeito final de bounce sutil
             obj.style.transform = "scale(1.2)";
             obj.style.transition = "transform 0.15s ease-out";
             setTimeout(() => {
@@ -278,17 +375,15 @@
           }
         }, Math.max(stepTime, 20));
       }
-      
+
       animateValue("stat-count-relatos", 0, totalRelatosReal, 1200);
       animateValue("stat-count-pesquisa", 0, totalPesquisasReal, 1200);
-      animateValue("stat-count-keywords", 0, totalKeywords, 1200);
-      
+
       // 2. Renderizar Alertas Recentes
       const recentContainer = document.getElementById("alerts-recent-container");
       if (recentContainer) {
         let alerts = [];
-        
-        // Se houver relatos salvos, pega os mais recentes
+
         if (reportsDb.length > 0) {
           alerts = reportsDb.slice(-3).reverse().map(r => ({
             titulo: r.titulo || "Suspeita de Golpe",
@@ -296,24 +391,26 @@
             data: new Date(r.timestamp || Date.now()).toLocaleDateString('pt-BR')
           }));
         }
-        
-        // Se faltar relatos para preencher 3, usa mocks realistas
+
         const fallbackAlerts = [
           { titulo: "Falsa cobrança de taxa alfandegária dos Correios", tipo: "Links Falsos (Phishing)", data: "Hoje" },
           { titulo: "Tentativa de Pix urgente fingindo ser familiar", tipo: "WhatsApp / Telegram", data: "Ontem" },
           { titulo: "Ligações de falsa central bancária simulando segurança", tipo: "Engenharia Social", data: "Há 2 dias" }
         ];
-        
+
         while (alerts.length < 3 && fallbackAlerts.length > 0) {
           alerts.push(fallbackAlerts.shift());
         }
-        
+
+        const tagIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`;
+        const calIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+
         recentContainer.innerHTML = alerts.slice(0, 3).map(a => `
           <div class="alert-recent-card inset-border">
-            <h4 style="font-size: 13.5px; color: var(--accent-teal); font-family: var(--font-mono); margin-bottom: 6px;">${a.titulo}</h4>
+            <h4 style="font-size: 13.5px; color: var(--accent-teal); font-family: var(--font-mono); margin-bottom: 8px;">${a.titulo}</h4>
             <div style="font-size: 11px; display: flex; justify-content: space-between; color: var(--color-text-muted); font-family: var(--font-mono);">
-              <span>🏷️ ${a.tipo}</span>
-              <span>📅 ${a.data}</span>
+              <span>${tagIcon}${a.tipo}</span>
+              <span>${calIcon}${a.data}</span>
             </div>
           </div>
         `).join("");
