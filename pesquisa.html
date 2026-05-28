@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="CapiSafe - Pesquisa de campo e entrevistas sobre golpes virtuais realizadas no FIB16 em Belém/PA.">
-  <title>Capi, anota aí — CapiSafe</title>
+  <title>Data Capi — CapiSafe</title>
   <link rel="icon" type="image/png" href="imagens/capi_detective.png">
   <link rel="stylesheet" href="css/estilo.css">
   <style>
@@ -272,7 +272,7 @@
           <a href="relato.html" class="nav-link outset-border" id="nav-relato">Capi, é golpe?</a>
           <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário</a>
           <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico</a>
-          <a href="pesquisa.html" class="nav-link outset-border active" id="nav-pesquisa">Capi, anota aí</a>
+          <a href="pesquisa.html" class="nav-link outset-border active" id="nav-pesquisa">Data Capi</a>
           <a href="jogo.html" class="nav-link outset-border" id="nav-jogo"><svg class="nav-icon" aria-hidden="true"><use href="#i-gamepad"/></svg> Jogo</a>
           <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
           <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
@@ -286,8 +286,8 @@
   <!-- TICKER DE ALERTAS (CSS TICKER) -->
   <div class="ticker-wrap" aria-hidden="true">
     <div class="ticker-track">
-      <span class="ticker-item">🎤 CAPI, ANOTA AÍ: Interação e mapeamento de ameaças virtuais no FIB16 em Belém-PA!</span>
-      <span class="ticker-item">🎤 CAPI, ANOTA AÍ: Interação e mapeamento de ameaças virtuais no FIB16 em Belém-PA!</span>
+      <span class="ticker-item">🎤 DATA CAPI: Interação e mapeamento de ameaças virtuais no FIB16 em Belém-PA!</span>
+      <span class="ticker-item">🎤 DATA CAPI: Interação e mapeamento de ameaças virtuais no FIB16 em Belém-PA!</span>
     </div>
   </div>
 
@@ -331,7 +331,7 @@
     <section class="window outset-border" id="survey-window">
       <div class="window-titlebar">
         <div class="titlebar-text">
-          <span>📝 CAPI_ANOTA_AI.EXE</span>
+          <span>📝 DATA_CAPI.EXE</span>
         </div>
       </div>
       <div class="window-body">
@@ -519,7 +519,7 @@
         <!-- BARRA DE AÇÕES DOS DADOS -->
         <div class="actions-bar">
           <button class="btn btn-primary" id="btn-export-csv">📥 Baixar Planilha (CSV)</button>
-          <button class="btn btn-secondary" id="btn-seed-data">⚡ Carregar Dados Simulados (12 Entrevistas)</button>
+          <button class="btn btn-secondary" id="btn-seed-data">⚡ Carregar Dados do Excel (15 Entrevistas)</button>
           <button class="btn btn-danger-sm" id="btn-clear-db" style="padding: 8px 12px; font-size: 12px;">🗑️ Limpar Banco de Dados</button>
         </div>
 
@@ -661,20 +661,23 @@
   <script src="js/components.js"></script>
   <script src="js/api.js"></script>
   <script>
-    // Mock inicial realista com dados de campo
+    // Mock inicial realista com dados de campo (Respostas do Excel Capi, Anota Aí do FIB)
     const DADOS_SIMULADOS_MOCK = [
-      { id: 1, q1: "60+ (Idoso)", q2: "Baixo", q3: "Sim, caí e tive prejuízo", q4: "WhatsApp / Telegram", q5: "Falso parente (Pix)", q6: "Apelo emocional", q7: "De R$ 1.000 a R$ 5.000", q8: "Alertei amigos e família", q9: "Muito difícil", q10: "Impotência" },
-      { id: 2, q1: "18 a 29", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "Redes Sociais", q5: "Falsa vaga de emprego", q6: "Ganho financeiro fácil", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Médio", q10: "Raiva" },
-      { id: 3, q1: "30 a 59", q2: "Médio", q3: "Sim, caí e tive prejuízo", q4: "WhatsApp / Telegram", q5: "Falsa vaga de emprego", q6: "Ganho financeiro fácil", q7: "De R$ 100 a R$ 1.000", q8: "Registrei boletim de ocorrência / Banco", q9: "Muito difícil", q10: "Vergonha" },
-      { id: 4, q1: "60+ (Idoso)", q2: "Baixo", q3: "Familiar/amigo caiu", q4: "Ligação telefônica", q5: "Falsa central de banco", q6: "Semelhança com canais oficiais", q7: "Acima de R$ 5.000", q8: "Registrei boletim de ocorrência / Banco", q9: "Muito difícil", q10: "Insegurança" },
-      { id: 5, q1: "18 a 29", q2: "Médio", q3: "Sim, caí e tive prejuízo", q4: "Sites de compras", q5: "Falsa venda/Compra fake", q6: "Ganho financeiro fácil", q7: "De R$ 100 a R$ 1.000", q8: "Não fiz nada / Vergonha", q9: "Médio", q10: "Frustração" },
-      { id: 6, q1: "30 a 59", q2: "Médio", q3: "Sim, tentaram mas percebi", q4: "E-mail ou SMS", q5: "Links falsos (Correios/etc)", q6: "Urgência/Ameaça", q7: "Sem prejuízo", q8: "Procurei informações na web", q9: "Médio", q10: "Desconfiança" },
-      { id: 7, q1: "18 a 29", q2: "Alto", q3: "Não, nunca passei", q4: "Outro / Não aplicável", q5: "Outro / Não aplicável", q6: "Não se aplica", q7: "Sem prejuízo", q8: "Procurei informações na web", q9: "Fácil", q10: "Alívio" },
-      { id: 8, q1: "60+ (Idoso)", q2: "Médio", q3: "Sim, caí e tive prejuízo", q4: "WhatsApp / Telegram", q5: "Falso parente (Pix)", q6: "Apelo emocional", q7: "De R$ 100 a R$ 1.000", q8: "Alertei amigos e família", q9: "Muito difícil", q10: "Tristeza" },
-      { id: 9, q1: "30 a 59", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "Ligação telefônica", q5: "Falsa central de banco", q6: "Semelhança com canais oficiais", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Médio", q10: "Alerta" },
-      { id: 10, q1: "30 a 59", q2: "Baixo", q3: "Sim, caí e tive prejuízo", q4: "Redes Sociais", q5: "Falsa venda/Compra fake", q6: "Ganho financeiro fácil", q7: "De R$ 100 a R$ 1.000", q8: "Não fiz nada / Vergonha", q9: "Muito difícil", q10: "Humilhação" },
-      { id: 11, q1: "18 a 29", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "E-mail ou SMS", q5: "Links falsos (Correios/etc)", q6: "Urgência/Ameaça", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Fácil", q10: "Preocupação" },
-      { id: 12, q1: "60+ (Idoso)", q2: "Baixo", q3: "Sim, caí e tive prejuízo", q4: "Ligação telefônica", q5: "Falsa central de banco", q6: "Semelhança com canais oficiais", q7: "De R$ 1.000 a R$ 5.000", q8: "Registrei boletim de ocorrência / Banco", q9: "Muito difícil", q10: "Violabilidade" }
+      { id: 1, q1: "30 a 59", q2: "Alto", q3: "Sim, caí e tive prejuízo", q4: "Ligação telefônica", q5: "Falsa venda/Compra fake", q6: "Ganho financeiro fácil", q7: "De R$ 100 a R$ 1.000", q8: "Registrei boletim de ocorrência / Banco", q9: "Médio", q10: "Frustração" },
+      { id: 2, q1: "18 a 29", q2: "Alto", q3: "Familiar/amigo caiu", q4: "WhatsApp / Telegram", q5: "Falso parente (Pix)", q6: "Urgência/Ameaça", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Médio", q10: "Insegurança" },
+      { id: 3, q1: "60+ (Idoso)", q2: "Alto", q3: "Não, nunca passei", q4: "Outro / Não aplicável", q5: "Outro / Não aplicável", q6: "Não se aplica", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Fácil", q10: "Tristeza" },
+      { id: 4, q1: "18 a 29", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "E-mail ou SMS", q5: "Falsa venda/Compra fake", q6: "Semelhança com canais oficiais", q7: "Sem prejuízo", q8: "Não fiz nada / Vergonha", q9: "Fácil", q10: "Insegurança" },
+      { id: 5, q1: "18 a 29", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "E-mail ou SMS", q5: "Falsa central de banco", q6: "Urgência/Ameaça", q7: "Sem prejuízo", q8: "Não fiz nada / Vergonha", q9: "Médio", q10: "Insegurança" },
+      { id: 6, q1: "18 a 29", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "E-mail ou SMS", q5: "Links falsos (Correios/etc)", q6: "Urgência/Ameaça", q7: "Sem prejuízo", q8: "Registrei boletim de ocorrência / Banco", q9: "Médio", q10: "Frustração" },
+      { id: 7, q1: "18 a 29", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "WhatsApp / Telegram", q5: "Falsa vaga de emprego", q6: "Urgência/Ameaça", q7: "Sem prejuízo", q8: "Procurei informações na web", q9: "Médio", q10: "Raiva" },
+      { id: 8, q1: "30 a 59", q2: "Alto", q3: "Familiar/amigo caiu", q4: "WhatsApp / Telegram", q5: "Falso parente (Pix)", q6: "Urgência/Ameaça", q7: "Acima de R$ 5.000", q8: "Registrei boletim de ocorrência / Banco", q9: "Médio", q10: "Impotência" },
+      { id: 9, q1: "18 a 29", q2: "Alto", q3: "Sim, caí e tive prejuízo", q4: "WhatsApp / Telegram", q5: "Links falsos (Correios/etc)", q6: "Apelo emocional", q7: "De R$ 1.000 a R$ 5.000", q8: "Registrei boletim de ocorrência / Banco", q9: "Médio", q10: "Frustração" },
+      { id: 10, q1: "30 a 59", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "WhatsApp / Telegram", q5: "Outro / Não aplicável", q6: "Ganho financeiro fácil", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Médio", q10: "Insegurança" },
+      { id: 11, q1: "18 a 29", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "WhatsApp / Telegram", q5: "Falso parente (Pix)", q6: "Urgência/Ameaça", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Muito difícil", q10: "Desgosto" },
+      { id: 12, q1: "18 a 29", q2: "Alto", q3: "Sim, caí e tive prejuízo", q4: "Redes Sociais", q5: "Falsa venda/Compra fake", q6: "Ganho financeiro fácil", q7: "Até R$ 100", q8: "Registrei boletim de ocorrência / Banco", q9: "Fácil", q10: "Impotência" },
+      { id: 13, q1: "18 a 29", q2: "Alto", q3: "Sim, tentaram mas percebi", q4: "E-mail ou SMS", q5: "Falsa central de banco", q6: "Semelhança com canais oficiais", q7: "Sem prejuízo", q8: "Alertei amigos e família", q9: "Médio", q10: "Raiva" },
+      { id: 14, q1: "30 a 59", q2: "Médio", q3: "Sim, caí e tive prejuízo", q4: "WhatsApp / Telegram", q5: "Falsa venda/Compra fake", q6: "Ganho financeiro fácil", q7: "De R$ 100 a R$ 1.000", q8: "Alertei amigos e família", q9: "Médio", q10: "Incompetência" },
+      { id: 15, q1: "30 a 59", q2: "Alto", q3: "Familiar/amigo caiu", q4: "WhatsApp / Telegram", q5: "Falso parente (Pix)", q6: "Urgência/Ameaça", q7: "De R$ 100 a R$ 1.000", q8: "Registrei boletim de ocorrência / Banco", q9: "Médio", q10: "Insegurança" }
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -852,6 +855,10 @@
 
       // Carregar banco de dados
       let db = JSON.parse(localStorage.getItem("guardiao_pesquisa_dados") || "[]");
+      if (db.length === 0) {
+        localStorage.setItem("guardiao_pesquisa_dados", JSON.stringify(DADOS_SIMULADOS_MOCK));
+        db = JSON.parse(JSON.stringify(DADOS_SIMULADOS_MOCK));
+      }
       
       const form = document.getElementById("interview-form");
       const capiGuideBox = document.getElementById("capi-guide-box");
@@ -1107,12 +1114,12 @@
 
       // Função de semear dados mock
       function seedData() {
-        if (confirm("Deseja carregar 12 entrevistas de simulação para testar o painel visual? Os dados atuais serão combinados.")) {
+        if (confirm("Deseja carregar as 15 respostas do Excel do FIB para testar o painel visual? Os dados atuais serão combinados.")) {
           db = [...db, ...DADOS_SIMULADOS_MOCK];
           db.forEach((x, idx) => x.id = idx + 1);
           localStorage.setItem("guardiao_pesquisa_dados", JSON.stringify(db));
           renderDashboard();
-          showToast("12 Entrevistas carregadas com sucesso no painel!", "success");
+          showToast("15 Entrevistas do Excel carregadas com sucesso no painel!", "success");
         }
       }
 

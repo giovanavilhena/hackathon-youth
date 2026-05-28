@@ -6,6 +6,13 @@
   <title>Academia Capi — CapiSafe</title>
   <link rel="icon" type="image/png" href="imagens/capi_detective.png">
   <link rel="stylesheet" href="css/estilo.css">
+  
+  <!-- Preconnect to video platforms for faster playback start -->
+  <link rel="preconnect" href="https://drive.google.com" crossorigin>
+  <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
+  <link rel="preconnect" href="https://www.youtube.com" crossorigin>
+  <link rel="preconnect" href="https://img.youtube.com" crossorigin>
+  
   <style>
     /* ── Academia Capi Local Styles ── */
     .academia-hero {
@@ -137,22 +144,26 @@
     .stat-highlight .stat-num.purple { color: var(--accent-purple); }
     .stat-highlight .stat-desc {
       font-size: 0.82rem;
-      color: var(--color-text-muted);
+      color: var(--color-text);
       line-height: 1.4;
+      font-weight: 500;
     }
     .stat-highlight .stat-source {
-      font-size: 0.68rem;
-      color: rgba(56,189,248,0.5);
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+      opacity: 0.95;
       margin-top: 0.5rem;
       font-family: var(--font-mono);
+      font-weight: 600;
     }
 
     /* ── Horizontal Bar Charts ── */
     .hbar-group { margin-bottom: 2rem; }
     .hbar-title {
       font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
+      font-size: 0.82rem;
+      color: var(--color-text);
+      font-weight: 700;
       margin-bottom: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -664,7 +675,8 @@
     }
     .protection-card .step-list {
       padding-left: 1.2rem;
-      color: rgba(255,255,255,0.85);
+      color: var(--color-text);
+      opacity: 0.9;
       font-size: 0.8rem;
       line-height: 1.6;
       margin-bottom: 1.5rem;
@@ -703,6 +715,35 @@
       border-color: var(--accent-pink);
       box-shadow: 0 0 12px rgba(0, 245, 212, 0.4);
       transform: translateY(-2px);
+    }
+    
+    /* ── Video Modal ── */
+    .video-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .video-modal.active {
+      opacity: 1;
+    }
+    .video-modal .window {
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+      border: 2px solid var(--accent-pink) !important;
+    }
+    .video-modal.active .window {
+      transform: scale(1);
     }
   </style>
 </head>
@@ -748,7 +789,7 @@
           <a href="relato.html" class="nav-link outset-border" id="nav-relato">Capi, é golpe?</a>
           <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário</a>
           <a href="historico.html" class="nav-link outset-border" id="nav-historico">Histórico</a>
-          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Capi, anota aí</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Data Capi</a>
           <a href="jogo.html" class="nav-link outset-border" id="nav-jogo"><svg class="nav-icon" aria-hidden="true"><use href="#i-gamepad"/></svg> Jogo</a>
           <a href="letramento.html" class="nav-link outset-border active" id="nav-letramento">Academia</a>
           <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
@@ -858,10 +899,39 @@
   <!-- ═══════════════════════════════════════════════════ -->
   <section id="noticias" class="academia-section fade-up">
     <p class="section-label">// seção 02</p>
-    <h2 class="section-title">Notícias e Alertas Recentes</h2>
-    <p class="section-subtitle">Casos reais documentados pela imprensa e órgãos de segurança. Conheça os golpes do momento.</p>
+    <h2 class="section-title">Notícias, Publicações e Casos Reais</h2>
+    <p class="section-subtitle">Acompanhe as últimas notícias da imprensa, comunicados de órgãos de segurança e publicações oficiais sobre golpes virtuais no Brasil.</p>
 
     <div class="news-grid">
+      <!-- NOVAS NOTÍCIAS ADICIONADAS -->
+      <a class="news-card" href="https://www.gov.br/mj/pt-br/assuntos/noticias/operacao-recall-desarticula-grupo-criminoso-especializado-em-golpes-digitais-e-lavagem-de-dinheiro" target="_blank" rel="noopener">
+        <span class="news-tag policy">⚖️ Operação</span>
+        <h4>Polícia Federal desarticula grupo especializado em golpes digitais</h4>
+        <p>A Operação Recall combateu uma quadrilha especializada em fraudes financeiras eletrônicas de alta escala e lavagem de dinheiro, bloqueando ativos e cumprindo mandados.</p>
+        <div class="news-footer"><span>Polícia Federal / MJSP</span><span>↗ Ver notícia</span></div>
+      </a>
+
+      <a class="news-card" href="https://monitormercantil.com.br/fraudes-virtuais-atingiram-24-milhoes-de-brasileiros-em-um-ano/" target="_blank" rel="noopener">
+        <span class="news-tag research">📊 Notícia</span>
+        <h4>Fraudes virtuais atingiram 24 milhões de brasileiros em um ano</h4>
+        <p>Estudo revela o impacto massivo das fraudes eletrônicas no Brasil, com prejuízos bilionários e forte uso de canais digitais como redes sociais e WhatsApp para atrair vítimas.</p>
+        <div class="news-footer"><span>Monitor Mercantil</span><span>↗ Ver notícia</span></div>
+      </a>
+
+      <a class="news-card" href="https://www.gov.br/gestao/pt-br/assuntos/noticias/2026/maio/governo-do-brasil-lanca-materiais-educativos-para-orientar-jovens-idosos-e-servidores-contra-golpes-digitais" target="_blank" rel="noopener">
+        <span class="news-tag research">📄 Publicação</span>
+        <h4>Governo lança guias educativos de proteção contra golpes virtuais</h4>
+        <p>Iniciativa do Governo Federal traz cartilhas práticas e materiais didáticos voltados a capacitar jovens, idosos e servidores contra as armadilhas mais comuns da internet.</p>
+        <div class="news-footer"><span>Gov.br / MGI</span><span>↗ Ver publicação</span></div>
+      </a>
+
+      <a class="news-card" href="https://www.gov.br/mj/pt-br/assuntos/noticias/governo-federal-endurece-penas-para-golpes-digitais-furto-de-celulares-e-estelionato" target="_blank" rel="noopener">
+        <span class="news-tag policy">⚖️ Legislação</span>
+        <h4>Governo endurece penas para estelionato e golpes digitais</h4>
+        <p>Nova legislação federal amplia as punições para fraudes online, furto de telefones e golpes virtuais, buscando combater e inibir a atuação de quadrilhas digitais.</p>
+        <div class="news-footer"><span>Gov.br / MJSP</span><span>↗ Ver notícia</span></div>
+      </a>
+
       <a class="news-card" href="https://nic.br/noticia/releases/caiu-em-um-golpe-novo-fasciculo-do-cert-br-da-orientacoes-sobre-como-agir/" target="_blank" rel="noopener">
         <span class="news-tag alert">🚨 Alerta</span>
         <h4>Caiu em um golpe? Novo fascículo do CERT.br dá orientações sobre como agir</h4>
@@ -1220,50 +1290,75 @@
   <!-- SEÇÃO 5 — CONSELHEIROS CGI.BR (SLOTS FUTUROS)      -->
   <!-- ═══════════════════════════════════════════════════ -->
   <section id="conselheiros" class="academia-section fade-up">
-    <p class="section-label">// seção 05 — em breve</p>
+    <p class="section-label">// seção 05</p>
     <h2 class="section-title">Conselheiros do CGI.br Explicam</h2>
     <p class="section-subtitle">Especialistas do Comitê Gestor da Internet no Brasil trazem análises sobre segurança, políticas digitais e golpes emergentes.</p>
 
-    <!-- ══════════════════════════════════════════════════════════
-         INSTRUÇÃO PARA A EQUIPE: Para adicionar um vídeo de
-         conselheiro, substitua um <div class="cgi-slot"> por:
-
-         <a class="video-preview-card" href="URL_DO_VIDEO" target="_blank">
-           <div class="video-thumb">
-             <img src="THUMBNAIL.jpg" alt="..." style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
-             <div class="play-btn">...</div>
-             <span class="duration-badge">MM:SS</span>
-           </div>
-           <div class="video-info">
-             <span class="video-channel">CGI.br — Conselheiro(a)</span>
-             <h4>Título do Vídeo</h4>
-             <p>Breve descrição...</p>
-           </div>
-         </a>
-         ══════════════════════════════════════════════════════════ -->
-
     <div class="cgi-slot-grid">
-      <div class="cgi-slot" style="border-color: rgba(0,245,212,0.35); background: rgba(0,245,212,0.04);">
-        <span class="slot-icon">🎙️</span>
-        <div style="margin-bottom: 8px;">
-          <div style="font-size: 15px; font-weight: 800; font-family: var(--font-body); color: var(--color-text);">Rodolfo Avelino</div>
-          <div style="font-size: 11px; color: var(--accent-teal); font-family: var(--font-mono); margin-top: 2px;">Conselheiro CGI.br</div>
+
+      <!-- Rodolfo Avelino -->
+      <a class="video-preview-card" href="https://drive.google.com/file/d/11tUF236SZR64mOL7WAEZTSh46uTCzfts/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <div class="video-fallback-thumb" style="width:100%;height:100%;position:absolute;inset:0;background:linear-gradient(135deg, #1e1b4b, #2b103c);display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--accent-teal);">
+            <span style="font-size: 2.2rem; margin-bottom: 0.2rem;">🎙️</span>
+            <span style="font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-pink);">CGI.br Conselheiro</span>
+          </div>
+          <img src="https://drive.google.com/thumbnail?sz=w800&id=11tUF236SZR64mOL7WAEZTSh46uTCzfts" alt="Rodolfo Avelino" onerror="this.style.display='none';" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:2;">
+          <div class="play-btn" style="position:relative;z-index:3;">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <span class="duration-badge" style="position:relative;z-index:3;">CGI.br</span>
         </div>
-        <p style="font-size: 12.5px; color: var(--color-text-muted); line-height: 1.6;">Especialista em governança da internet e políticas digitais. Análises sobre segurança, cidadania online e proteção de comunidades vulneráveis no cenário brasileiro.</p>
-        <span class="slot-badge" style="margin-top: 10px;">Em breve</span>
-      </div>
-      <div class="cgi-slot">
-        <span class="slot-icon">🎙️</span>
-        <span class="slot-badge">Em breve</span>
-        <h4>Vídeo — Conselheiro(a) CGI.br</h4>
-        <p>Análise especializada sobre o Marco Civil da Internet e proteção de dados de usuários brasileiros.</p>
-      </div>
-      <div class="cgi-slot">
-        <span class="slot-icon">🎙️</span>
-        <span class="slot-badge">Em breve</span>
-        <h4>Vídeo — Conselheiro(a) CGI.br</h4>
-        <p>Perspectiva sobre governança da internet e os desafios de segurança para comunidades vulneráveis.</p>
-      </div>
+        <div class="video-info">
+          <span class="video-channel">Rodolfo Avelino</span>
+          <h4>Engenharia Social e Golpes</h4>
+          <p>Como os criminosos usam a manipulação psicológica para obter dados e induzir transferências financeiras.</p>
+          <span class="video-external-badge">↗ Assistir no Player</span>
+        </div>
+      </a>
+
+      <!-- Bianca Kremer -->
+      <a class="video-preview-card" href="https://drive.google.com/file/d/1zV6kUrvTT7thV3uXngUJWk4tcWJ4dAhM/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <div class="video-fallback-thumb" style="width:100%;height:100%;position:absolute;inset:0;background:linear-gradient(135deg, #1e1b4b, #2b103c);display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--accent-teal);">
+            <span style="font-size: 2.2rem; margin-bottom: 0.2rem;">🎙️</span>
+            <span style="font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-pink);">CGI.br Conselheira</span>
+          </div>
+          <img src="https://drive.google.com/thumbnail?sz=w800&id=1zV6kUrvTT7thV3uXngUJWk4tcWJ4dAhM" alt="Bianca Kremer" onerror="this.style.display='none';" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:2;">
+          <div class="play-btn" style="position:relative;z-index:3;">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <span class="duration-badge" style="position:relative;z-index:3;">CGI.br</span>
+        </div>
+        <div class="video-info">
+          <span class="video-channel">Bianca Kremer</span>
+          <h4>Segurança da População Idosa</h4>
+          <p>Os desafios de acessibilidade e a proteção de pessoas idosas contra fraudes e abusos financeiros digitais.</p>
+          <span class="video-external-badge">↗ Assistir no Player</span>
+        </div>
+      </a>
+
+      <!-- Beatriz Barbosa -->
+      <a class="video-preview-card" href="https://drive.google.com/file/d/1SOU9WvJUvOa90NRSHbNXGrvpp4tQA0C6/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <div class="video-fallback-thumb" style="width:100%;height:100%;position:absolute;inset:0;background:linear-gradient(135deg, #1e1b4b, #2b103c);display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--accent-teal);">
+            <span style="font-size: 2.2rem; margin-bottom: 0.2rem;">🎙️</span>
+            <span style="font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-pink);">CGI.br Conselheira</span>
+          </div>
+          <img src="https://drive.google.com/thumbnail?sz=w800&id=1SOU9WvJUvOa90NRSHbNXGrvpp4tQA0C6" alt="Beatriz Barbosa" onerror="this.style.display='none';" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:2;">
+          <div class="play-btn" style="position:relative;z-index:3;">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <span class="duration-badge" style="position:relative;z-index:3;">CGI.br</span>
+        </div>
+        <div class="video-info">
+          <span class="video-channel">Beatriz Barbosa</span>
+          <h4>Golpes que Atraem Crianças</h4>
+          <p>Como proteger crianças e adolescentes de armadilhas, fraudes em jogos online e conteúdos maliciosos.</p>
+          <span class="video-external-badge">↗ Assistir no Player</span>
+        </div>
+      </a>
+
     </div>
   </section>
 
@@ -1478,6 +1573,110 @@
     }
 
     renderQuestion();
+  </script>
+
+  <!-- Video Player Modal -->
+  <div id="video-modal" class="video-modal">
+    <div class="window outset-border">
+      <div class="window-titlebar">
+        <div class="titlebar-text">
+          <span style="display:flex;align-items:center;gap:6px;">▶️ <span id="modal-video-title">PLAYER_DE_VIDEO.EXE</span></span>
+        </div>
+        <div class="titlebar-controls">
+          <button class="win-btn" onclick="closeVideoModal()" aria-label="Fechar">X</button>
+        </div>
+      </div>
+      <div class="window-body" style="padding:0; background:#000; aspect-ratio:16/9; position:relative; overflow:hidden;">
+        <!-- Retro Y2K Loader -->
+        <div id="modal-video-loader" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#080c14; color:var(--accent-teal); font-family:var(--font-mono); font-size:12px; z-index:1;">
+          <span style="font-size:2rem; margin-bottom: 0.5rem; animation: pulse-loader 1s infinite alternate;">💾</span>
+          <span>CARREGANDO_VIDEO.SYS...</span>
+        </div>
+        <iframe id="modal-video-iframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen style="width:100%; height:100%; position:absolute; inset:0; border:none; z-index:2; display:none;" onload="this.style.display='block';"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes pulse-loader {
+      from { opacity: 0.3; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1.1); }
+    }
+  </style>
+
+  <script>
+    // ── Video Modal Player logic ──
+    function openVideoModal(url, title) {
+      const modal = document.getElementById('video-modal');
+      const iframe = document.getElementById('modal-video-iframe');
+      const titleEl = document.getElementById('modal-video-title');
+      
+      // Show loader by keeping iframe hidden until onload triggers
+      iframe.style.display = 'none';
+      
+      let embedUrl = '';
+      if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        let videoId = '';
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        if (match && match[2].length === 11) {
+          videoId = match[2];
+        }
+        if (videoId) {
+          embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        } else {
+          embedUrl = url;
+        }
+      } else if (url.includes('drive.google.com')) {
+        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          embedUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
+        } else {
+          embedUrl = url;
+        }
+      } else {
+        embedUrl = url;
+      }
+      
+      iframe.src = embedUrl;
+      titleEl.textContent = title;
+      modal.style.display = 'flex';
+      setTimeout(() => modal.classList.add('active'), 10);
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('video-modal');
+      const iframe = document.getElementById('modal-video-iframe');
+      modal.classList.remove('active');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        iframe.src = '';
+        iframe.style.display = 'none';
+      }, 300);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Add event listener to close modal when clicking outside the window
+      const modal = document.getElementById('video-modal');
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            closeVideoModal();
+          }
+        });
+      }
+
+      // Hijack click events on all video preview cards
+      const videoCards = document.querySelectorAll('.video-preview-card');
+      videoCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          const url = card.getAttribute('href');
+          const title = card.querySelector('h4') ? card.querySelector('h4').textContent : 'Vídeo';
+          openVideoModal(url, title);
+        });
+      });
+    });
   </script>
 </body>
 </html>

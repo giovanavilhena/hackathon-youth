@@ -53,7 +53,7 @@
           <a href="relato.html" class="nav-link outset-border" id="nav-relato">Capi, é golpe?</a>
           <a href="hub.html" class="nav-link outset-border" id="nav-hub">Dicionário</a>
           <a href="historico.html" class="nav-link outset-border active" id="nav-historico">Histórico</a>
-          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Capi, anota aí</a>
+          <a href="pesquisa.html" class="nav-link outset-border" id="nav-pesquisa">Data Capi</a>
           <a href="jogo.html" class="nav-link outset-border" id="nav-jogo"><svg class="nav-icon" aria-hidden="true"><use href="#i-gamepad"/></svg> Jogo</a>
           <a href="letramento.html" class="nav-link outset-border" id="nav-letramento">Academia</a>
           <a href="sobre.html" class="nav-link outset-border" id="nav-sobre">Sobre</a>
@@ -361,12 +361,60 @@
         comentarios: [
           { autor: "Anônimo", data: "2026-05-19 18:22", texto: "Os Correios nunca mandam Pix via SMS! Apenas rastreiem no portal oficial Minhas Importações." }
         ]
+      },
+      {
+        id: "report-9",
+        data: "2026-05-27",
+        titulo: "Falsa Promoção / Brinde de O Boticário no WhatsApp",
+        descricao: "Recebi um link em um grupo de WhatsApp dizendo que O Boticário estava dando um kit de perfumes grátis em comemoração ao dia das mães. Tinha que responder a uma pesquisa rápida e compartilhar o link com 10 contatos para liberar o prêmio. Depois de fazer tudo, o site pediu para pagar um frete de R$ 19,90 pelo Pix e roubou meu dinheiro.",
+        triagem: { idade: "16-29", regiao: "Nordeste", familiaridade: "Médio", canal: "WhatsApp", exposicaoDados: "Nenhum" },
+        analise: {
+          risco: 85,
+          nivel: "ALTO",
+          areaProvavel: "Phishing e Golpes de Brindes Falsos",
+          explicacao: "Campanha maliciosa de phishing viral. O site usa marcas famosas e pesquisas falsas para induzir o usuário a compartilhar o golpe e pagar taxas de envio inexistentes."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-27 11:30", texto: "Caí ontem! Parecia muito real porque várias pessoas do grupo compartilharam de boa fé." }
+        ]
+      },
+      {
+        id: "report-10",
+        data: "2026-05-27",
+        titulo: "Golpe do Falso Empréstimo Consignado para Aposentados",
+        descricao: "Recebi uma ligação telefônica de um suposto correspondente bancário oferecendo liberação imediata de margem de empréstimo consignado com juros muito baixos. Para assinar o contrato, me enviaram um link de SMS para tirar uma selfie de validação facial. Dias depois, vi que contrataram um empréstimo de R$ 10.000 no meu nome sem a minha autorização.",
+        triagem: { idade: "60+", regiao: "Sudeste", familiaridade: "Baixo", canal: "Ligação / SMS", exposicaoDados: "CPF" },
+        analise: {
+          risco: 98,
+          nivel: "ALTO",
+          areaProvavel: "Fraude de Empréstimo Consignado e Selfie Falsa",
+          explicacao: "Roubo de identidade com fraude de biometria facial. Golpistas obtêm dados de aposentados e usam links de validação falsos para obter assinaturas digitais indesejadas."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-27 15:45", texto: "Consignado sem solicitar é crime! Denunciem direto no portal Consumidor.gov e no INSS." }
+        ]
+      },
+      {
+        id: "report-11",
+        data: "2026-05-27",
+        titulo: "Falso E-mail de Portabilidade de Pix",
+        descricao: "Chegou um e-mail muito bem diagramado, supostamente do meu banco, informando que havia uma solicitação de portabilidade de chave Pix ativa para outra instituição. Dizia que, se eu não reconhecesse o pedido, deveria clicar em um link urgente para cancelar. O link pedia minha senha do aplicativo e código token.",
+        triagem: { idade: "30-59", regiao: "Centro-Oeste", familiaridade: "Médio", canal: "E-mail", exposicaoDados: "Dados Bancários" },
+        analise: {
+          risco: 94,
+          nivel: "ALTO",
+          areaProvavel: "Phishing e Captura de Dados Pessoais",
+          explicacao: "Engenharia social por e-mail com página de login falsa. O pretexto de 'bloqueio/portabilidade' urgente induz a vítima a fornecer credenciais de acesso."
+        },
+        comentarios: [
+          { autor: "Anônimo", data: "2026-05-27 16:10", texto: "Os bancos nunca mandam e-mail com link direto para cancelamento de transações ou portabilidade. Fiquem espertos!" }
+        ]
       }
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
       let db = localStorage.getItem("guardiao_reports_database");
-      if (!db) {
+      if (!db || db === "[]" || JSON.parse(db).length < 11) {
         localStorage.setItem("guardiao_reports_database", JSON.stringify(GOLPES_REPOSITORIO_MOCK));
         db = JSON.stringify(GOLPES_REPOSITORIO_MOCK);
       }
@@ -419,7 +467,11 @@
         document.getElementById("kpi-medio").textContent = niveis["MÉDIO"];
         document.getElementById("kpi-baixo").textContent = niveis["BAIXO"];
         document.getElementById("kpi-pct-alto").textContent = Math.round((niveis["ALTO"] / total) * 100) + "%";
-        document.getElementById("metrics-status-left").textContent = `${total} casos analisados`;
+        
+        const metricsStatusLeft = document.getElementById("metrics-status-left");
+        if (metricsStatusLeft) {
+          metricsStatusLeft.textContent = `${total} casos analisados`;
+        }
 
         const CHART_COLORS = [
           "var(--accent-teal)", "var(--accent-purple)", "#F59E0B", "#38BDF8",
@@ -530,7 +582,9 @@
             (r.analise && r.analise.areaProvavel.toLowerCase().includes(query));
         });
 
-        statusRight.textContent = `${filtered.length} Relatos Encontrados`;
+        if (statusRight) {
+          statusRight.textContent = `${filtered.length} Relatos Encontrados`;
+        }
 
         if (filtered.length === 0) {
           container.innerHTML = `
